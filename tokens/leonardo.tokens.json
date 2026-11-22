@@ -1,5 +1,5 @@
 {
-  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed before they are considered final.",
+  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). A token with $extensions.platforms appears only in the outputs it names: windows (WinUI 3, WPF and their C# values), apple (asset catalog and Swift), web (CSS) and presentation; the skill copy always carries every token. A token without it appears everywhere. Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed before they are considered final.",
   "palette": {
     "$description": "The blue scale follows aerial perspective: near is dark and dense, far is light and airy. Blues MUST only come from this scale.",
     "depth": {
@@ -94,17 +94,35 @@
       "statusCritical": {
         "$type": "color",
         "$value": "#C42B1C",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusCaution": {
         "$type": "color",
         "$value": "#9D5D00",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusSuccess": {
         "$type": "color",
         "$value": "#0F7B0F",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       }
     },
     "dark": {
@@ -160,17 +178,35 @@
       "statusCritical": {
         "$type": "color",
         "$value": "#FF99A4",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusCaution": {
         "$type": "color",
         "$value": "#FCE100",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusSuccess": {
         "$type": "color",
         "$value": "#6CCB5F",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       }
     }
   },

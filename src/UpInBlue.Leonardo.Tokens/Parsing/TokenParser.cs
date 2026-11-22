@@ -88,7 +88,7 @@ internal static partial class TokenParser
                 throw new TokenException($"Token '{path}' must not contain nested groups or tokens.");
             }
 
-            rawTokens.Add(new RawToken(path, ParseType(type, path), group["$value"], description, ReadStatus(group, path)));
+            rawTokens.Add(new RawToken(path, ParseType(type, path), group["$value"], description, ReadStatus(group, path), ReadPlatforms(group, path)));
             return;
         }
 
@@ -154,7 +154,7 @@ internal static partial class TokenParser
             {
                 var value = ResolveValue(token, [token.Path]);
                 TryGetReference(token.RawValue, out var reference);
-                return new Token(token.Path, token.Type, value, token.Description, token.Status, reference);
+                return new Token(token.Path, token.Type, value, token.Description, token.Status, reference, token.Platforms);
             })
             .ToList();
     }
@@ -338,6 +338,44 @@ internal static partial class TokenParser
             ? ReadString(status, $"{path}.$extensions.status")
             : null;
 
+    /// <summary>
+    /// Reads <c>$extensions.platforms</c>: a non-empty array of <c>windows</c>, <c>apple</c>, <c>web</c> and <c>presentation</c>.
+    /// </summary>
+    private static IReadOnlySet<OutputPlatform>? ReadPlatforms(JsonObject token, string path)
+    {
+        if (token["$extensions"] is not JsonObject extensions || !extensions.ContainsKey("platforms"))
+        {
+            return null;
+        }
+
+        var platformsPath = $"{path}.$extensions.platforms";
+        if (extensions["platforms"] is not JsonArray array || array.Count == 0)
+        {
+            throw new TokenException($"'{platformsPath}' must be a non-empty array.");
+        }
+
+        var platforms = new HashSet<OutputPlatform>();
+        foreach (var node in array)
+        {
+            var name = ReadString(node, platformsPath);
+            var platform = name switch
+            {
+                "windows" => OutputPlatform.Windows,
+                "apple" => OutputPlatform.Apple,
+                "web" => OutputPlatform.Web,
+                "presentation" => OutputPlatform.Presentation,
+                _ => throw new TokenException($"'{platformsPath}' contains the unknown platform '{name}'. Use windows, apple, web or presentation."),
+            };
+
+            if (!platforms.Add(platform))
+            {
+                throw new TokenException($"'{platformsPath}' names '{name}' twice.");
+            }
+        }
+
+        return platforms;
+    }
+
     private static (double Value, string Unit) ReadValueWithUnit(JsonNode? node, string path)
     {
         if (node is not JsonObject value)
@@ -378,5 +416,5 @@ internal static partial class TokenParser
     [GeneratedRegex(@"^\{([^{}]+)\}$")]
     private static partial Regex ReferencePattern();
 
-    private sealed record RawToken(string Path, TokenType Type, JsonNode? RawValue, string? Description, string? Status);
+    private sealed record RawToken(string Path, TokenType Type, JsonNode? RawValue, string? Description, string? Status, IReadOnlySet<OutputPlatform>? Platforms);
 }

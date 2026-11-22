@@ -38,15 +38,6 @@
             <!-- theme.light.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF78849A</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF78849A" />
-            <!-- theme.light.statusCritical -->
-            <Color x:Key="LeonardoStatusCriticalColor">#FFC42B1C</Color>
-            <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="#FFC42B1C" />
-            <!-- theme.light.statusCaution -->
-            <Color x:Key="LeonardoStatusCautionColor">#FF9D5D00</Color>
-            <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="#FF9D5D00" />
-            <!-- theme.light.statusSuccess -->
-            <Color x:Key="LeonardoStatusSuccessColor">#FF0F7B0F</Color>
-            <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="#FF0F7B0F" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -83,15 +74,6 @@
             <!-- theme.dark.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF6E7A8F</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF6E7A8F" />
-            <!-- theme.dark.statusCritical -->
-            <Color x:Key="LeonardoStatusCriticalColor">#FFFF99A4</Color>
-            <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="#FFFF99A4" />
-            <!-- theme.dark.statusCaution -->
-            <Color x:Key="LeonardoStatusCautionColor">#FFFCE100</Color>
-            <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="#FFFCE100" />
-            <!-- theme.dark.statusSuccess -->
-            <Color x:Key="LeonardoStatusSuccessColor">#FF6CCB5F</Color>
-            <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="#FF6CCB5F" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
@@ -118,12 +100,6 @@
             <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
             <StaticResource x:Key="LeonardoStrokeStrongColor" ResourceKey="SystemColorWindowTextColor" />
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <StaticResource x:Key="LeonardoStatusCriticalColor" ResourceKey="SystemColorWindowTextColor" />
-            <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <StaticResource x:Key="LeonardoStatusCautionColor" ResourceKey="SystemColorWindowTextColor" />
-            <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <StaticResource x:Key="LeonardoStatusSuccessColor" ResourceKey="SystemColorWindowTextColor" />
-            <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

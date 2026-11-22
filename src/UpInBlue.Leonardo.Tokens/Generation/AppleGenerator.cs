@@ -31,7 +31,7 @@ internal static class AppleGenerator
         yield return GeneratedFile.FromText($"{CatalogPath}/Contents.json", Contents(providesNamespace: false));
         yield return GeneratedFile.FromText($"{CatalogPath}/Leonardo/Contents.json", Contents(providesNamespace: true));
 
-        var accent = catalog.ThemePairs.FirstOrDefault(pair => pair.Light.Name == "accent");
+        var accent = catalog.ThemePairsFor(OutputPlatform.Apple).FirstOrDefault(pair => pair.Light.Name == "accent");
         if (accent.Light is null)
         {
             throw new TokenException("The theme color 'accent' is required for the AccentColor of the asset catalog.");
@@ -39,7 +39,7 @@ internal static class AppleGenerator
 
         yield return GeneratedFile.FromText($"{CatalogPath}/AccentColor.colorset/Contents.json", ColorSet(accent.Light.Color, accent.Dark.Color));
 
-        foreach (var (light, dark) in catalog.ThemePairs)
+        foreach (var (light, dark) in catalog.ThemePairsFor(OutputPlatform.Apple))
         {
             yield return GeneratedFile.FromText($"{CatalogPath}/Leonardo/{Text.Pascal(light.Name)}.colorset/Contents.json", ColorSet(light.Color, dark.Color));
         }
@@ -130,7 +130,7 @@ internal static class AppleGenerator
 
         writer.Line("/// Theme colors from the asset catalog `Leonardo.xcassets`, with light and dark appearance.");
         writer.Line("public enum Colors {").Indent();
-        foreach (var token in catalog.Light)
+        foreach (var token in catalog.LightFor(OutputPlatform.Apple))
         {
             Comment(writer, null, $"theme.*.{token.Name}");
             writer.Line($"public static let {token.Name} = Color(\"Leonardo/{Text.Pascal(token.Name)}\")");

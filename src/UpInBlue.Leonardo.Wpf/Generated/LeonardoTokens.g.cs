@@ -96,18 +96,6 @@ public static class LeonardoTokens
         /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Color.FromArgb(0xFF, 0x78, 0x84, 0x9A);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusCritical</c>.
-        /// </summary>
-        public static readonly Color StatusCritical = Color.FromArgb(0xFF, 0xC4, 0x2B, 0x1C);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusCaution</c>.
-        /// </summary>
-        public static readonly Color StatusCaution = Color.FromArgb(0xFF, 0x9D, 0x5D, 0x00);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusSuccess</c>.
-        /// </summary>
-        public static readonly Color StatusSuccess = Color.FromArgb(0xFF, 0x0F, 0x7B, 0x0F);
     }
 
     /// <summary>
@@ -159,18 +147,6 @@ public static class LeonardoTokens
         /// 3.7:1 on surface. Token: <c>theme.dark.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Color.FromArgb(0xFF, 0x6E, 0x7A, 0x8F);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusCritical</c>.
-        /// </summary>
-        public static readonly Color StatusCritical = Color.FromArgb(0xFF, 0xFF, 0x99, 0xA4);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusCaution</c>.
-        /// </summary>
-        public static readonly Color StatusCaution = Color.FromArgb(0xFF, 0xFC, 0xE1, 0x00);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusSuccess</c>.
-        /// </summary>
-        public static readonly Color StatusSuccess = Color.FromArgb(0xFF, 0x6C, 0xCB, 0x5F);
     }
 
     /// <summary>

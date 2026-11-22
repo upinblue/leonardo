@@ -23,7 +23,7 @@ internal static class PresentationGenerator
         writer.Line();
         writer.Line("| Color | Light | Dark | Note |");
         writer.Line("| --- | --- | --- | --- |");
-        foreach (var (light, dark) in catalog.ThemePairs)
+        foreach (var (light, dark) in catalog.ThemePairsFor(OutputPlatform.Presentation))
         {
             writer.Line($"| `{light.Name}` | {Value(light.Color.Hex, light)} | {Value(dark.Color.Hex, dark)} | {Note(light.Description ?? dark.Description)} |");
         }

@@ -19,9 +19,9 @@ Use these values to build the PowerPoint template. Values marked *proposal* are 
 | `textTertiary` | #5E6878 | #A3AEC0 | Metadata. 5.4:1 on surface, 4.6:1 on selection. |
 | `strokeSubtle` | #DFE5EE | #2C3547 | Decorative separators only. Not for boundaries that carry meaning. |
 | `strokeStrong` | #78849A | #6E7A8F | Boundaries of interactive elements. 3.6:1 on surface. |
-| `statusCritical` | #C42B1C | #FF99A4 | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
-| `statusCaution` | #9D5D00 | #FCE100 | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
-| `statusSuccess` | #0F7B0F | #6CCB5F | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
+| `statusCritical` | #C42B1C | #FF99A4 | Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token. |
+| `statusCaution` | #9D5D00 | #FCE100 | Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token. |
+| `statusSuccess` | #0F7B0F | #6CCB5F | Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token. |
 
 ## Blue scale
 

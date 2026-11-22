@@ -134,9 +134,6 @@ public sealed partial class MainViewModel : ObservableObject
         new("textTertiary", "Meta text", "LeonardoTextTertiaryBrush"),
         new("strokeSubtle", "Dividers", "LeonardoStrokeSubtleBrush"),
         new("strokeStrong", "Boundaries of controls", "LeonardoStrokeStrongBrush"),
-        new("statusCritical", "Something is broken", "LeonardoStatusCriticalBrush"),
-        new("statusCaution", "Attention, but not blocked", "LeonardoStatusCautionBrush"),
-        new("statusSuccess", "Briefly confirmed, then gone", "LeonardoStatusSuccessBrush"),
     ];
 
     /// <summary>Gets the type roles, with the same sample text as the WinUI gallery.</summary>

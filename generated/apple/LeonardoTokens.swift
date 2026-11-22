@@ -28,12 +28,6 @@ public enum Leonardo {
         public static let strokeSubtle = Color("Leonardo/StrokeSubtle")
         /// Token: `theme.*.strokeStrong`.
         public static let strokeStrong = Color("Leonardo/StrokeStrong")
-        /// Token: `theme.*.statusCritical`.
-        public static let statusCritical = Color("Leonardo/StatusCritical")
-        /// Token: `theme.*.statusCaution`.
-        public static let statusCaution = Color("Leonardo/StatusCaution")
-        /// Token: `theme.*.statusSuccess`.
-        public static let statusSuccess = Color("Leonardo/StatusSuccess")
     }
 
     /// Spacing in points. Base grid 4, layout steps of 8. Values are epx on Windows and pt on iOS. Spacing MUST only come from this table.

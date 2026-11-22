@@ -124,6 +124,32 @@ public sealed class TokenParserTests
     }
 
     [Fact]
+    public void ReadsPlatforms()
+    {
+        var tokens = TokenParser.Parse("""
+            {
+              "everywhere": { "$type": "number", "$value": 1 },
+              "webOnly": { "$type": "number", "$value": 2, "$extensions": { "platforms": ["web", "presentation"] } }
+            }
+            """);
+
+        Assert.Null(tokens["everywhere"].Platforms);
+        Assert.True(tokens["everywhere"].IsFor(OutputPlatform.Apple));
+        Assert.Equal([OutputPlatform.Web, OutputPlatform.Presentation], tokens["webOnly"].Platforms!.Order());
+        Assert.True(tokens["webOnly"].IsFor(OutputPlatform.Web));
+        Assert.False(tokens["webOnly"].IsFor(OutputPlatform.Windows));
+        Assert.False(tokens["webOnly"].IsFor(OutputPlatform.Apple));
+    }
+
+    [Theory]
+    [InlineData("""{ "a": { "$type": "number", "$value": 1, "$extensions": { "platforms": [] } } }""")]
+    [InlineData("""{ "a": { "$type": "number", "$value": 1, "$extensions": { "platforms": "web" } } }""")]
+    [InlineData("""{ "a": { "$type": "number", "$value": 1, "$extensions": { "platforms": ["android"] } } }""")]
+    [InlineData("""{ "a": { "$type": "number", "$value": 1, "$extensions": { "platforms": ["web", "web"] } } }""")]
+    public void InvalidPlatformsAreErrors(string json)
+        => Assert.Throws<TokenException>(() => TokenParser.Parse(json));
+
+    [Fact]
     public void TypeRoleColorMustBeAThemeColor()
     {
         var exception = Assert.Throws<TokenException>(() => TokenParser.Parse("""

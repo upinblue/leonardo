@@ -112,19 +112,66 @@ public sealed class GeneratorTests
     }
 
     [Fact]
-    public void ThemeColorsAppearInEveryPlatformOutput()
+    public void ThemeColorsAppearInEveryOutputOfTheirPlatforms()
     {
         var files = GenerateFromRepository().ToDictionary(file => file.Path, file => Encoding.UTF8.GetString(file.Content));
         var tokens = TokenParser.Parse(Encoding.UTF8.GetString(Repository.TokensFile));
 
         foreach (var token in tokens.Children("theme.light").Concat(tokens.Children("theme.dark")))
         {
-            Assert.Contains(token.Color.XamlHex, files[WinUIXaml], StringComparison.Ordinal);
-            Assert.Contains(token.Color.XamlHex, files[token.Path.StartsWith("theme.dark.", StringComparison.Ordinal) ? WpfDark : WpfLight], StringComparison.Ordinal);
-            Assert.Contains(token.Color.Hex, files[Css], StringComparison.Ordinal);
-            Assert.Contains(token.Color.Hex, files[Presentation], StringComparison.Ordinal);
-            Assert.True(files.ContainsKey($"{Catalog}/Leonardo/{Text.Pascal(token.Name)}.colorset/Contents.json"));
+            var isDark = token.Path.StartsWith("theme.dark.", StringComparison.Ordinal);
+            var name = Text.Pascal(token.Name);
+            var colorKey = $"x:Key=\"Leonardo{name}Color\"";
+            var windows = token.IsFor(OutputPlatform.Windows);
+
+            Assert.Equal(windows, files[WinUIXaml].Contains(colorKey, StringComparison.Ordinal));
+            Assert.Equal(windows, files[isDark ? WpfDark : WpfLight].Contains($"{colorKey}>{token.Color.XamlHex}<", StringComparison.Ordinal));
+            Assert.Equal(windows, files[WpfHighContrast].Contains(colorKey, StringComparison.Ordinal));
+            Assert.Equal(windows, files[WinUICode].Contains($" {name} = ", StringComparison.Ordinal));
+            Assert.Equal(windows, files[WpfCode].Contains($" {name} = ", StringComparison.Ordinal));
+            Assert.Equal(token.IsFor(OutputPlatform.Apple), files.ContainsKey($"{Catalog}/Leonardo/{name}.colorset/Contents.json"));
+            Assert.Equal(token.IsFor(OutputPlatform.Apple), files[Swift].Contains($"Color(\"Leonardo/{name}\")", StringComparison.Ordinal));
+            Assert.Equal(token.IsFor(OutputPlatform.Web), files[Css].Contains($"{WebGenerator.ColorProperty(token.Name)}: {token.Color.Hex};", StringComparison.Ordinal));
+            Assert.Equal(token.IsFor(OutputPlatform.Presentation), files[Presentation].Contains($"| `{token.Name}` |", StringComparison.Ordinal));
         }
+    }
+
+    [Theory]
+    [InlineData("statusCritical", new[] { "web", "presentation" })]
+    [InlineData("statusCaution", new[] { "web", "presentation" })]
+    [InlineData("statusSuccess", new[] { "web", "presentation" })]
+    public void ThemeColorsHaveTheirDecidedPlatforms(string name, string[] platforms)
+    {
+        var tokens = TokenParser.Parse(Encoding.UTF8.GetString(Repository.TokensFile));
+        var expected = platforms.Select(platform => Enum.Parse<OutputPlatform>(platform, ignoreCase: true)).Order();
+
+        foreach (var theme in new[] { "light", "dark" })
+        {
+            var token = tokens[$"theme.{theme}.{name}"];
+            Assert.Equal(expected, Enum.GetValues<OutputPlatform>().Where(token.IsFor).Order());
+        }
+    }
+
+    [Fact]
+    public void PlatformsOnlyApplyToThemeColors()
+    {
+        var tokens = JsonNode.Parse(Repository.TokensFile)!;
+        tokens["space"]!["m"]!["$extensions"] = JsonNode.Parse("""{ "platforms": ["web"] }""");
+
+        var exception = Assert.Throws<TokenException>(() => Generate(tokens));
+
+        Assert.Contains("space.m", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ThemeColorsHaveTheSamePlatformsInLightAndDark()
+    {
+        var tokens = JsonNode.Parse(Repository.TokensFile)!;
+        tokens["theme"]!["dark"]!["link"]!["$extensions"] = JsonNode.Parse("""{ "platforms": ["web"] }""");
+
+        var exception = Assert.Throws<TokenException>(() => Generate(tokens));
+
+        Assert.Contains("link", exception.Message, StringComparison.Ordinal);
     }
 
     public static TheoryData<string, string, string[]> TokenChanges() => new()
@@ -168,6 +215,11 @@ public sealed class GeneratorTests
             "motion.arrive.hold",
             """{ "value": 3000, "unit": "ms" }""",
             [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
+        },
+        {
+            "theme.light.statusCritical",
+            "\"#C42B1D\"",
+            [Css, Presentation, SkillTokens]
         },
         {
             "motion.ios.spring.durationMax",

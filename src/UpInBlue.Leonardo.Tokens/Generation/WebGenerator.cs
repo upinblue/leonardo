@@ -33,7 +33,7 @@ internal static class WebGenerator
 
         writer.Line();
         writer.Line("/* Theme colors */");
-        WriteThemeColors(writer, catalog.Light);
+        WriteThemeColors(writer, catalog.LightFor(OutputPlatform.Web));
 
         writer.Line();
         writer.Line("/* Spacing */");
@@ -90,7 +90,7 @@ internal static class WebGenerator
         writer.Line("@media (prefers-color-scheme: dark) {").Indent();
         writer.Line(":root:not([data-theme=\"light\"]) {").Indent();
         writer.Line("color-scheme: dark;");
-        WriteThemeColors(writer, catalog.Dark);
+        WriteThemeColors(writer, catalog.DarkFor(OutputPlatform.Web));
         writer.Outdent().Line("}");
         writer.Outdent().Line("}");
         writer.Line();
@@ -98,7 +98,7 @@ internal static class WebGenerator
         writer.Line("/* Dark theme chosen by the page. */");
         writer.Line("[data-theme=\"dark\"] {").Indent();
         writer.Line("color-scheme: dark;");
-        WriteThemeColors(writer, catalog.Dark);
+        WriteThemeColors(writer, catalog.DarkFor(OutputPlatform.Web));
         writer.Outdent().Line("}");
         writer.Line();
 

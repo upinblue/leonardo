@@ -37,15 +37,6 @@
     <!-- theme.dark.strokeStrong -->
     <Color x:Key="LeonardoStrokeStrongColor">#FF6E7A8F</Color>
     <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF6E7A8F" />
-    <!-- theme.dark.statusCritical -->
-    <Color x:Key="LeonardoStatusCriticalColor">#FFFF99A4</Color>
-    <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="#FFFF99A4" />
-    <!-- theme.dark.statusCaution -->
-    <Color x:Key="LeonardoStatusCautionColor">#FFFCE100</Color>
-    <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="#FFFCE100" />
-    <!-- theme.dark.statusSuccess -->
-    <Color x:Key="LeonardoStatusSuccessColor">#FF6CCB5F</Color>
-    <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="#FF6CCB5F" />
 
     <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
     <!-- palette.depth -->

@@ -28,9 +28,6 @@ internal static class XamlGenerator
         ["textTertiary"] = "SystemColorWindowTextColor",
         ["strokeSubtle"] = "SystemColorWindowTextColor",
         ["strokeStrong"] = "SystemColorWindowTextColor",
-        ["statusCritical"] = "SystemColorWindowTextColor",
-        ["statusCaution"] = "SystemColorWindowTextColor",
-        ["statusSuccess"] = "SystemColorWindowTextColor",
     };
 
     public static string ColorKey(string name) => $"Leonardo{Text.Pascal(name)}Color";
@@ -48,14 +45,14 @@ internal static class XamlGenerator
         var writer = Begin(isWpf: false);
         writer.Line("<ResourceDictionary.ThemeDictionaries>").Indent();
 
-        WriteThemeDictionary(writer, "Light", catalog.Light);
+        WriteThemeDictionary(writer, "Light", catalog.LightFor(OutputPlatform.Windows));
         writer.Line();
-        WriteThemeDictionary(writer, "Dark", catalog.Dark);
+        WriteThemeDictionary(writer, "Dark", catalog.DarkFor(OutputPlatform.Windows));
         writer.Line();
 
         writer.Line("<ResourceDictionary x:Key=\"HighContrast\">").Indent();
         writer.Line("<!-- High contrast uses system colors only; no token values apply. -->");
-        foreach (var name in catalog.ThemeColorNames)
+        foreach (var name in catalog.ThemeColorNamesFor(OutputPlatform.Windows))
         {
             var systemColor = HighContrastColor(name);
             writer.Line($"<StaticResource x:Key=\"{ColorKey(name)}\" ResourceKey=\"{systemColor}\" />");
@@ -73,7 +70,7 @@ internal static class XamlGenerator
     public static GeneratedFile Wpf(TokenCatalog catalog, bool dark)
     {
         var writer = Begin(isWpf: true);
-        foreach (var token in dark ? catalog.Dark : catalog.Light)
+        foreach (var token in dark ? catalog.DarkFor(OutputPlatform.Windows) : catalog.LightFor(OutputPlatform.Windows))
         {
             WriteColor(writer, token);
         }
@@ -91,7 +88,7 @@ internal static class XamlGenerator
     {
         var writer = Begin(isWpf: true);
         writer.Line("<!-- High contrast uses system colors only; no token values apply. -->");
-        foreach (var name in catalog.ThemeColorNames)
+        foreach (var name in catalog.ThemeColorNamesFor(OutputPlatform.Windows))
         {
             var systemColor = WpfSystemColor(HighContrastColor(name));
             writer.Line($"<x:Static x:Key=\"{ColorKey(name)}\" Member=\"SystemColors.{systemColor}Color\" />");
