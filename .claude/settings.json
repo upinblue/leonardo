@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:learn.microsoft.com)",
+      "WebFetch(domain:fluent2.microsoft.design)",
+      "WebFetch(domain:react.fluentui.dev)",
+      "WebFetch(domain:support.microsoft.com)",
+      "WebFetch(domain:developer.apple.com)",
+      "WebFetch(domain:support.apple.com)",
+      "WebFetch(domain:www.w3.org)",
+      "WebFetch(domain:developer.mozilla.org)",
+      "WebFetch(domain:www.nngroup.com)"
+    ]
+  }
+}

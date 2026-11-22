@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/UpInBlue.Leonardo.Gallery/UpInBlue.Leonardo.Gallery.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/UpInBlue.Leonardo.Tokens/UpInBlue.Leonardo.Tokens.csproj" />
+    <Project Path="src/UpInBlue.Leonardo.WinUI/UpInBlue.Leonardo.WinUI.csproj" />
+    <Project Path="src/UpInBlue.Leonardo.Wpf/UpInBlue.Leonardo.Wpf.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/UpInBlue.Leonardo.Tokens.Tests/UpInBlue.Leonardo.Tokens.Tests.csproj" />
+  </Folder>
+</Solution>
