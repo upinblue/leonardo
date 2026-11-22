@@ -1,0 +1,8 @@
+System.ArgumentException: The parameter is incorrect.
+
+name
+   at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at WinRT.ExceptionHelpers.ThrowExceptionForHR(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.IFrameworkElementMethods.FindName(IObjectReference _obj, String name)
+   at Microsoft.UI.Xaml.FrameworkElement.FindName(String name)
+   at UpInBlue.Leonardo.Gallery.Services.SelfTest.ShotAsync(Grid root, Frame frame, String outPath, String variant) in C:\Users\BastianWirth\source\repos\leonardo-starter\.claude\worktrees\compassionate-dirac-b768fa\samples\UpInBlue.Leonardo.Gallery\Services\SelfTest.cs:line 76
