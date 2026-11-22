@@ -28,6 +28,7 @@ internal static class XamlGenerator
         ["textTertiary"] = "SystemColorWindowTextColor",
         ["strokeSubtle"] = "SystemColorWindowTextColor",
         ["strokeStrong"] = "SystemColorWindowTextColor",
+        ["chart"] = "SystemColorHighlightColor",
     };
 
     public static string ColorKey(string name) => $"Leonardo{Text.Pascal(name)}Color";

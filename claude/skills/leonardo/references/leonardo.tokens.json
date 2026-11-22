@@ -91,6 +91,11 @@
         "$value": "#78849A",
         "$description": "Boundaries of interactive elements. 3.6:1 on surface."
       },
+      "chart": {
+        "$type": "color",
+        "$value": "{palette.near}",
+        "$description": "Data series in charts, the one blue of a single-series chart. 8.3:1 on surface. In contrast themes, the system highlight color."
+      },
       "statusCritical": {
         "$type": "color",
         "$value": "#C42B1C",
@@ -121,6 +126,36 @@
           "platforms": [
             "web",
             "presentation"
+          ]
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{palette.near}",
+        "$description": "Standalone web only: the focus outline where the browser default fails 3:1. 8.3:1 on surface, 8.0:1 on surfaceAlt.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentHover": {
+        "$type": "color",
+        "$value": "#1969D9",
+        "$description": "Standalone web only: accent fill on hover. Derived like WinUI's AccentFillColorSecondaryBrush, which is SystemAccentColorDark1 (brand) at 90 % opacity (Microsoft.UI.Xaml generic.xaml, Light theme dictionary). Over the light surface that would drop white text to 4.2:1, so the 90 % brand is composited over SystemAccentColorDark2 (near) instead. White text 5.2:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentPressed": {
+        "$type": "color",
+        "$value": "#1865D2",
+        "$description": "Standalone web only: accent fill while pressed. Derived like WinUI's AccentFillColorTertiaryBrush, which is SystemAccentColorDark1 (brand) at 80 % opacity (Microsoft.UI.Xaml generic.xaml, Light theme dictionary). Over the light surface that would drop white text to 3.5:1, so the 80 % brand is composited over SystemAccentColorDark2 (near) instead. White text 5.5:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
           ]
         }
       }
@@ -175,6 +210,11 @@
         "$value": "#6E7A8F",
         "$description": "3.7:1 on surface."
       },
+      "chart": {
+        "$type": "color",
+        "$value": "{palette.far}",
+        "$description": "Data series in charts, the one blue of a single-series chart. 7.4:1 on surface. In contrast themes, the system highlight color."
+      },
       "statusCritical": {
         "$type": "color",
         "$value": "#FF99A4",
@@ -205,6 +245,36 @@
           "platforms": [
             "web",
             "presentation"
+          ]
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{palette.far}",
+        "$description": "Standalone web only: the focus outline where the browser default fails 3:1. 7.4:1 on surface, 8.0:1 on surfaceAlt.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentHover": {
+        "$type": "color",
+        "$value": "#75A3DD",
+        "$description": "Standalone web only: accent fill on hover. Derived like WinUI's AccentFillColorSecondaryBrush, which is SystemAccentColorLight2 (far) at 90 % opacity (Microsoft.UI.Xaml generic.xaml, Default/Dark theme dictionary), composited over the dark surface. Depth text 6.7:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentPressed": {
+        "$type": "color",
+        "$value": "#6B95CA",
+        "$description": "Standalone web only: accent fill while pressed. Derived like WinUI's AccentFillColorTertiaryBrush, which is SystemAccentColorLight2 (far) at 80 % opacity (Microsoft.UI.Xaml generic.xaml, Default/Dark theme dictionary), composited over the dark surface. Depth text 5.6:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
           ]
         }
       }

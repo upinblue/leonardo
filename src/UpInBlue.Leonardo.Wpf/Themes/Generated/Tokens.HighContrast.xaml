@@ -27,6 +27,8 @@
     <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
     <x:Static x:Key="LeonardoStrokeStrongColor" Member="SystemColors.WindowTextColor" />
     <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
+    <x:Static x:Key="LeonardoChartColor" Member="SystemColors.HighlightColor" />
+    <SolidColorBrush x:Key="LeonardoChartBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
 
     <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
     <!-- palette.depth -->

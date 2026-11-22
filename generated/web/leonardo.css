@@ -25,9 +25,13 @@
     --leonardo-text-tertiary: #5E6878;
     --leonardo-stroke-subtle: #DFE5EE;
     --leonardo-stroke-strong: #78849A;
+    --leonardo-chart: #0B4A99;
     --leonardo-status-critical: #C42B1C;
     --leonardo-status-caution: #9D5D00;
     --leonardo-status-success: #0F7B0F;
+    --leonardo-focus: #0B4A99;
+    --leonardo-accent-hover: #1969D9;
+    --leonardo-accent-pressed: #1865D2;
 
     /* Spacing */
     --leonardo-space-xs: 4px;
@@ -101,9 +105,13 @@
         --leonardo-text-tertiary: #A3AEC0;
         --leonardo-stroke-subtle: #2C3547;
         --leonardo-stroke-strong: #6E7A8F;
+        --leonardo-chart: #7FB2F0;
         --leonardo-status-critical: #FF99A4;
         --leonardo-status-caution: #FCE100;
         --leonardo-status-success: #6CCB5F;
+        --leonardo-focus: #7FB2F0;
+        --leonardo-accent-hover: #75A3DD;
+        --leonardo-accent-pressed: #6B95CA;
     }
 }
 
@@ -121,9 +129,13 @@
     --leonardo-text-tertiary: #A3AEC0;
     --leonardo-stroke-subtle: #2C3547;
     --leonardo-stroke-strong: #6E7A8F;
+    --leonardo-chart: #7FB2F0;
     --leonardo-status-critical: #FF99A4;
     --leonardo-status-caution: #FCE100;
     --leonardo-status-success: #6CCB5F;
+    --leonardo-focus: #7FB2F0;
+    --leonardo-accent-hover: #75A3DD;
+    --leonardo-accent-pressed: #6B95CA;
 }
 
 /* Reduced motion: every motion becomes a short crossfade. The meaning stays, the distance goes. */

@@ -140,6 +140,10 @@ public sealed class GeneratorTests
     [InlineData("statusCritical", new[] { "web", "presentation" })]
     [InlineData("statusCaution", new[] { "web", "presentation" })]
     [InlineData("statusSuccess", new[] { "web", "presentation" })]
+    [InlineData("focus", new[] { "web" })]
+    [InlineData("accentHover", new[] { "web" })]
+    [InlineData("accentPressed", new[] { "web" })]
+    [InlineData("chart", new[] { "windows", "apple", "web", "presentation" })]
     public void ThemeColorsHaveTheirDecidedPlatforms(string name, string[] platforms)
     {
         var tokens = TokenParser.Parse(Encoding.UTF8.GetString(Repository.TokensFile));
@@ -150,6 +154,15 @@ public sealed class GeneratorTests
             var token = tokens[$"theme.{theme}.{name}"];
             Assert.Equal(expected, Enum.GetValues<OutputPlatform>().Where(token.IsFor).Order());
         }
+    }
+
+    [Fact]
+    public void ChartIsTheHighlightColorInContrastThemes()
+    {
+        var files = GenerateFromRepository().ToDictionary(file => file.Path, file => Encoding.UTF8.GetString(file.Content));
+
+        Assert.Contains("<StaticResource x:Key=\"LeonardoChartColor\" ResourceKey=\"SystemColorHighlightColor\" />", files[WinUIXaml], StringComparison.Ordinal);
+        Assert.Contains("<x:Static x:Key=\"LeonardoChartColor\" Member=\"SystemColors.HighlightColor\" />", files[WpfHighContrast], StringComparison.Ordinal);
     }
 
     [Fact]
@@ -217,9 +230,24 @@ public sealed class GeneratorTests
             [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
         },
         {
+            "theme.light.chart",
+            "\"#0C4B9A\"",
+            [WinUIXaml, WinUICode, WpfLight, WpfCode, $"{Catalog}/Leonardo/Chart.colorset/Contents.json", Css, Presentation, SkillTokens]
+        },
+        {
             "theme.light.statusCritical",
             "\"#C42B1D\"",
             [Css, Presentation, SkillTokens]
+        },
+        {
+            "theme.dark.focus",
+            "\"#80B3F1\"",
+            [Css, SkillTokens]
+        },
+        {
+            "theme.light.accentHover",
+            "\"#1968D8\"",
+            [Css, SkillTokens]
         },
         {
             "motion.ios.spring.durationMax",

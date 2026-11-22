@@ -37,6 +37,9 @@
     <!-- theme.light.strokeStrong -->
     <Color x:Key="LeonardoStrokeStrongColor">#FF78849A</Color>
     <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF78849A" />
+    <!-- theme.light.chart -->
+    <Color x:Key="LeonardoChartColor">#FF0B4A99</Color>
+    <SolidColorBrush x:Key="LeonardoChartBrush" Color="#FF0B4A99" />
 
     <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
     <!-- palette.depth -->

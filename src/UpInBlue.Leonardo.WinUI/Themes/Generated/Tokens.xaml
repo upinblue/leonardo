@@ -38,6 +38,9 @@
             <!-- theme.light.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF78849A</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF78849A" />
+            <!-- theme.light.chart -->
+            <Color x:Key="LeonardoChartColor">#FF0B4A99</Color>
+            <SolidColorBrush x:Key="LeonardoChartBrush" Color="#FF0B4A99" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">
@@ -74,6 +77,9 @@
             <!-- theme.dark.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF6E7A8F</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF6E7A8F" />
+            <!-- theme.dark.chart -->
+            <Color x:Key="LeonardoChartColor">#FF7FB2F0</Color>
+            <SolidColorBrush x:Key="LeonardoChartBrush" Color="#FF7FB2F0" />
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
@@ -100,6 +106,8 @@
             <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
             <StaticResource x:Key="LeonardoStrokeStrongColor" ResourceKey="SystemColorWindowTextColor" />
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <StaticResource x:Key="LeonardoChartColor" ResourceKey="SystemColorHighlightColor" />
+            <SolidColorBrush x:Key="LeonardoChartBrush" Color="{ThemeResource SystemColorHighlightColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

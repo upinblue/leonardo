@@ -96,6 +96,10 @@ public static class LeonardoTokens
         /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x78, 0x84, 0x9A);
+        /// <summary>
+        /// Data series in charts, the one blue of a single-series chart. 8.3:1 on surface. In contrast themes, the system highlight color. Token: <c>theme.light.chart</c>.
+        /// </summary>
+        public static readonly Color Chart = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x0B, 0x4A, 0x99);
     }
 
     /// <summary>
@@ -147,6 +151,10 @@ public static class LeonardoTokens
         /// 3.7:1 on surface. Token: <c>theme.dark.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x6E, 0x7A, 0x8F);
+        /// <summary>
+        /// Data series in charts, the one blue of a single-series chart. 7.4:1 on surface. In contrast themes, the system highlight color. Token: <c>theme.dark.chart</c>.
+        /// </summary>
+        public static readonly Color Chart = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x7F, 0xB2, 0xF0);
     }
 
     /// <summary>
