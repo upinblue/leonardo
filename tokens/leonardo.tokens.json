@@ -371,6 +371,38 @@
       }
     }
   },
+  "size": {
+    "$description": "Small elements with a fixed size, such as icons and status dots.",
+    "icon": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Icons in list rows and next to labels."
+    },
+    "statusDot": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "The diameter of the status dot."
+    },
+    "focusStroke": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Standalone web only: the width of the focus outline drawn with theme.*.focus.",
+      "$extensions": {
+        "platforms": [
+          "web"
+        ]
+      }
+    }
+  },
   "typography": {
     "$description": "Leonardo defines the roles, the platform provides the typeface. Native apps MUST use the system typeface; presentations, documents and standalone web MUST use Inter; web inside a host uses the host's type ramp. Emphasis is the body role in semibold, never a separate size.",
     "placeName": {

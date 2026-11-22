@@ -50,6 +50,11 @@
     --leonardo-density-standard: 40px;
     --leonardo-density-comfortable: 48px;
 
+    /* Fixed sizes */
+    --leonardo-size-icon: 16px;
+    --leonardo-size-status-dot: 12px;
+    --leonardo-size-focus-stroke: 2px;
+
     /* Type roles */
     --leonardo-place-name-font-family: "Inter Display", sans-serif;
     --leonardo-place-name-font-size: 2.5rem;

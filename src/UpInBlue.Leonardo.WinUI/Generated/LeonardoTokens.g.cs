@@ -223,6 +223,21 @@ public static class LeonardoTokens
     }
 
     /// <summary>
+    /// Sizes in epx. Small elements with a fixed size, such as icons and status dots.
+    /// </summary>
+    public static class Size
+    {
+        /// <summary>
+        /// Icons in list rows and next to labels. Token: <c>size.icon</c>.
+        /// </summary>
+        public const double Icon = 16d;
+        /// <summary>
+        /// The diameter of the status dot. Token: <c>size.statusDot</c>.
+        /// </summary>
+        public const double StatusDot = 12d;
+    }
+
+    /// <summary>
     /// The type roles on Windows. Sizes in epx.
     /// </summary>
     public static class Typography

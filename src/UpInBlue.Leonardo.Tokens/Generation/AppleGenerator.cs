@@ -54,7 +54,7 @@ internal static class AppleGenerator
             .Line("# Leonardo for iOS and macOS")
             .Line()
             .Line("- `Leonardo.xcassets`: one color set per theme color in the folder `Leonardo` (for example `Leonardo/Accent`), with light and dark appearance, plus `AccentColor`. Add the catalog to the app target. JSON files cannot carry the generated-file header; this note stands for them.")
-            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, spring parameters, stagger and arrive timing, and the type roles as SwiftUI text styles.")
+            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, sizes, spring parameters, stagger and arrive timing, and the type roles as SwiftUI text styles.")
             .ToString();
 
     private static string Contents(bool providesNamespace)
@@ -144,6 +144,8 @@ internal static class AppleGenerator
         PointEnum(writer, "Radius", "Corner radii in points. " + catalog.Tokens.GroupDescription("radius"), catalog.Radius);
         writer.Line();
         PointEnum(writer, "Density", "List row heights in points. " + catalog.Tokens.GroupDescription("density"), catalog.Density);
+        writer.Line();
+        PointEnum(writer, "Size", "Sizes in points. " + catalog.Tokens.GroupDescription("size"), catalog.SizeFor(OutputPlatform.Apple));
         writer.Line();
 
         writer.Line("/// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.");

@@ -190,6 +190,12 @@
     <!-- density.comfortable -->
     <x:Double x:Key="LeonardoDensityComfortable">48</x:Double>
 
+    <!-- Sizes of small elements in epx. -->
+    <!-- size.icon -->
+    <x:Double x:Key="LeonardoSizeIcon">16</x:Double>
+    <!-- size.statusDot -->
+    <x:Double x:Key="LeonardoSizeStatusDot">12</x:Double>
+
     <!-- Type roles: font family, font size and line height in epx. -->
     <!-- typography.placeName.windows -->
     <FontFamily x:Key="LeonardoPlaceNameFontFamily">Segoe UI Variable Display</FontFamily>

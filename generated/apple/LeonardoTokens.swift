@@ -66,6 +66,14 @@ public enum Leonardo {
         public static let comfortable: CGFloat = 48
     }
 
+    /// Sizes in points. Small elements with a fixed size, such as icons and status dots.
+    public enum Size {
+        /// Icons in list rows and next to labels. Token: `size.icon`.
+        public static let icon: CGFloat = 16
+        /// The diameter of the status dot. Token: `size.statusDot`.
+        public static let statusDot: CGFloat = 12
+    }
+
     /// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.
     public enum Motion {
         /// Spring parameters, for example `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`.

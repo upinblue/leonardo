@@ -109,6 +109,12 @@
     <!-- density.comfortable -->
     <sys:Double x:Key="LeonardoDensityComfortable">48</sys:Double>
 
+    <!-- Sizes of small elements in epx. -->
+    <!-- size.icon -->
+    <sys:Double x:Key="LeonardoSizeIcon">16</sys:Double>
+    <!-- size.statusDot -->
+    <sys:Double x:Key="LeonardoSizeStatusDot">12</sys:Double>
+
     <!-- Type roles: font family, font size and line height in epx. -->
     <!-- typography.placeName.windows -->
     <FontFamily x:Key="LeonardoPlaceNameFontFamily">Segoe UI Variable Display</FontFamily>

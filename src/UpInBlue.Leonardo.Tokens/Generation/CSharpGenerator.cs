@@ -93,6 +93,14 @@ internal static class CSharpGenerator
             }
         });
 
+        Class(writer, "Size", "Sizes in epx. " + (catalog.Tokens.GroupDescription("size") ?? string.Empty), () =>
+        {
+            foreach (var token in catalog.SizeFor(OutputPlatform.Windows))
+            {
+                Member(writer, token, $"public const double {Text.Pascal(token.Name)} = {Text.Double(token.Dimension.Value)};");
+            }
+        });
+
         Class(writer, "Typography", "The type roles on Windows. Sizes in epx.", () =>
         {
             var first = true;

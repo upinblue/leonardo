@@ -203,6 +203,14 @@ internal static class XamlGenerator
         }
 
         writer.Line();
+        writer.Line("<!-- Sizes of small elements in epx. -->");
+        foreach (var token in catalog.SizeFor(OutputPlatform.Windows))
+        {
+            WriteSource(writer, token);
+            writer.Line($"<{doubleElement} x:Key=\"LeonardoSize{Text.Pascal(token.Name)}\">{Text.Number(token.Dimension.Value)}</{doubleElement}>");
+        }
+
+        writer.Line();
         writer.Line("<!-- Type roles: font family, font size and line height in epx. -->");
         foreach (var role in catalog.TypeRoles)
         {

@@ -157,6 +157,34 @@ public sealed class GeneratorTests
     }
 
     [Fact]
+    public void SizesAppearOnEveryPlatformThatUsesThem()
+    {
+        var files = GenerateFromRepository().ToDictionary(file => file.Path, file => Encoding.UTF8.GetString(file.Content));
+
+        foreach (var xaml in new[] { WinUIXaml, WpfLight, WpfDark, WpfHighContrast })
+        {
+            Assert.Contains("x:Key=\"LeonardoSizeIcon\">16<", files[xaml], StringComparison.Ordinal);
+            Assert.Contains("x:Key=\"LeonardoSizeStatusDot\">12<", files[xaml], StringComparison.Ordinal);
+            Assert.DoesNotContain("FocusStroke", files[xaml], StringComparison.Ordinal);
+        }
+
+        foreach (var code in new[] { WinUICode, WpfCode })
+        {
+            Assert.Contains("public static class Size", files[code], StringComparison.Ordinal);
+            Assert.Contains("public const double Icon = 16d;", files[code], StringComparison.Ordinal);
+            Assert.Contains("public const double StatusDot = 12d;", files[code], StringComparison.Ordinal);
+            Assert.DoesNotContain("FocusStroke", files[code], StringComparison.Ordinal);
+        }
+
+        Assert.Contains("public static let icon: CGFloat = 16", files[Swift], StringComparison.Ordinal);
+        Assert.Contains("public static let statusDot: CGFloat = 12", files[Swift], StringComparison.Ordinal);
+        Assert.DoesNotContain("focusStroke", files[Swift], StringComparison.Ordinal);
+        Assert.Contains("--leonardo-size-icon: 16px;", files[Css], StringComparison.Ordinal);
+        Assert.Contains("--leonardo-size-status-dot: 12px;", files[Css], StringComparison.Ordinal);
+        Assert.Contains("--leonardo-size-focus-stroke: 2px;", files[Css], StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void SwiftHasTheArriveHold()
     {
         var swift = Encoding.UTF8.GetString(GenerateFromRepository().Single(file => file.Path == Swift).Content);
@@ -174,7 +202,7 @@ public sealed class GeneratorTests
     }
 
     [Fact]
-    public void PlatformsOnlyApplyToThemeColors()
+    public void PlatformsOnlyApplyToThemeColorsAndSizes()
     {
         var tokens = JsonNode.Parse(Repository.TokensFile)!;
         tokens["space"]!["m"]!["$extensions"] = JsonNode.Parse("""{ "platforms": ["web"] }""");
@@ -255,6 +283,16 @@ public sealed class GeneratorTests
         {
             "theme.light.accentHover",
             "\"#1968D8\"",
+            [Css, SkillTokens]
+        },
+        {
+            "size.icon",
+            """{ "value": 20, "unit": "px" }""",
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Swift, Css, SkillTokens]
+        },
+        {
+            "size.focusStroke",
+            """{ "value": 3, "unit": "px" }""",
             [Css, SkillTokens]
         },
         {

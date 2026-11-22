@@ -57,6 +57,13 @@ internal static class WebGenerator
         }
 
         writer.Line();
+        writer.Line("/* Fixed sizes */");
+        foreach (var token in catalog.SizeFor(OutputPlatform.Web))
+        {
+            Property(writer, $"{Prefix}size-{Text.Kebab(token.Name)}", Pixels(token), token);
+        }
+
+        writer.Line();
         writer.Line("/* Type roles */");
         foreach (var role in catalog.TypeRoles)
         {

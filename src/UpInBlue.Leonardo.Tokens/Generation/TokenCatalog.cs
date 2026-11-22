@@ -20,6 +20,7 @@ internal sealed class TokenCatalog
         Space = Pixels(tokens.Children("space"));
         Radius = Pixels(tokens.Children("radius"));
         Density = Pixels(tokens.Children("density"));
+        Size = Pixels(tokens.Children("size"));
         IosSpring = tokens.Children($"{MotionIos}.spring");
         PresentationMotion = tokens.Children(MotionPresentation);
         Motion = tokens.Descendants("motion")
@@ -55,6 +56,9 @@ internal sealed class TokenCatalog
 
     public IReadOnlyList<Token> Density { get; }
 
+    /// <summary>Fixed sizes of small elements (<c>size.*</c>), for every platform. Use <see cref="SizeFor"/> in an output.</summary>
+    public IReadOnlyList<Token> Size { get; }
+
     /// <summary>Motion shared by Windows and the web: easing, durations, stagger, distances, parallax.</summary>
     public IReadOnlyList<MotionToken> Motion { get; }
 
@@ -82,6 +86,9 @@ internal sealed class TokenCatalog
 
     /// <summary>The pairs of light and dark tokens for each theme color that appears in the outputs of a platform.</summary>
     public IEnumerable<(Token Light, Token Dark)> ThemePairsFor(OutputPlatform platform) => LightFor(platform).Zip(DarkFor(platform));
+
+    /// <summary>The sizes that appear in the outputs of a platform.</summary>
+    public IReadOnlyList<Token> SizeFor(OutputPlatform platform) => Size.Where(token => token.IsFor(platform)).ToList();
 
     private static bool IsInside(Token token, string group)
         => token.Path.StartsWith(group + ".", StringComparison.Ordinal);
@@ -123,16 +130,16 @@ internal sealed class TokenCatalog
     }
 
     /// <summary>
-    /// Only theme colors can be limited to some platforms, and a theme color has the same platforms in light and dark.
+    /// Only theme colors and sizes can be limited to some platforms, and a theme color has the same platforms in light and dark.
     /// </summary>
     private void ValidatePlatforms()
     {
-        var limitable = Light.Concat(Dark).Select(token => token.Path).ToHashSet(StringComparer.Ordinal);
+        var limitable = Light.Concat(Dark).Concat(Size).Select(token => token.Path).ToHashSet(StringComparer.Ordinal);
         foreach (var token in Tokens.Tokens)
         {
             if (token.Platforms is not null && !limitable.Contains(token.Path))
             {
-                throw new TokenException($"Token '{token.Path}' has $extensions.platforms, which only theme colors support.");
+                throw new TokenException($"Token '{token.Path}' has $extensions.platforms, which only theme colors and sizes support.");
             }
         }
 
@@ -155,6 +162,7 @@ internal sealed class TokenCatalog
             .Concat(Space)
             .Concat(Radius)
             .Concat(Density)
+            .Concat(Size)
             .Concat(Motion.Select(motion => motion.Token))
             .Concat(IosSpring)
             .Concat(PresentationMotion)
