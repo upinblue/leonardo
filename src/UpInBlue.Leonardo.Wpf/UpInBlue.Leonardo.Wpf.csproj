@@ -4,6 +4,8 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <RootNamespace>UpInBlue.Leonardo.Wpf</RootNamespace>
     <UseWPF>true</UseWPF>
+    <!-- ThemeMode, the switch for the WPF Fluent theme, is still marked experimental (WPF0001) in .NET 10. Leonardo builds on it. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 

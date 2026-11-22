@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Leonardo for WPF, for the Light theme. It adds the token resources (Leonardo…), the accent ramp (SystemAccentColor…) that the Fluent theme reads, and the text styles of the type roles.
+    It does not change any other Fluent resource.
+
+    Do not merge it by hand. Call LeonardoTheme.Apply in App.OnStartup; it sets Application.ThemeMode and merges
+    Leonardo.Light.xaml, Leonardo.Dark.xaml or Leonardo.HighContrast.xaml, whichever matches the active theme, and swaps
+    them when the theme changes.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/Tokens.Light.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/AccentColors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/TextStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
