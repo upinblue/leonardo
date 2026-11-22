@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.ApprovalsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
+    xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
+
+    <!-- Inbox: the list of requests is flexible, the details of the selected request are fixed. -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition x:Name="DetailsColumn" Width="{StaticResource GalleryDetailsPaneWidth}" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource GalleryTreePaneWindowWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsColumn.Width" Value="{StaticResource GalleryTreePaneWidth}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Padding="{StaticResource LeonardoSpaceLVerticalThickness}">
+            <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="Approvals" />
+            <TextBlock
+                AutomationProperties.LiveSetting="Polite"
+                Style="{StaticResource LeonardoBodyTextStyle}"
+                Text="{x:Bind ViewModel.WaitingSummary, Mode=OneWay}" />
+        </StackPanel>
+
+        <ListView
+            x:Name="RequestList"
+            Grid.Row="1"
+            Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
+            AutomationProperties.Name="Requests"
+            ItemContainerStyle="{StaticResource GalleryTableItemStyle}"
+            ItemsSource="{x:Bind ViewModel.Requests}"
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+            SelectionChanged="OnRequestSelectionChanged"
+            SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ApprovalRequest">
+                    <Grid
+                        MinHeight="{x:Bind gallery:App.Settings.RowHeight, Mode=OneWay}"
+                        Padding="{StaticResource LeonardoSpaceXSVerticalThickness}"
+                        AutomationProperties.Name="{x:Bind AccessibleName, Mode=OneWay}"
+                        ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <FontIcon
+                            Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                            VerticalAlignment="Top"
+                            FontSize="{StaticResource GalleryIconSize}"
+                            Glyph="{x:Bind StateGlyph, Mode=OneWay}" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Title}" />
+                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}">
+                                <Run Text="{x:Bind StateText, Mode=OneWay}" />
+                                <Run Text="·" />
+                                <Run Text="{x:Bind Meta}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <TextBlock
+                            Grid.Column="2"
+                            Margin="{StaticResource LeonardoSpaceMLeftThickness}"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                            Text="{x:Bind AmountText}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Details and decision -->
+        <ScrollViewer
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            AutomationProperties.Name="Request details"
+            Background="{ThemeResource LeonardoSurfaceAltBrush}">
+            <StackPanel Padding="{StaticResource LeonardoSpaceLThickness}" Spacing="{StaticResource LeonardoSpaceM}">
+                <TextBlock
+                    AutomationProperties.HeadingLevel="Level2"
+                    Style="{StaticResource LeonardoSectionTextStyle}"
+                    Text="{x:Bind ViewModel.Selected.Title, Mode=OneWay}" />
+                <StackPanel>
+                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Requested by" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Requester, Mode=OneWay}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Customer" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Company, Mode=OneWay}" />
+                </StackPanel>
+                <StackPanel Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.AmountText), Mode=OneWay}">
+                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Amount" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind ViewModel.Selected.AmountText, Mode=OneWay}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Reason" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Description, Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- Waiting: decide. -->
+                <StackPanel Spacing="{StaticResource LeonardoSpaceM}" Visibility="{x:Bind helpers:Show.When(ViewModel.Selected.IsWaiting), Mode=OneWay}">
+                    <TextBox
+                        AcceptsReturn="True"
+                        Header="Comment for the requester (optional)"
+                        Text="{x:Bind ViewModel.Selected.Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
+                        <Button
+                            Command="{x:Bind ViewModel.ApproveCommand}"
+                            Content="Approve"
+                            Style="{StaticResource AccentButtonStyle}" />
+                        <Button Command="{x:Bind ViewModel.RejectCommand}" Content="Reject" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Decided: what just happened, with undo. -->
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}" Visibility="{x:Bind helpers:Show.Unless(ViewModel.Selected.IsWaiting), Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                        <FontIcon FontSize="{StaticResource GalleryIconSize}" Glyph="{x:Bind ViewModel.Selected.StateGlyph, Mode=OneWay}" />
+                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind ViewModel.Selected.StateText, Mode=OneWay}" />
+                    </StackPanel>
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Text="{x:Bind ViewModel.Selected.DecisionText, Mode=OneWay}" />
+                    <Button Command="{x:Bind ViewModel.UndoCommand}" Content="Undo decision" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

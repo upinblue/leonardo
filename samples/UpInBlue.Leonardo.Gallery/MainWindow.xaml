@@ -8,6 +8,95 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <!-- The gallery shell is built in stage 2 (see docs/roadmap.md). -->
-    <Grid />
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="F6" Invoked="OnF6Invoked" />
+            <KeyboardAccelerator Key="F6" Modifiers="Shift" Invoked="OnF6Invoked" />
+        </Grid.KeyboardAccelerators>
+
+        <TitleBar
+            x:Name="AppTitleBar"
+            Title="Leonardo Gallery"
+            BackRequested="OnBackRequested"
+            IsBackButtonVisible="True"
+            IsPaneToggleButtonVisible="True"
+            PaneToggleRequested="OnPaneToggleRequested" />
+
+        <NavigationView
+            x:Name="Navigation"
+            Grid.Row="1"
+            AutomationProperties.Name="Gallery navigation"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="True"
+            IsTitleBarAutoPaddingEnabled="False"
+            ItemInvoked="OnNavigationItemInvoked">
+            <NavigationView.MenuItems>
+                <NavigationViewItemHeader Content="Foundations" />
+                <NavigationViewItem Content="Overview" Tag="overview">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80F;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Color" Tag="color">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Typography" Tag="typography">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8D2;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Grid and geometry" Tag="geometry">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80A;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Fallbacks" Tag="fallbacks">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE776;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemHeader Content="Scenarios" />
+                <NavigationViewItem Content="Files" Tag="files">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8B7;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Customers" Tag="customers">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE716;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Approvals" Tag="approvals">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8FB;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Key figures" Tag="keyfigures">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE9D2;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Activity" Tag="activity">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE81C;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="States" Tag="states">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7BA;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame x:Name="ContentFrame" AutomationProperties.Name="Page content" Navigated="OnNavigated" />
+        </NavigationView>
+    </Grid>
 </Window>

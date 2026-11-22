@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.CustomersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
+    xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
+
+    <!-- List/details: the list is fixed, the form takes the rest. -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="ListColumn" Width="{StaticResource GalleryListPaneWidth}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource GalleryTreePaneWindowWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ListColumn.Width" Value="{StaticResource GalleryTreePaneWidth}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <TextBlock
+            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Padding="{StaticResource LeonardoSpaceLVerticalThickness}"
+            AutomationProperties.HeadingLevel="Level1"
+            Style="{StaticResource LeonardoPlaceNameTextStyle}"
+            Text="Customers" />
+
+        <ListView
+            x:Name="CustomerList"
+            Grid.Row="1"
+            Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
+            AutomationProperties.Name="Customers"
+            ItemContainerStyle="{StaticResource GalleryListViewItemStyle}"
+            ItemsSource="{x:Bind ViewModel.Customers}"
+            SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
+            SelectionChanged="OnCustomerSelectionChanged"
+            SelectionMode="Single">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:CustomerItem">
+                    <Grid
+                        MinHeight="{x:Bind gallery:App.Settings.RowHeight, Mode=OneWay}"
+                        AutomationProperties.Name="{x:Bind AccessibleName, Mode=OneWay}"
+                        ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <FontIcon
+                            Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                            VerticalAlignment="Top"
+                            FontSize="{StaticResource GalleryIconSize}"
+                            Glyph="&#xE821;" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind SavedName, Mode=OneWay}" />
+                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind City}" />
+                            <TextBlock
+                                Style="{StaticResource LeonardoMetaTextStyle}"
+                                Text="Unsaved changes"
+                                Visibility="{x:Bind helpers:Show.When(HasChanges), Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- The form of the selected customer -->
+        <ScrollViewer
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            AutomationProperties.Name="Customer details"
+            Background="{ThemeResource LeonardoSurfaceAltBrush}">
+            <StackPanel
+                MaxWidth="{StaticResource GalleryReadingWidth}"
+                Padding="{StaticResource LeonardoSpaceLThickness}"
+                HorizontalAlignment="Left"
+                Spacing="{StaticResource LeonardoSpaceL}">
+                <StackPanel>
+                    <TextBlock
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource LeonardoViewTextStyle}"
+                        Text="{x:Bind ViewModel.Selected.SavedName, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Fields marked with * are required." />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBox
+                        x:Name="NameBox"
+                        AutomationProperties.HelpText="{x:Bind ViewModel.Selected.NameError, Mode=OneWay}"
+                        AutomationProperties.IsRequiredForForm="True"
+                        Header="Company name *"
+                        LostFocus="OnNameLostFocus"
+                        Text="{x:Bind ViewModel.Selected.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="{StaticResource LeonardoSpaceXS}"
+                        Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.NameError), Mode=OneWay}">
+                        <FontIcon
+                            FontSize="{StaticResource GalleryIconSize}"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Glyph="&#xEA39;" />
+                        <TextBlock
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Text="{x:Bind ViewModel.Selected.NameError, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBox Header="Contact person" Text="{x:Bind ViewModel.Selected.Contact, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBox
+                        x:Name="EmailBox"
+                        AutomationProperties.HelpText="{x:Bind ViewModel.Selected.EmailError, Mode=OneWay}"
+                        AutomationProperties.IsRequiredForForm="True"
+                        Header="Email *"
+                        InputScope="EmailSmtpAddress"
+                        LostFocus="OnEmailLostFocus"
+                        Text="{x:Bind ViewModel.Selected.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="{StaticResource LeonardoSpaceXS}"
+                        Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.EmailError), Mode=OneWay}">
+                        <FontIcon
+                            FontSize="{StaticResource GalleryIconSize}"
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Glyph="&#xEA39;" />
+                        <TextBlock
+                            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Text="{x:Bind ViewModel.Selected.EmailError, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBox
+                    Header="Phone"
+                    InputScope="TelephoneNumber"
+                    Text="{x:Bind ViewModel.Selected.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox
+                    Header="Status"
+                    ItemsSource="{x:Bind ViewModel.Statuses}"
+                    SelectedIndex="{x:Bind ViewModel.Selected.StatusIndex, Mode=TwoWay}" />
+
+                <CalendarDatePicker Date="{x:Bind ViewModel.Selected.Since, Mode=TwoWay}" Header="Customer since" />
+
+                <TextBox
+                    AcceptsReturn="True"
+                    Header="Notes"
+                    Text="{x:Bind ViewModel.Selected.Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap" />
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
+                        <Button
+                            Command="{x:Bind ViewModel.SaveCommand}"
+                            Content="Save changes"
+                            Style="{StaticResource AccentButtonStyle}">
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="S" Modifiers="Control" />
+                            </Button.KeyboardAccelerators>
+                        </Button>
+                        <Button Command="{x:Bind ViewModel.DiscardCommand}" Content="Discard changes" />
+                    </StackPanel>
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Text="{x:Bind ViewModel.Feedback, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

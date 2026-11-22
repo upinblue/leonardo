@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.ActivityPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
+
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
+            <TextBlock
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Text="Activity" />
+
+            <!-- A timeline without lines: days are headings, events hang their icon left of the alignment line. -->
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Days}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="{StaticResource LeonardoSpaceL}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ActivityDay">
+                        <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                            <TextBlock
+                                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                                AutomationProperties.HeadingLevel="Level2"
+                                Style="{StaticResource LeonardoSectionTextStyle}"
+                                Text="{x:Bind Day}" />
+                            <ItemsControl Margin="{StaticResource LeonardoSpaceXSLeftThickness}" ItemsSource="{x:Bind Events}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:ActivityEvent">
+                                        <Grid
+                                            MaxWidth="{StaticResource GallerySettingsWidth}"
+                                            Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                                            HorizontalAlignment="Left"
+                                            AutomationProperties.Name="{x:Bind AccessibleName}"
+                                            ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <FontIcon
+                                                Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                                VerticalAlignment="Top"
+                                                FontSize="{StaticResource GalleryIconSize}"
+                                                Glyph="{x:Bind Glyph}" />
+                                            <StackPanel Grid.Column="1" Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
+                                                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
+                                                <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</Page>
