@@ -6,10 +6,16 @@ namespace UpInBlue.Leonardo.WinUI.Motion;
 
 /// <summary>
 /// Arrive: something new is here. The new item appears in its place, its opacity rising with <c>motion.duration.fade</c>.
-/// A short accent marker appears with it, stays for <c>motion.arrive.hold</c> and fades away linearly within
-/// <c>motion.duration.long</c>. Screen readers hear the announcement as a notification.
-/// With animations off, the marker appears at once and disappears with <c>motion.duration.fade</c>.
+/// A short accent bar at the start of the row appears with it, stays for <c>motion.arrive.hold</c> and fades away linearly
+/// within <c>motion.duration.long</c>. Screen readers hear the announcement as a notification.
+/// With animations off, the bar appears at once and disappears with <c>motion.duration.fade</c>.
 /// </summary>
+/// <remarks>
+/// Build the bar with the style <c>LeonardoArriveMarkerStyle</c> from <c>Themes/Leonardo.xaml</c>: a <c>Border</c>
+/// <c>size.icon</c> high and <c>space.xs</c> wide in the accent color, opacity 0 at rest, hidden from UI Automation.
+/// Place it in the row's leading padding, before the icon. The dot shape is reserved for the status dot, so never use a
+/// <c>StatusDot</c> or another dot as the marker.
+/// </remarks>
 public static class Arrive
 {
     /// <summary>The activity ID of the notifications, so that a screen reader can group them.</summary>
@@ -20,8 +26,8 @@ public static class Arrive
     /// </summary>
     /// <param name="item">The new item, already in its place, for example the container of a new list item.</param>
     /// <param name="marker">
-    /// The accent marker, an element of the item whose opacity is 0 at rest, for example an accent dot that hangs to the
-    /// left of the alignment line. Null for no marker.
+    /// The accent bar at the start of the row, an element of the item whose opacity is 0 at rest, usually a <c>Border</c>
+    /// with the style <c>LeonardoArriveMarkerStyle</c>. Null for no marker.
     /// </param>
     /// <param name="announcement">What a screen reader announces, for example the text of the new event. Null for no announcement.</param>
     public static MotionRun Run(UIElement item, UIElement? marker, string? announcement)

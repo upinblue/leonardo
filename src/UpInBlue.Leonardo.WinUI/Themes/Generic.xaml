@@ -11,9 +11,9 @@
     xmlns:controls="using:UpInBlue.Leonardo.WinUI.Controls">
 
     <Style TargetType="controls:StatusDot">
-        <!-- LeonardoStatusDotSize lives in Themes/Controls.xaml, merged by Leonardo.xaml. The shapes are drawn on a 12 × 12 grid and scale with it. -->
-        <Setter Property="Width" Value="{ThemeResource LeonardoStatusDotSize}" />
-        <Setter Property="Height" Value="{ThemeResource LeonardoStatusDotSize}" />
+        <!-- LeonardoSizeStatusDot (size.statusDot) comes from the tokens, merged by Leonardo.xaml. The shapes are drawn on a 12 × 12 grid and scale with it. -->
+        <Setter Property="Width" Value="{ThemeResource LeonardoSizeStatusDot}" />
+        <Setter Property="Height" Value="{ThemeResource LeonardoSizeStatusDot}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
