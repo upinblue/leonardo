@@ -9,4 +9,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <Import Project="..\..\build\Packaging.props" />
+
 </Project>
