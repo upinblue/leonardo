@@ -118,7 +118,10 @@
                 </StackPanel>
 
                 <!-- Waiting: decide. -->
-                <StackPanel Spacing="{StaticResource LeonardoSpaceM}" Visibility="{x:Bind helpers:Show.When(ViewModel.Selected.IsWaiting), Mode=OneWay}">
+                <StackPanel
+                    x:Name="WaitingPanel"
+                    Spacing="{StaticResource LeonardoSpaceM}"
+                    Visibility="{x:Bind helpers:Show.When(ViewModel.Selected.IsWaiting), Mode=OneWay}">
                     <TextBox
                         AcceptsReturn="True"
                         Header="Comment for the requester (optional)"
@@ -126,15 +129,22 @@
                         TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
                         <Button
-                            Command="{x:Bind ViewModel.ApproveCommand}"
+                            x:Name="ApproveButton"
+                            Click="OnApproveClicked"
                             Content="Approve"
                             Style="{StaticResource AccentButtonStyle}" />
-                        <Button Command="{x:Bind ViewModel.RejectCommand}" Content="Reject" />
+                        <Button
+                            x:Name="RejectButton"
+                            Click="OnRejectClicked"
+                            Content="Reject" />
                     </StackPanel>
                 </StackPanel>
 
-                <!-- Decided: what just happened, with undo. -->
-                <StackPanel Spacing="{StaticResource LeonardoSpaceS}" Visibility="{x:Bind helpers:Show.Unless(ViewModel.Selected.IsWaiting), Mode=OneWay}">
+                <!-- Decided: what just happened, with undo. The pressed button transforms into this panel. -->
+                <StackPanel
+                    x:Name="DecisionPanel"
+                    Spacing="{StaticResource LeonardoSpaceS}"
+                    Visibility="{x:Bind helpers:Show.Unless(ViewModel.Selected.IsWaiting), Mode=OneWay}">
                     <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
                         <FontIcon FontSize="{StaticResource GalleryIconSize}" Glyph="{x:Bind ViewModel.Selected.StateGlyph, Mode=OneWay}" />
                         <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind ViewModel.Selected.StateText, Mode=OneWay}" />
@@ -143,7 +153,10 @@
                         AutomationProperties.LiveSetting="Polite"
                         Style="{StaticResource LeonardoBodyTextStyle}"
                         Text="{x:Bind ViewModel.Selected.DecisionText, Mode=OneWay}" />
-                    <Button Command="{x:Bind ViewModel.UndoCommand}" Content="Undo decision" />
+                    <Button
+                        x:Name="UndoDecisionButton"
+                        Click="OnUndoClicked"
+                        Content="Undo decision" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

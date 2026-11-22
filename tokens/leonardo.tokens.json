@@ -561,6 +561,19 @@
         }
       }
     },
+    "arrive": {
+      "hold": {
+        "$type": "duration",
+        "$value": {
+          "value": 2000,
+          "unit": "ms"
+        },
+        "$description": "How long the accent marker of Arrive stays fully visible before it fades away.",
+        "$extensions": {
+          "status": "proposal"
+        }
+      }
+    },
     "ios": {
       "spring": {
         "bounce": {

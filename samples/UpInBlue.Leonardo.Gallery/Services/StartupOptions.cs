@@ -4,7 +4,7 @@ namespace UpInBlue.Leonardo.Gallery.Services;
 
 /// <summary>
 /// Optional command-line options, used to open a page in a given theme, for example for screenshots:
-/// <c>UpInBlue.Leonardo.Gallery.exe --page files --theme dark --width 1360 --height 860</c>.
+/// <c>UpInBlue.Leonardo.Gallery.exe --page files --theme dark --width 1360 --height 860 --animations off</c>.
 /// With any of these options, settings are not stored.
 /// </summary>
 public sealed class StartupOptions
@@ -30,6 +30,14 @@ public sealed class StartupOptions
                 case "--density" when Enum.TryParse<ListDensity>(value, ignoreCase: true, out var density):
                     Density = density;
                     break;
+                case "--animations":
+                    Animations = value.ToLowerInvariant() switch
+                    {
+                        "on" => true,
+                        "off" => false,
+                        _ => null,
+                    };
+                    break;
                 case "--width" when int.TryParse(value, out var width):
                     Width = width;
                     break;
@@ -54,6 +62,9 @@ public sealed class StartupOptions
     /// <summary>The density to use instead of the stored one.</summary>
     public ListDensity? Density { get; }
 
+    /// <summary>Simulates animation effects turned on (true) or off (false) instead of following Windows.</summary>
+    public bool? Animations { get; }
+
     /// <summary>The initial window width in pixels.</summary>
     public int? Width { get; }
 
@@ -63,7 +74,7 @@ public sealed class StartupOptions
     /// <summary>
     /// Whether settings changes are stored. They are not when the gallery was started with options.
     /// </summary>
-    public bool KeepSettings => Page is null && Theme is null && Density is null && Width is null && Height is null;
+    public bool KeepSettings => Page is null && Theme is null && Density is null && Width is null && Height is null && Animations is null;
 
     /// <summary>
     /// Applies the theme and density options to the settings.

@@ -57,6 +57,11 @@
                         <FontIcon Glyph="&#xE80A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="Motion" Tag="motion">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE916;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="Fallbacks" Tag="fallbacks">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE776;" />
