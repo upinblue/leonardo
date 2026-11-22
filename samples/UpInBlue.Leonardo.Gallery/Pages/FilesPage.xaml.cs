@@ -36,7 +36,11 @@ public sealed partial class FilesPage : Page
     {
         InitializeComponent();
         Loaded += OnLoaded;
-        Unloaded += (_, _) => ViewModel.PropertyChanged -= OnViewModelChanged;
+        Unloaded += (_, _) =>
+        {
+            ViewModel.PropertyChanged -= OnViewModelChanged;
+            ViewModel.FilterRequested -= OnFilterRequested;
+        };
     }
 
     /// <summary>
@@ -59,7 +63,7 @@ public sealed partial class FilesPage : Page
         if (e.NavigationMode == NavigationMode.Back && e.SourcePageType == typeof(FilesPage))
         {
             s_returningFrom = ViewModel.Folder;
-            DiveIn.PrepareBack(PlaceName);
+            DiveIn.PrepareBack(PlaceHeader.TitleElement ?? PlaceHeader);
         }
     }
 
@@ -67,6 +71,7 @@ public sealed partial class FilesPage : Page
     {
         FolderTree.SelectedItem = ViewModel.Folder;
         ViewModel.PropertyChanged += OnViewModelChanged;
+        ViewModel.FilterRequested += OnFilterRequested;
 
         var returningFrom = s_returningFrom;
         var jump = s_jumpDirection;
@@ -78,16 +83,16 @@ public sealed partial class FilesPage : Page
         {
             // Back: the place name flies back into the row it came from; the rest enters from the left.
             ViewModel.SelectedEntry = entry;
-            await DiveIn.StartBackAsync(FileList, entry, FlyingElement, [Breadcrumb, PlaceName]);
+            await DiveIn.StartBackAsync(FileList, entry, FlyingElement, [Breadcrumb, PlaceHeader]);
         }
         else if (jump is { } direction)
         {
-            Stagger.Enter([Breadcrumb, PlaceName, FileList], direction);
+            Stagger.Enter([Breadcrumb, PlaceHeader, FileList], direction);
         }
         else if (_arrival == NavigationMode.New)
         {
             // Forward: completes a prepared dive; without one (the first visit), nothing moves.
-            DiveIn.Start(PlaceName, [Breadcrumb, FileList]);
+            DiveIn.Start(PlaceHeader.TitleElement ?? PlaceHeader, [Breadcrumb, FileList]);
         }
         else
         {
@@ -163,11 +168,12 @@ public sealed partial class FilesPage : Page
         => Open((sender as FrameworkElement)?.DataContext as FileItem ?? ViewModel.SelectedEntry);
 
     /// <summary>
-    /// Shows the optional columns that fit. The rows have the list padding, the item padding on both sides and the icon.
+    /// Shows the optional columns that fit. The rows have the list padding, the item padding on both sides, the status column and the icon.
     /// </summary>
     private void OnFileListSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var rowChrome = LeonardoTokens.Space.XS + (2 * LeonardoTokens.Space.M) + (double)Application.Current.Resources["GalleryIconSize"] + LeonardoTokens.Space.XS;
+        var resources = Application.Current.Resources;
+        var rowChrome = LeonardoTokens.Space.XS + (2 * LeonardoTokens.Space.XS) + (double)resources["LeonardoStatusDotSize"] + (double)resources["GalleryIconSize"] + LeonardoTokens.Space.XS;
         TableColumns.Files.Fit(e.NewSize.Width - rowChrome, LeonardoTokens.Space.M);
     }
 
@@ -206,6 +212,16 @@ public sealed partial class FilesPage : Page
             reflow.Play();
         });
         FileList.Focus(FocusState.Programmatic);
+    }
+
+    /// <summary>
+    /// A phrase of the summary line was turned on or off: the rows that stay glide to their place.
+    /// </summary>
+    private void OnFilterRequested(object? sender, EventArgs e)
+    {
+        var reflow = Reflow.Capture(FileList);
+        ViewModel.ApplyFilter(explain: true);
+        reflow.Play();
     }
 
     private void OnUndoClicked(object sender, RoutedEventArgs e)

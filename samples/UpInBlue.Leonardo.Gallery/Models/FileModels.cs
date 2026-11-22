@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using UpInBlue.Leonardo.WinUI.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace UpInBlue.Leonardo.Gallery.Models;
@@ -13,6 +14,18 @@ public sealed record FileItem(string Name, string Kind, string Glyph, DateTimeOf
 
     /// <summary>The subfolder this row stands for, or null for a file.</summary>
     public FolderNode? Folder { get; init; }
+
+    /// <summary>The status of the file, or null. Shown as a status dot left of the icon.</summary>
+    public StatusKind? Status { get; init; }
+
+    /// <summary>What the status means for this file, for example "Checked out by Anna Berg".</summary>
+    public string StatusDescription { get; init; } = string.Empty;
+
+    /// <summary>Whether the file has a status.</summary>
+    public bool HasStatus => Status is not null;
+
+    /// <summary>The status for the dot; only read when <see cref="HasStatus"/> is true.</summary>
+    public StatusKind StatusValue => Status ?? StatusKind.New;
 
     /// <summary>Whether the row is a folder that can be opened.</summary>
     public bool IsFolder => Folder is not null;
@@ -29,7 +42,7 @@ public sealed record FileItem(string Name, string Kind, string Glyph, DateTimeOf
     /// <summary>The text a screen reader reads for the row.</summary>
     public string AccessibleName => IsFolder
         ? $"{Name}, folder, {Kind}"
-        : $"{Name}, {Kind}, modified {ModifiedText} by {ModifiedBy}, {SizeText}";
+        : $"{Name}, {Kind}{(HasStatus ? $", {StatusDescription}" : string.Empty)}, modified {ModifiedText} by {ModifiedBy}, {SizeText}";
 }
 
 /// <summary>
