@@ -7,8 +7,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--
-        The size of a StatusDot. It is an icon size, not spacing: the dot hangs left of a 16 epx icon in a column of 12,
-        so that list offset 4 + item padding 4 + 12 + icon 16 + space.xs 4 reaches the alignment line at 40 (space.xl).
+        The size of a StatusDot. It is an icon size, not spacing: the dot hangs between a 16 epx icon and the name, in a
+        column of 12, so that list offset 4 + item padding 4 + icon 16 + 12 + space.xs 4 reaches the alignment line at 40
+        (space.xl), and the dot stays clear of the list's selection indicator.
     -->
     <x:Double x:Key="LeonardoStatusDotSize">12</x:Double>
 </ResourceDictionary>

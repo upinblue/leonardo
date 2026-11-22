@@ -176,15 +176,27 @@ public sealed partial class SummaryLine : Control
         if (!_buttons.TryGetValue(item, out var button))
         {
             button = new ToggleButton();
-            button.Click += (_, _) =>
+
+            // Checked and Unchecked also follow toggles through UI Automation, which don't raise Click.
+            // Updates from the item set IsChecked to the item's state, so they end here without running the command.
+            void OnToggled(object sender, RoutedEventArgs e)
             {
-                item.IsActive = button.IsChecked == true;
+                var active = button.IsChecked == true;
+                if (item.IsActive == active)
+                {
+                    return;
+                }
+
+                item.IsActive = active;
                 var parameter = item.CommandParameter ?? item;
                 if (item.Command?.CanExecute(parameter) == true)
                 {
                     item.Command.Execute(parameter);
                 }
-            };
+            }
+
+            button.Checked += OnToggled;
+            button.Unchecked += OnToggled;
             _buttons[item] = button;
         }
 
