@@ -49,7 +49,8 @@ public static class DiveIn
 
     /// <summary>
     /// Completes the dive on the destination: the chosen element becomes the place name, the rest staggers in from the right.
-    /// Without a prepared animation, the page enters with Stagger alone.
+    /// Without a prepared animation, the page enters with Stagger alone. Never call it for the first view at app launch:
+    /// that view appears without motion.
     /// </summary>
     /// <param name="placeName">The place name of the destination.</param>
     /// <param name="rest">The other groups of the page in reading order, at most three.</param>

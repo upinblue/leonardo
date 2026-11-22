@@ -5,14 +5,17 @@ built-in WPF Fluent theme (`Application.ThemeMode`).
 
 Leonardo adds to Fluent; it does not replace it. There are no custom controls. The package adds:
 
-- **Token resources** for the light, dark and contrast themes, for example `LeonardoAccentBrush`, `LeonardoSpaceM`,
-  `LeonardoRadiusL` and `LeonardoDurationNormal`.
+- **Token resources** for the light, dark and contrast themes, for example `LeonardoAccentBrush`, `LeonardoChartBrush`,
+  `LeonardoSpaceM`, `LeonardoRadiusL`, `LeonardoSizeIcon` and `LeonardoDurationNormal`. Status colors are not part of
+  Leonardo on Windows: use the Fluent theme's `SystemFillColorCriticalBrush`, `SystemFillColorCautionBrush` and
+  `SystemFillColorSuccessBrush`.
 - **The accent override:** the Fluent theme's accent colors become the Leonardo blue. In a Windows contrast theme, the
   override is left out and only system colors are used.
 - **Text styles for the type roles:** `LeonardoPlaceNameTextStyle`, `LeonardoViewTextStyle`, `LeonardoSectionTextStyle`,
-  `LeonardoBodyTextStyle` and `LeonardoMetaTextStyle`, plus strong and tabular variants.
-- **Motion:** `LeonardoMotion` reads the Windows animation setting and runs the staggered entrance; every motion becomes
-  a short crossfade when animations are off.
+  `LeonardoBodyTextStyle` and `LeonardoMetaTextStyle`, plus strong and tabular variants. Reference them with
+  `DynamicResource`, see [Contrast themes](#contrast-themes).
+- **Motion:** `LeonardoMotion` reads the Windows animation setting and runs the staggered entrance when the user
+  navigates to a view; every motion becomes a short crossfade when animations are off.
 
 ## Requirements
 
@@ -45,23 +48,40 @@ Leonardo adds to Fluent; it does not replace it. There are no custom controls. T
    }
    ```
 
-3. Use the resources. Never write literal colors, sizes or durations:
+3. Use the resources. Never write literal colors, sizes or durations. The page margin is `space.l`; on pages with
+   icon lists, text aligns on the alignment line at `space.xl` and icons hang to the left of it:
 
    ```xml
-   <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}">
+   <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}">
        <TextBlock
            AutomationProperties.HeadingLevel="Level1"
-           Style="{StaticResource LeonardoPlaceNameTextStyle}"
+           Style="{DynamicResource LeonardoPlaceNameTextStyle}"
            Text="Contracts" />
-       <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Hofmann Logistics" />
+       <TextBlock Style="{DynamicResource LeonardoMetaTextStyle}" Text="Hofmann Logistics" />
    </StackPanel>
    ```
 
-4. Let the groups of a view enter in reading order:
+4. When the user navigates to a view, let its groups enter in reading order. Never at app launch: the first window
+   appears without it, because an entrance at launch is decorative.
 
    ```csharp
    LeonardoMotion.Stagger([HeaderGroup, ListGroup, DetailsGroup]);
    ```
+
+## Lists
+
+Lists keep the Fluent theme's `ListViewItem` style, including its small gap between rows (`ListViewItemMargin`).
+Leonardo sets only the row height from the density tokens.
+
+## Contrast themes
+
+In a Windows contrast theme, `LeonardoTheme` merges `Leonardo.HighContrast.xaml`: every Leonardo color becomes a
+system color, and the text styles set no `Foreground`, so text inherits the color of its container. This follows
+Microsoft's guidance [Contrast themes](https://learn.microsoft.com/windows/apps/design/accessibility/high-contrast-themes)
+for list items with colored text: selected or hovered items set the foreground, and the text inside must inherit it.
+
+- Reference the text styles with `{DynamicResource …}`, so that they follow when `LeonardoTheme` swaps the dictionary.
+- Don't base your own styles on them with `BasedOn`, and don't set `Foreground` on text in list items yourself.
 
 ## Learn more
 

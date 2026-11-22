@@ -16,11 +16,15 @@ public enum MotionDirection
 }
 
 /// <summary>
-/// Stagger: these belong together, in this order. The groups of a view enter shortly after each other, in reading order:
-/// at most <c>motion.stagger.maxGroups</c> groups, <c>motion.stagger.step</c> apart, travelling a distance between
-/// <c>motion.distance.enterMin</c> and <c>enterMax</c> with the enter curve, while their opacity rises linearly with
-/// <c>motion.duration.fade</c>. With animations off, the groups crossfade in together.
+/// Stagger: these belong together, in this order. When the user navigates to a view, its groups enter shortly after each
+/// other, in reading order: at most <c>motion.stagger.maxGroups</c> groups, <c>motion.stagger.step</c> apart, travelling a
+/// distance between <c>motion.distance.enterMin</c> and <c>enterMax</c> with the enter curve, while their opacity rises
+/// linearly with <c>motion.duration.fade</c>. With animations off, the groups crossfade in together.
 /// </summary>
+/// <remarks>
+/// Stagger only on navigation to a view, never at app launch: the first view of the app appears without it, because an
+/// entrance at launch is decorative.
+/// </remarks>
 public static class Stagger
 {
     /// <summary>

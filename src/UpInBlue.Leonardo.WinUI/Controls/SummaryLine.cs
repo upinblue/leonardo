@@ -16,6 +16,11 @@ namespace UpInBlue.Leonardo.WinUI.Controls;
 /// and the control hides itself when all counts are 0. Screen readers read the whole sentence; each phrase is a
 /// standard toggle button, reachable with Tab and toggled with Space.
 /// </summary>
+/// <remarks>
+/// Several phrases can be active at the same time: every phrase toggles on its own, and the control never turns another
+/// phrase off. Checked toggle buttons count as selection, not as actions, so the rule of one accent surface per view
+/// does not apply to them. The app decides how active filters combine, usually by showing what matches any of them.
+/// </remarks>
 public sealed partial class SummaryLine : Control
 {
     /// <summary>Identifies the <see cref="Prefix"/> property.</summary>

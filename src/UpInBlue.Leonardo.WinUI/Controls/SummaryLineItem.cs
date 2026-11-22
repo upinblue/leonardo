@@ -68,7 +68,10 @@ public sealed class SummaryLineItem : INotifyPropertyChanged
         set => Set(ref _pluralLabel, value);
     }
 
-    /// <summary>Whether the filter of this phrase is on.</summary>
+    /// <summary>
+    /// Whether the filter of this phrase is on. Independent of the other phrases: several phrases of one summary line can
+    /// be on at the same time.
+    /// </summary>
     public bool IsActive
     {
         get => _isActive;

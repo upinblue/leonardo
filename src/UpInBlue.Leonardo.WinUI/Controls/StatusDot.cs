@@ -10,8 +10,15 @@ namespace UpInBlue.Leonardo.WinUI.Controls;
 /// set <see cref="Description"/>, for example "Checked out by Anna Berg"; it is the tooltip and the name screen readers read.
 /// </summary>
 /// <remarks>
-/// The dot hangs to the left of the alignment line, between the icon of a row and its name. It is not focusable, so tooltips don't
-/// reach keyboard users: put the status into the row's accessible name and the details as well.
+/// <para>
+/// The dot is <c>size.statusDot</c> (<c>LeonardoSizeStatusDot</c>) in diameter. It hangs to the left of the alignment
+/// line, between the icon of a row and its name. It is not focusable, so tooltips don't reach keyboard users: put the
+/// status into the row's accessible name and the details as well.
+/// </para>
+/// <para>
+/// The kinds map by meaning: <see cref="StatusKind.CheckedOut"/> is attention, <see cref="StatusKind.Conflict"/> is
+/// broken or overdue. The dot shape belongs to the status dot alone; the Arrive marker is an accent bar.
+/// </para>
 /// </remarks>
 public sealed partial class StatusDot : Control
 {

@@ -58,15 +58,17 @@ public static class LeonardoMotion
     }
 
     /// <summary>
-    /// Stagger: the groups of a view enter shortly after each other, in reading order. Each group fades in linearly and
-    /// glides in from the right with <c>motion.easing.enter</c>, offset by <c>motion.stagger.step</c> per group.
-    /// With animation effects off, all groups crossfade at once.
+    /// Stagger: when the user navigates to a view, its groups enter shortly after each other, in reading order. Each group
+    /// fades in linearly and glides in from the right with <c>motion.easing.enter</c>, offset by <c>motion.stagger.step</c>
+    /// per group. With animation effects off, all groups crossfade at once.
     /// </summary>
     /// <param name="groups">
     /// The groups in reading order. Leonardo allows at most <see cref="LeonardoTokens.Motion.StaggerMaxGroups"/> groups;
     /// further groups enter together with the last allowed one.
     /// </param>
     /// <remarks>
+    /// Call it on navigation only, never when the app starts: the first window appears without an entrance, because an
+    /// entrance at launch is decorative.
     /// The motion never blocks: the elements stay interactive while they enter. A group moves only when its
     /// <see cref="UIElement.RenderTransform"/> is unset or a <see cref="TranslateTransform"/>; otherwise it only fades.
     /// </remarks>
