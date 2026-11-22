@@ -1,31 +1,25 @@
 /*
  * Files scenario of the Leonardo web sample.
  *
- * Every color, spacing, radius, type and motion value comes from the --leonardo-* custom properties
- * of generated/web/leonardo.css. The few sample properties below (--files-*) only name layout
- * dimensions that Leonardo does not define, or pick a Leonardo value per theme or setting.
+ * Every color, spacing, size, radius, type and motion value comes from the --leonardo-* custom
+ * properties of generated/web/leonardo.css. The few sample properties below (--files-*) only name
+ * layout dimensions that Leonardo does not define, or pick a Leonardo value per view or setting.
  *
- * Literal values that remain are not Leonardo values: 0, 1px hairlines and the 2px focus outline
- * (Leonardo has no stroke width token), 50% for circles, 100% and 100vh, 1em for the chevron so it
- * follows the text size, the rotation of the chevron, the visually-hidden technique, and the layout
- * breakpoints (custom properties cannot be used in media queries). All are listed in the pull request.
+ * Literal values that remain are not Leonardo values: 0, 1px hairlines (Leonardo has no hairline
+ * token; an open question), 50% for circles, 100% and 100vh, the rotation of the chevron, the
+ * visually-hidden technique, and the layout breakpoints (custom properties cannot be used in media
+ * queries).
  */
 
 /* ---------- Sample properties ---------- */
 
 :root {
-    /* Layout dimensions of the three areas. Not Leonardo tokens; see the pull request. */
+    /* Layout dimensions of the three areas. Not Leonardo tokens. */
     --files-nav-width: 16rem;
     --files-details-width: 20rem;
 
     /* List density, chosen in Settings. Standard is the default. */
     --files-row-height: var(--leonardo-density-standard);
-
-    /* Status dot. Leonardo has no size token for it yet; space-s gives the 8 px the gallery uses. */
-    --files-status-dot-size: var(--leonardo-space-s);
-
-    /* Pressed state of the accent button: one step deeper on the blue scale. */
-    --files-accent-pressed: var(--leonardo-palette-near);
 
     /* Direction of "Dive in": forward comes from the right, back from the left. */
     --files-enter-from: var(--leonardo-distance-enter-min);
@@ -37,16 +31,6 @@
 
 :root[data-density="comfortable"] {
     --files-row-height: var(--leonardo-density-comfortable);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        --files-accent-pressed: var(--leonardo-palette-haze);
-    }
-}
-
-[data-theme="dark"] {
-    --files-accent-pressed: var(--leonardo-palette-haze);
 }
 
 /* ---------- Base ---------- */
@@ -90,20 +74,31 @@ ul {
     margin: 0;
 }
 
-/* Focus: a better replacement for the browser's ring, never a removal. Edge and Chrome draw their
-   default ring in a near-black color in light and dark mode, which stays below 3:1 on the dark surface
-   (WCAG 1.4.11). The primary text color reaches at least 4.5:1 on every Leonardo surface in both themes.
-   In forced colors the browser replaces the color with a system color. */
-:focus-visible {
-    outline: 2px solid var(--leonardo-text-primary);
-    outline-offset: var(--leonardo-space-xs);
+/* Focus: the browser draws it; the sample replaces it only where it fails 3:1 (design language,
+   "Color as signal"). Edge and Chrome draw their default ring in #101010 in both color schemes. On the
+   light surfaces that is at least 15:1, so the light theme keeps it. On the dark surface it is about
+   1.2:1, so the dark theme replaces it with the focus tokens: far, at least 5:1 on every dark surface
+   including the selection. Like the browser's ring it sits right at the element, so it stays clear of the
+   status dots that hang to the left of the alignment line. In forced colors the browser's own ring with
+   system colors stays. */
+@media (prefers-color-scheme: dark) and (forced-colors: none) {
+    :root:not([data-theme="light"]) :focus-visible {
+        outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus);
+        outline-offset: 0;
+    }
+}
+
+@media (forced-colors: none) {
+    :root[data-theme="dark"] :focus-visible {
+        outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus);
+        outline-offset: 0;
+    }
 }
 
 .visually-hidden {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
-    margin: -1px;
     padding: 0;
     overflow: hidden;
     clip-path: inset(50%);
@@ -294,8 +289,8 @@ ul {
 .disclosure,
 .disclosure-spacer {
     flex: none;
-    inline-size: calc(1em + 2 * var(--leonardo-space-xs));
-    block-size: calc(1em + 2 * var(--leonardo-space-xs));
+    inline-size: calc(var(--leonardo-size-icon) + 2 * var(--leonardo-space-xs));
+    block-size: calc(var(--leonardo-size-icon) + 2 * var(--leonardo-space-xs));
 }
 
 .disclosure {
@@ -315,8 +310,8 @@ ul {
 }
 
 .disclosure svg {
-    inline-size: 1em;
-    block-size: 1em;
+    inline-size: var(--leonardo-size-icon);
+    block-size: var(--leonardo-size-icon);
     fill: currentColor;
     /* Transform: the chevron turns into its new state. */
     transition: rotate var(--leonardo-duration-short) var(--leonardo-ease-move);
@@ -433,12 +428,13 @@ ul {
 }
 
 .button-accent:hover {
-    background: var(--leonardo-accent);
+    border-color: var(--leonardo-accent-hover);
+    background: var(--leonardo-accent-hover);
 }
 
 .button-accent:active {
-    border-color: var(--files-accent-pressed);
-    background: var(--files-accent-pressed);
+    border-color: var(--leonardo-accent-pressed);
+    background: var(--leonardo-accent-pressed);
 }
 
 /* ---------- File list ---------- */
@@ -539,14 +535,14 @@ ul {
 .status-dot {
     display: inline-block;
     flex: none;
-    inline-size: var(--files-status-dot-size);
-    block-size: var(--files-status-dot-size);
+    inline-size: var(--leonardo-size-status-dot);
+    block-size: var(--leonardo-size-status-dot);
     border-radius: 50%;
     background: currentColor;
 }
 
 .file-table .status-dot {
-    margin-inline: calc(-1 * (var(--files-status-dot-size) + var(--leonardo-space-xs))) var(--leonardo-space-xs);
+    margin-inline: calc(-1 * (var(--leonardo-size-status-dot) + var(--leonardo-space-xs))) var(--leonardo-space-xs);
     vertical-align: middle;
 }
 
@@ -583,10 +579,6 @@ ul {
 
 .details-hint {
     color: var(--leonardo-text-secondary);
-}
-
-.details h2:focus {
-    outline-offset: var(--leonardo-space-xs);
 }
 
 .details-status {
