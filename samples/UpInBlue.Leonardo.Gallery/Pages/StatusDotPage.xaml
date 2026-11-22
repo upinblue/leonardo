@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <leonardo:PlaceHeader
-            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
             Padding="{StaticResource LeonardoSpaceLTopThickness}"
             Meta="Leonardo controls"
             ScrollSource="{x:Bind Scroller}"
@@ -25,17 +25,17 @@
             <StackPanel Padding="{StaticResource LeonardoSpaceXLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
                 <TextBlock
                     MaxWidth="{StaticResource GalleryReadingWidth}"
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="A status dot shows the state of an item next to its icon. Each state has its own shape, so it never depends on color alone, and every dot has a description: the tooltip and the name screen readers read." />
 
                 <!-- The three kinds -->
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
                     <TextBlock
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource LeonardoSectionTextStyle}"
+                        Style="{ThemeResource LeonardoSectionTextStyle}"
                         Text="Kinds" />
                     <ItemsControl Margin="{StaticResource LeonardoSpaceXSLeftThickness}" ItemsSource="{x:Bind ViewModel.Kinds}">
                         <ItemsControl.ItemTemplate>
@@ -51,7 +51,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="{StaticResource LeonardoSpaceXSTopThickness}">
-                                        <Border Width="{StaticResource GalleryIconSize}" />
+                                        <Border Width="{StaticResource LeonardoSizeIcon}" />
                                         <leonardo:StatusDot
                                             VerticalAlignment="Center"
                                             Description="{x:Bind Description}"
@@ -61,11 +61,11 @@
                                         Grid.Column="1"
                                         Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
                                         Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
-                                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}">
+                                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                        <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}">
                                             <Run Text="{x:Bind Shape}" /><Run Text=" in " /><Run Text="{x:Bind Color}" /><Run Text="." />
                                         </TextBlock>
-                                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}">
+                                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}">
                                             <Run Text="Tooltip and accessible name, for example: " /><Run Text="{x:Bind Description}" />
                                         </TextBlock>
                                     </StackPanel>
@@ -77,12 +77,12 @@
 
                 <!-- In a list -->
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                        <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="In a list" />
+                    <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                        <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="In a list" />
                         <TextBlock
                             MaxWidth="{StaticResource GalleryReadingWidth}"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource LeonardoBodyTextStyle}"
+                            Style="{ThemeResource LeonardoBodyTextStyle}"
                             Text="The dot hangs between the icon and the name, so names stay on the alignment line and the dot stays clear of the selection indicator. Point at a dot to see its tooltip. Dots aren't focusable, so the row's accessible name includes the status for keyboard and screen reader users." />
                     </StackPanel>
                     <ListView
@@ -103,7 +103,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid
                                         Grid.Column="1"
-                                        Width="{StaticResource LeonardoStatusDotSize}"
+                                        Width="{StaticResource LeonardoSizeStatusDot}"
                                         VerticalAlignment="Center">
                                         <leonardo:StatusDot
                                             Description="{x:Bind StatusDescription}"
@@ -112,13 +112,13 @@
                                     </Grid>
                                     <FontIcon
                                         VerticalAlignment="Center"
-                                        FontSize="{StaticResource GalleryIconSize}"
+                                        FontSize="{StaticResource LeonardoSizeIcon}"
                                         Glyph="{x:Bind Glyph}" />
                                     <TextBlock
                                         Grid.Column="2"
                                         Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
                                         VerticalAlignment="Center"
-                                        Style="{StaticResource LeonardoBodyTextStyle}"
+                                        Style="{ThemeResource LeonardoBodyTextStyle}"
                                         Text="{x:Bind Name}" />
                                 </Grid>
                             </DataTemplate>
@@ -129,13 +129,14 @@
                 <!-- Rules -->
                 <StackPanel
                     MaxWidth="{StaticResource GalleryReadingWidth}"
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     HorizontalAlignment="Left"
                     Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Rules" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Always set a description that says what the state means for this item, for example “Checked out by Anna Berg”." />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Colors come from the platform: the accent for new, the system caution and critical colors for the others. In a contrast theme, all three use system colors and stay apart by shape." />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Status is permanent until it changes. For a short confirmation, show text instead; for something that has just arrived, use the motion Arrive." />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Rules" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Always set a description that says what the state means for this item, for example “Checked out by Anna Berg”." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Colors come from the platform: the accent for new, the system caution and critical colors for the others. In a contrast theme, all three use system colors and stay apart by shape." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="The kinds map by meaning: checked out stands for anything that needs attention, such as a request that waits; conflict stands for anything broken or overdue. The description says the actual state." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Status is permanent until it changes. For a short confirmation, show text instead; for something that has just arrived, use the motion Arrive, whose marker is an accent bar: the dot shape belongs to the status dot alone." />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
