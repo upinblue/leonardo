@@ -267,7 +267,7 @@
             folderChanged = previous.view !== "files" || previous.folder !== route.folder;
             if (folderChanged) {
                 feedback = null;
-                for (const item of route.folder.files) item.isNew = false;
+                for (const item of route.folder.files) item.arrival = null;
             }
             renderPlace(route.folder);
             renderTable(route.folder, route.fileId);
@@ -291,11 +291,14 @@
         }
         renderFeedback();
 
+        // Stagger only when the user navigates to another folder or view. The first view after the page
+        // loads (previous.view is still null, also after the redirect from an empty hash) appears at once.
         const viewChanged = previous.view !== route.view || folderChanged;
         if (viewChanged && previous.view !== null) animateEntering(route, previous);
 
         current = { view: route.view, folder: route.folder ?? null, fileId: route.fileId ?? null };
         restoreFocus(focusKey, route, viewChanged, previous);
+        updatePlaceName();
     }
 
     function renderAppNav(route) {
@@ -377,10 +380,31 @@
                 create("td", { className: "col-size", text: count ? plural(count, "item", "items") : "Empty" }));
         });
 
+        // Arrive: the row fades in once; its accent bar holds for arrive-hold and then fades out. A row that
+        // is drawn again during that time keeps its bar, offset by the time already shown.
+        // The durations are read only when a row arrives: reading styles earlier during the first render
+        // would let the chevrons of the open folders turn visibly at page load.
+        const now = performance.now();
+        const arriveEnd = node.files.some((item) => item.arrival)
+            ? cssTime("--leonardo-arrive-hold") + cssTime("--leonardo-duration-short")
+            : 0;
+
         const fileRows = node.files.map((item) => {
             const isCurrent = item.id === fileId;
-            const classes = [isCurrent ? "is-current" : "", item.isNew ? "is-new" : ""].filter(Boolean).join(" ");
-            return create("tr", { className: classes || null, dataset: { fileId: item.id } },
+            const arrivedFor = item.arrival ? Math.max(0, Math.round(now - item.arrival.at)) : null;
+            const hasBar = arrivedFor !== null && arrivedFor < arriveEnd;
+            const isArriving = Boolean(item.arrival) && !item.arrival.shown;
+            if (item.arrival) item.arrival.shown = true;
+            const classes = [
+                isCurrent ? "is-current" : "",
+                isArriving ? "is-arriving" : "",
+                hasBar ? "has-arrive-bar" : "",
+            ].filter(Boolean).join(" ");
+            return create("tr", {
+                className: classes || null,
+                style: hasBar && arrivedFor > 0 ? `--files-arrived-for: ${arrivedFor}ms` : null,
+                dataset: { fileId: item.id },
+            },
                 create("td", {},
                     item.status ? statusDot(item.status) : null,
                     create("a", {
@@ -528,6 +552,51 @@
 
     // ---------- Motion ----------
 
+    // Reads a Leonardo duration such as "2000ms" or "0.25s" from leonardo.css, in milliseconds.
+    function cssTime(name) {
+        const value = getComputedStyle(html).getPropertyValue(name).trim();
+        const number = parseFloat(value);
+        if (Number.isNaN(number)) return 0;
+        return value.endsWith("ms") ? number : value.endsWith("s") ? number * 1000 : number;
+    }
+
+    function cssNumber(name) {
+        return parseFloat(getComputedStyle(html).getPropertyValue(name));
+    }
+
+    // Place name: scrolls slower than the content and shrinks toward the size of the view role.
+    // It moves down by at most as much as it has shrunk, so its box never grows and no text overlaps.
+    // files.css applies the values only without prefers-reduced-motion; here they are removed as well.
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let placeFrame = 0;
+
+    function updatePlaceName() {
+        placeFrame = 0;
+        const style = el.placeName.style;
+        const height = el.placeName.offsetHeight;
+        const factor = cssNumber("--leonardo-parallax-place-name-factor");
+        const smallest = cssNumber("--leonardo-view-font-size") / cssNumber("--leonardo-place-name-font-size");
+        if (reducedMotion.matches || !height || !(factor < 1) || !(smallest < 1)) {
+            style.removeProperty("--files-place-shift");
+            style.removeProperty("--files-place-scale");
+            return;
+        }
+        const scrolled = Math.max(0, window.scrollY);
+        const progress = Math.min(1, scrolled / height);
+        const scale = 1 - progress * (1 - smallest);
+        const shift = Math.min(scrolled * (1 - factor), (1 - scale) * height);
+        style.setProperty("--files-place-shift", `${shift.toFixed(2)}px`);
+        style.setProperty("--files-place-scale", scale.toFixed(4));
+    }
+
+    function schedulePlaceName() {
+        if (!placeFrame) placeFrame = requestAnimationFrame(updatePlaceName);
+    }
+
+    window.addEventListener("scroll", schedulePlaceName, { passive: true });
+    window.addEventListener("resize", schedulePlaceName);
+    reducedMotion.addEventListener("change", schedulePlaceName);
+
     function depthOf(route) {
         if (route.view === "files") return route.folder.path.length + 1;
         return 0;
@@ -630,7 +699,7 @@
             message: `Deleted “${item.name}”.`,
             undo: () => {
                 node.files.splice(Math.min(index, node.files.length), 0, item);
-                item.isNew = true;
+                item.arrival = { at: performance.now(), shown: false };
                 feedback = { message: `Restored “${item.name}”.` };
                 pendingFocus = () => document.querySelector(`[data-focus-key="file:${CSS.escape(item.id)}"]`);
                 go(fileUrl(node, item), { replace: true });
@@ -651,7 +720,7 @@
             const item = file(picked.name, Date.now(), signedInUser, picked.size);
             item.id = uniqueSlug(item.name, taken);
             taken.add(item.id);
-            item.isNew = true;
+            item.arrival = { at: performance.now(), shown: false };
             return item;
         });
         node.files.push(...added);

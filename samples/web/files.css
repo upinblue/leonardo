@@ -692,13 +692,24 @@ ul {
     --files-enter-from: calc(-1 * var(--leonardo-distance-enter-min));
 }
 
-/* Arrive: new and restored rows appear in place with a short accent marker. */
-.file-table tbody tr.is-new {
+/* Arrive: new and restored rows appear in place. A short accent bar at the start of the row stays for
+   arrive-hold and then fades out like an exit. When the row is drawn again during the hold, files.js
+   sets --files-arrived-for to the time already shown, so the bar continues instead of starting over. */
+.file-table tbody tr.is-arriving {
     animation: files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both;
 }
 
-.file-table tbody tr.is-new td:first-child {
-    box-shadow: inset var(--leonardo-space-xs) 0 0 var(--leonardo-accent);
+.file-table tbody tr.has-arrive-bar td:first-child::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(50% - var(--leonardo-size-icon) / 2);
+    inline-size: var(--leonardo-space-xs);
+    block-size: var(--leonardo-size-icon);
+    border-radius: var(--leonardo-radius-s);
+    background: var(--leonardo-accent);
+    animation: files-fade-out var(--leonardo-duration-short) var(--leonardo-ease-fade) both;
+    animation-delay: calc(var(--leonardo-arrive-hold) - var(--files-arrived-for, 0ms));
 }
 
 /* Leave: the row accelerates out and fades while doing so. */
@@ -732,8 +743,19 @@ ul {
     }
 }
 
+/* Place name: the only depth effect. While the page scrolls, the place name moves slower than the
+   content (parallax-place-name-factor) and shrinks toward the view size. files.js computes both from
+   the scroll position so that the heading never grows beyond its box: it only moves down by as much as
+   it has shrunk, so it can neither cover the breadcrumb above nor the summary below. */
+@media (prefers-reduced-motion: no-preference) {
+    .role-place-name {
+        transform-origin: 0 0;
+        transform: translateY(var(--files-place-shift, 0)) scale(var(--files-place-scale, 1));
+    }
+}
+
 /* Reduced motion: leonardo.css already turns durations into a short crossfade and distances into 0.
-   The chevron only changes its state, without turning. */
+   The chevron only changes its state, without turning, and the place name neither moves nor shrinks. */
 @media (prefers-reduced-motion: reduce) {
     .disclosure svg {
         transition: none;
@@ -791,7 +813,12 @@ ul {
         background: HighlightText;
     }
 
-    .file-table tbody tr.is-new td:first-child {
-        border-inline-start: var(--leonardo-space-xs) solid Highlight;
+    .file-table tbody tr.has-arrive-bar td:first-child::before {
+        forced-color-adjust: none;
+        background: Highlight;
+    }
+
+    .file-table tbody tr.is-current.has-arrive-bar td:first-child::before {
+        background: HighlightText;
     }
 }
