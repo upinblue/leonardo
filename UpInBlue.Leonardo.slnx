@@ -1,4 +1,12 @@
 <Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+    <Platform Name="ARM64" />
+  </Configurations>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
@@ -6,7 +14,12 @@
     <File Path="global.json" />
   </Folder>
   <Folder Name="/samples/">
-    <Project Path="samples/UpInBlue.Leonardo.Gallery/UpInBlue.Leonardo.Gallery.csproj" />
+    <Project Path="samples/UpInBlue.Leonardo.Gallery/UpInBlue.Leonardo.Gallery.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Platform Solution="*|ARM64" Project="ARM64" />
+    </Project>
     <Project Path="samples/UpInBlue.Leonardo.Gallery.Wpf/UpInBlue.Leonardo.Gallery.Wpf.csproj" />
   </Folder>
   <Folder Name="/src/">
