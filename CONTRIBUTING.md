@@ -16,8 +16,8 @@ decision. Bastian Wirth (up in blue) decides.
 
 ## Before you start
 
-- Requirements: Windows 11 and the .NET 10 SDK (see `global.json`). The Apple sample needs a Mac with the current
-  stable Xcode.
+- Requirements: Windows 11 and the .NET 10 SDK (see `global.json`). The Apple sample (stage 6b) needs a Mac with the
+  current stable Xcode.
 - Build, test and check the generated files:
 
   ```powershell
@@ -30,6 +30,12 @@ decision. Bastian Wirth (up in blue) decides.
 
   ```powershell
   dotnet run --project src/UpInBlue.Leonardo.Tokens -- check
+  ```
+
+- Check UI code for literal design values with the check tool:
+
+  ```powershell
+  dotnet run --project src/UpInBlue.Leonardo.Check -- src samples
   ```
 
 - Warnings are errors. A change is ready only when the build has no warnings and all tests pass.
@@ -94,4 +100,5 @@ The files in `brand/` and the names "up in blue" and "uib" are not covered by th
 
 ## License
 
-By contributing, you agree that your contribution is licensed under the [MIT License](LICENSE) of this repository.
+By contributing, you agree that your contribution is licensed under the [MIT License](LICENSE) of this repository
+("inbound = outbound"). There is no separate contributor license agreement and no sign-off requirement.
