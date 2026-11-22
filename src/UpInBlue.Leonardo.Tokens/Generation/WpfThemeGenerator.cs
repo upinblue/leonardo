@@ -9,6 +9,7 @@ internal static class WpfThemeGenerator
 {
     public const string AccentColorsPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/AccentColors.xaml";
     public const string TextStylesPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/TextStyles.xaml";
+    public const string HighContrastTextStylesPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/TextStyles.HighContrast.xaml";
 
     /// <summary>
     /// The weight of emphasis: the body role in semibold. The same as in WinUI.
@@ -50,10 +51,18 @@ internal static class WpfThemeGenerator
     /// Fluent style, so every property that WinUI inherits from <c>BodyTextBlockStyle</c> is set here. The values come from
     /// the token dictionary next to this one, which WPF only finds through <c>DynamicResource</c>.
     /// </summary>
-    public static GeneratedFile TextStyles(TokenCatalog catalog)
+    /// <param name="catalog">The tokens.</param>
+    /// <param name="highContrast">
+    /// For contrast themes: the styles set no <c>Foreground</c>, so text inherits the system color of its container, for
+    /// example of a selected list item, as Microsoft's guidance "Contrast themes" describes. The same split as the theme
+    /// dictionaries of the WinUI text styles; <c>Leonardo.HighContrast.xaml</c> merges this variant.
+    /// </param>
+    public static GeneratedFile TextStyles(TokenCatalog catalog, bool highContrast)
     {
         var writer = Begin();
-        writer.Line("<!-- Text styles of the type roles. Text wraps instead of being clipped. Values are DynamicResource references to the token dictionary of the active theme. -->");
+        writer.Line(highContrast
+            ? "<!-- Text styles of the type roles for contrast themes. They set no Foreground, so text inherits the system color of its container, for example of a selected list item. -->"
+            : "<!-- Text styles of the type roles. Text wraps instead of being clipped. Values are DynamicResource references to the token dictionary of the active theme. -->");
         var first = true;
         foreach (var role in catalog.TypeRoles)
         {
@@ -69,7 +78,7 @@ internal static class WpfThemeGenerator
 
             first = false;
             var name = Text.Pascal(role.Name);
-            var foreground = XamlGenerator.BrushKey(style.Color ?? "textPrimary");
+            var foreground = highContrast ? null : XamlGenerator.BrushKey(style.Color ?? "textPrimary");
             WriteStyle(writer, $"Leonardo{name}TextStyle", role.Name, style.FontWeight, foreground, tabular: false);
 
             if (role.Name == "body")
@@ -87,10 +96,10 @@ internal static class WpfThemeGenerator
             }
         }
 
-        return End(writer, TextStylesPath);
+        return End(writer, highContrast ? HighContrastTextStylesPath : TextStylesPath);
     }
 
-    private static void WriteStyle(CodeWriter writer, string key, string role, int weight, string foreground, bool tabular)
+    private static void WriteStyle(CodeWriter writer, string key, string role, int weight, string? foreground, bool tabular)
     {
         var prefix = $"Leonardo{Text.Pascal(role)}";
         writer.Line($"<Style x:Key=\"{key}\" TargetType=\"TextBlock\">").Indent();
@@ -99,7 +108,11 @@ internal static class WpfThemeGenerator
         writer.Line($"<Setter Property=\"LineHeight\" Value=\"{{DynamicResource {prefix}LineHeight}}\" />");
         writer.Line("<Setter Property=\"LineStackingStrategy\" Value=\"MaxHeight\" />");
         writer.Line($"<Setter Property=\"FontWeight\" Value=\"{FontWeight(weight)}\" />");
-        writer.Line($"<Setter Property=\"Foreground\" Value=\"{{DynamicResource {foreground}}}\" />");
+        if (foreground is not null)
+        {
+            writer.Line($"<Setter Property=\"Foreground\" Value=\"{{DynamicResource {foreground}}}\" />");
+        }
+
         writer.Line("<Setter Property=\"TextWrapping\" Value=\"Wrap\" />");
         writer.Line("<Setter Property=\"TextTrimming\" Value=\"None\" />");
         if (tabular)

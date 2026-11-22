@@ -56,11 +56,34 @@ internal static class WinUIThemeGenerator
     }
     /// <summary>
     /// The text styles of the type roles, plus emphasis (body in semibold) and variants with tabular figures for numbers in columns.
+    /// They live in theme dictionaries, as Microsoft's guidance "Contrast themes" describes for list items with colored text:
+    /// in light and dark (<c>Default</c>) they set the role's text color; in contrast themes (<c>HighContrast</c>) they set no
+    /// <c>Foreground</c>, so text inherits it from its container. A selected <c>ListViewItem</c> then gives its text
+    /// HighlightText on Highlight. Reference the styles with <c>ThemeResource</c> so they follow a theme change.
     /// </summary>
     public static GeneratedFile TextStyles(TokenCatalog catalog)
     {
         var writer = Begin();
-        writer.Line("<!-- Text styles of the type roles. Text wraps instead of being clipped. -->");
+        writer.Line("<!-- Text styles of the type roles. Text wraps instead of being clipped. Reference them with ThemeResource. -->");
+        writer.Line("<ResourceDictionary.ThemeDictionaries>").Indent();
+        writer.Line("<!-- Light and dark: every role sets its text color. -->");
+        writer.Line("<ResourceDictionary x:Key=\"Default\">").Indent();
+        WriteStyles(writer, catalog, withForeground: true);
+        writer.Outdent().Line("</ResourceDictionary>");
+        writer.Line();
+        writer.Line("<!--");
+        writer.Line("    Contrast themes: no Foreground, so text inherits the system color of its container, for example HighlightText in a");
+        writer.Line("    selected list item (Microsoft, \"Contrast themes\", list items with colored text).");
+        writer.Line("-->");
+        writer.Line("<ResourceDictionary x:Key=\"HighContrast\">").Indent();
+        WriteStyles(writer, catalog, withForeground: false);
+        writer.Outdent().Line("</ResourceDictionary>");
+        writer.Outdent().Line("</ResourceDictionary.ThemeDictionaries>");
+        return End(writer, TextStylesPath);
+    }
+
+    private static void WriteStyles(CodeWriter writer, TokenCatalog catalog, bool withForeground)
+    {
         var first = true;
         foreach (var role in catalog.TypeRoles)
         {
@@ -76,7 +99,7 @@ internal static class WinUIThemeGenerator
 
             first = false;
             var name = Text.Pascal(role.Name);
-            var foreground = XamlGenerator.BrushKey(style.Color ?? "textPrimary");
+            var foreground = withForeground ? XamlGenerator.BrushKey(style.Color ?? "textPrimary") : null;
             WriteStyle(writer, $"Leonardo{name}TextStyle", role.Name, style.FontWeight, foreground, tabular: false);
 
             if (role.Name == "body")
@@ -93,11 +116,9 @@ internal static class WinUIThemeGenerator
                 WriteStyle(writer, $"Leonardo{name}TabularTextStyle", role.Name, style.FontWeight, foreground, tabular: true);
             }
         }
-
-        return End(writer, TextStylesPath);
     }
 
-    private static void WriteStyle(CodeWriter writer, string key, string role, int weight, string foreground, bool tabular)
+    private static void WriteStyle(CodeWriter writer, string key, string role, int weight, string? foreground, bool tabular)
     {
         var prefix = $"Leonardo{Text.Pascal(role)}";
         writer.Line($"<Style x:Key=\"{key}\" TargetType=\"TextBlock\" BasedOn=\"{{StaticResource BodyTextBlockStyle}}\">").Indent();
@@ -105,7 +126,11 @@ internal static class WinUIThemeGenerator
         writer.Line($"<Setter Property=\"FontSize\" Value=\"{{StaticResource {prefix}FontSize}}\" />");
         writer.Line($"<Setter Property=\"LineHeight\" Value=\"{{StaticResource {prefix}LineHeight}}\" />");
         writer.Line($"<Setter Property=\"FontWeight\" Value=\"{FontWeight(weight, key)}\" />");
-        writer.Line($"<Setter Property=\"Foreground\" Value=\"{{ThemeResource {foreground}}}\" />");
+        if (foreground is not null)
+        {
+            writer.Line($"<Setter Property=\"Foreground\" Value=\"{{ThemeResource {foreground}}}\" />");
+        }
+
         writer.Line("<Setter Property=\"TextWrapping\" Value=\"Wrap\" />");
         if (tabular)
         {
