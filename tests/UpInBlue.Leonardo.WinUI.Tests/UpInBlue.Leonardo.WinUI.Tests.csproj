@@ -21,6 +21,10 @@
 
   <ItemGroup>
     <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Motion\MotionMath.cs" Link="Linked\MotionMath.cs" />
+    <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Controls\StatusKind.cs" Link="Linked\StatusKind.cs" />
+    <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Controls\SummaryLineItem.cs" Link="Linked\SummaryLineItem.cs" />
+    <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Controls\SummaryLineText.cs" Link="Linked\SummaryLineText.cs" />
+    <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Controls\PlaceHeaderMath.cs" Link="Linked\PlaceHeaderMath.cs" />
   </ItemGroup>
 
 </Project>

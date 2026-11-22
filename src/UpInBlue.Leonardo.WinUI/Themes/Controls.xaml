@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sizes of the Leonardo controls that layouts need to know, so that rows can keep the alignment line.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        The size of a StatusDot. It is an icon size, not spacing: the dot hangs left of a 16 epx icon in a column of 12,
+        so that list offset 4 + item padding 4 + 12 + icon 16 + space.xs 4 reaches the alignment line at 40 (space.xl).
+    -->
+    <x:Double x:Key="LeonardoStatusDotSize">12</x:Double>
+</ResourceDictionary>
