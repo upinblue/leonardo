@@ -15,6 +15,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
@@ -42,9 +43,41 @@
             Style="{StaticResource LeonardoPlaceNameTextStyle}"
             Text="Customers" />
 
+        <!-- Commands of the list. Sorting lets the rows glide to their new place (Reflow). -->
+        <CommandBar
+            Grid.Row="1"
+            Margin="{StaticResource LeonardoSpaceSRightThickness}"
+            HorizontalAlignment="Right"
+            DefaultLabelPosition="Right">
+            <AppBarButton Label="Sort" ToolTipService.ToolTip="Sort customers">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE8CB;" />
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                        <RadioMenuFlyoutItem
+                            Click="OnSortClicked"
+                            GroupName="CustomerSort"
+                            Tag="Name"
+                            Text="Name" />
+                        <RadioMenuFlyoutItem
+                            Click="OnSortClicked"
+                            GroupName="CustomerSort"
+                            Tag="City"
+                            Text="City" />
+                        <RadioMenuFlyoutItem
+                            Click="OnSortClicked"
+                            GroupName="CustomerSort"
+                            Tag="Newest"
+                            Text="Newest customers first" />
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+
         <ListView
             x:Name="CustomerList"
-            Grid.Row="1"
+            Grid.Row="2"
             Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
             AutomationProperties.Name="Customers"
             ItemContainerStyle="{StaticResource GalleryListViewItemStyle}"
@@ -52,6 +85,10 @@
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
             SelectionChanged="OnCustomerSelectionChanged"
             SelectionMode="Single">
+            <!-- Reflow animates sorting; the platform's own item transitions would animate it a second time. -->
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection />
+            </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:CustomerItem">
                     <Grid
@@ -82,7 +119,7 @@
 
         <!-- The form of the selected customer -->
         <ScrollViewer
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Grid.Column="1"
             AutomationProperties.Name="Customer details"
             Background="{ThemeResource LeonardoSurfaceAltBrush}">

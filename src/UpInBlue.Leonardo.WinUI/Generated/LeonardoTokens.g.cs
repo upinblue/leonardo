@@ -468,5 +468,10 @@ public static class LeonardoTokens
         /// The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks. Token: <c>motion.parallax.placeNameFactor</c>. Proposal, not final yet.
         /// </summary>
         public const double ParallaxPlaceNameFactor = 0.7d;
+
+        /// <summary>
+        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: <c>motion.arrive.hold</c>. Proposal, not final yet.
+        /// </summary>
+        public static readonly TimeSpan ArriveHold = TimeSpan.FromMilliseconds(2000d);
     }
 }

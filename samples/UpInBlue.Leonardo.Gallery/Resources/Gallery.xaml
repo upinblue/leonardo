@@ -52,6 +52,13 @@
     <x:Double x:Key="GalleryFigureWidth">200</x:Double>
     <x:Double x:Key="GalleryChartBarWidth">32</x:Double>
     <x:Double x:Key="GalleryGuideLineWidth">1</x:Double>
+
+    <!-- Easing curves on the Motion page: a square plot and the stroke of the curve. -->
+    <x:Double x:Key="GalleryCurveSize">120</x:Double>
+    <x:Double x:Key="GalleryCurveThickness">2</x:Double>
+
+    <!-- The accent marker of Arrive: a dot that hangs to the left of the icon, in a column as wide as space.s. -->
+    <x:Double x:Key="GalleryMarkerSize">8</x:Double>
     <Thickness x:Key="GalleryHairlineThickness">1</Thickness>
 
     <!--
@@ -68,6 +75,15 @@
     -->
     <Style x:Key="GalleryTableItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource GalleryListViewItemStyle}">
         <Setter Property="Padding" Value="{StaticResource LeonardoSpaceMHorizontalThickness}" />
+    </Style>
+
+    <!--
+        Table rows with a status column: icon and status dot hang left of the name. List offset space.xs + item padding
+        space.xs + icon 16 + status dot 12 + space.xs = 40, so the first text column stays on the alignment line.
+        The column header above the list uses the same padding.
+    -->
+    <Style x:Key="GalleryStatusTableItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource GalleryListViewItemStyle}">
+        <Setter Property="Padding" Value="{StaticResource LeonardoSpaceXSHorizontalThickness}" />
     </Style>
 
     <!-- Labels of label/value pairs, for example in details panes. -->

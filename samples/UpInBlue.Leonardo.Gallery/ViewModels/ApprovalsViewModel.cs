@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using UpInBlue.Leonardo.Gallery.Models;
+using UpInBlue.Leonardo.WinUI.Controls;
 
 namespace UpInBlue.Leonardo.Gallery.ViewModels;
 
@@ -56,6 +57,12 @@ public sealed partial class ApprovalRequest : ObservableObject
     /// <summary>The justification.</summary>
     public string Description { get; }
 
+    /// <summary>Whether the request arrived since the last visit.</summary>
+    public bool IsNew { get; init; }
+
+    /// <summary>Whether the row shows the "new" status dot: new and still waiting.</summary>
+    public bool ShowsNew => IsNew && IsWaiting;
+
     /// <summary>"Jonas Weber · Brenner Industries · Nov 19, 2026".</summary>
     public string Meta => $"{Requester} · {Company} · {Formats.Date(Submitted)}";
 
@@ -64,7 +71,7 @@ public sealed partial class ApprovalRequest : ObservableObject
 
     /// <summary>The decision.</summary>
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(StateText), nameof(StateGlyph), nameof(IsWaiting), nameof(DecisionText), nameof(AccessibleName))]
+    [NotifyPropertyChangedFor(nameof(StateText), nameof(StateGlyph), nameof(IsWaiting), nameof(ShowsNew), nameof(DecisionText), nameof(AccessibleName))]
     public partial ApprovalState State { get; set; }
 
     /// <summary>The optional comment for the requester.</summary>
@@ -99,7 +106,7 @@ public sealed partial class ApprovalRequest : ObservableObject
     };
 
     /// <summary>The text a screen reader reads for the list row.</summary>
-    public string AccessibleName => $"{Title}, {StateText}, {Meta}{(Amount is null ? string.Empty : $", {AmountText}")}";
+    public string AccessibleName => $"{Title}, {(ShowsNew ? "new, " : string.Empty)}{StateText}, {Meta}{(Amount is null ? string.Empty : $", {AmountText}")}";
 }
 
 /// <summary>
@@ -114,8 +121,8 @@ public sealed partial class ApprovalsViewModel : ObservableObject
     {
         Requests =
         [
-            new("Purchase order: 12 laptops", "Jonas Weber", "Brenner Industries", Day(19), 14_280m, "Replacement for the planning team. Three quotes compared; this is the lowest."),
-            new("Contract renewal 2027", "Lea Schmid", "Hofmann Logistics", Day(18), 96_000m, "Framework agreement for 2027 with unchanged conditions and a new service level appendix."),
+            new("Purchase order: 12 laptops", "Jonas Weber", "Brenner Industries", Day(19), 14_280m, "Replacement for the planning team. Three quotes compared; this is the lowest.") { IsNew = true },
+            new("Contract renewal 2027", "Lea Schmid", "Hofmann Logistics", Day(18), 96_000m, "Framework agreement for 2027 with unchanged conditions and a new service level appendix.") { IsNew = true },
             new("Vacation: December 22 to January 2", "Tim Kraus", "Internal", Day(17), null, "Team coverage is arranged with Anna Berg."),
             new("Travel: site visit in Leipzig", "Felix Okafor", "Kessler Construction", Day(16), 640.50m, "Train and one night at the hotel for the tender walkthrough."),
             new("Software subscription: diagram tool", "Mara Lindqvist", "Internal", Day(14), 1_188m, "Annual licence for five users."),
@@ -127,12 +134,79 @@ public sealed partial class ApprovalsViewModel : ObservableObject
                 if (e.PropertyName == nameof(ApprovalRequest.State))
                 {
                     OnPropertyChanged(nameof(WaitingSummary));
+                    UpdateSummary();
                 }
             };
         }
 
+        Shown = new ObservableCollection<ApprovalRequest>(Requests);
+        NewItem = new SummaryLineItem { Kind = SummaryKind.New, Command = FilterCommand };
+        WaitingItem = new SummaryLineItem { Kind = SummaryKind.Custom, Label = "request waiting for you", PluralLabel = "requests waiting for you", Command = FilterCommand };
+        Summary = [NewItem, WaitingItem];
+        UpdateSummary();
         Selected = Requests[0];
     }
+
+    /// <summary>
+    /// Raised when a filter of the summary line was turned on or off. The view calls <see cref="ApplyFilter"/>, so that it can animate the change.
+    /// </summary>
+    public event EventHandler? FilterRequested;
+
+    /// <summary>The requests that match the active filters.</summary>
+    public ObservableCollection<ApprovalRequest> Shown { get; }
+
+    /// <summary>"In your inbox: 2 new · 4 requests waiting for you". Each phrase filters the list.</summary>
+    public ObservableCollection<SummaryLineItem> Summary { get; }
+
+    /// <summary>The "new" phrase.</summary>
+    public SummaryLineItem NewItem { get; }
+
+    /// <summary>The "waiting for you" phrase.</summary>
+    public SummaryLineItem WaitingItem { get; }
+
+    /// <summary>Whether nothing is waiting, so the summary line hides itself and a sentence says so.</summary>
+    public bool IsInboxEmpty => !SummaryLineText.IsVisible(Summary);
+
+    /// <summary>
+    /// Shows the requests that match the active filters, keeping their order. Without an active filter, all requests show.
+    /// Decided requests stay until the filter changes again, so the request in the details pane never disappears from the list.
+    /// </summary>
+    public void ApplyFilter()
+    {
+        var wanted = Requests.Where(Matches).ToList();
+        foreach (var request in Shown.Except(wanted).ToList())
+        {
+            Shown.Remove(request);
+        }
+
+        for (var index = 0; index < wanted.Count; index++)
+        {
+            if (index >= Shown.Count || !ReferenceEquals(Shown[index], wanted[index]))
+            {
+                Shown.Insert(index, wanted[index]);
+            }
+        }
+    }
+
+    private bool Matches(ApprovalRequest request)
+    {
+        if (!NewItem.IsActive && !WaitingItem.IsActive)
+        {
+            return true;
+        }
+
+        return (NewItem.IsActive && request.ShowsNew) || (WaitingItem.IsActive && request.IsWaiting);
+    }
+
+    private void UpdateSummary()
+    {
+        NewItem.Count = Requests.Count(request => request.ShowsNew);
+        WaitingItem.Count = Requests.Count(request => request.IsWaiting);
+        OnPropertyChanged(nameof(IsInboxEmpty));
+    }
+
+    [RelayCommand]
+    private void Filter() => FilterRequested?.Invoke(this, EventArgs.Empty);
 
     /// <summary>The requests, newest first.</summary>
     public ObservableCollection<ApprovalRequest> Requests { get; }

@@ -57,9 +57,31 @@
                         <FontIcon Glyph="&#xE80A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                <NavigationViewItem Content="Motion" Tag="motion">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE916;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="Fallbacks" Tag="fallbacks">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE776;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItemHeader Content="Controls" />
+                <NavigationViewItem Content="Place header" Tag="placeheader">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7C3;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Summary line" Tag="summaryline">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8FD;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Status dot" Tag="statusdot">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA3A;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

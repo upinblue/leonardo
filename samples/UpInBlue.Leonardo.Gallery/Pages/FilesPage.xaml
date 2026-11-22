@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
     xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:leonardo="using:UpInBlue.Leonardo.WinUI.Controls"
     xmlns:models="using:UpInBlue.Leonardo.Gallery.Models"
     xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
 
@@ -94,7 +95,7 @@
                         <FontIcon Glyph="&#xE72D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Command="{x:Bind ViewModel.DeleteCommand}" Label="Delete">
+                <AppBarButton Click="OnDeleteClicked" Label="Delete">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xE74D;" />
                     </AppBarButton.Icon>
@@ -113,18 +114,25 @@
 
             <!-- Where am I: the path above the place name. -->
             <BreadcrumbBar
+                x:Name="Breadcrumb"
                 Grid.Row="1"
                 Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
                 AutomationProperties.Name="Folder path"
                 ItemClicked="OnBreadcrumbClicked"
-                ItemsSource="{x:Bind ViewModel.SelectedFolder.Trail, Mode=OneWay}" />
+                ItemsSource="{x:Bind ViewModel.Folder.Trail}" />
 
-            <TextBlock
+            <!-- Where am I, and what happened since the last visit. Shrinks to a compact line when the list scrolls. -->
+            <leonardo:PlaceHeader
+                x:Name="PlaceHeader"
                 Grid.Row="2"
                 Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
-                AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
-                Text="{x:Bind ViewModel.SelectedFolder.Name, Mode=OneWay}" />
+                ScrollSource="{x:Bind FileList}"
+                Title="{x:Bind ViewModel.Folder.Name}">
+                <leonardo:SummaryLine
+                    Margin="{StaticResource LeonardoSpaceSTopThickness}"
+                    Items="{x:Bind ViewModel.Summary}"
+                    Prefix="Since your last visit:" />
+            </leonardo:PlaceHeader>
 
             <!-- What just happened: shown where it happened, with undo. -->
             <StackPanel
@@ -140,7 +148,7 @@
                     Style="{StaticResource LeonardoBodyTextStyle}"
                     Text="{x:Bind ViewModel.Feedback, Mode=OneWay}" />
                 <HyperlinkButton
-                    Command="{x:Bind ViewModel.UndoCommand}"
+                    Click="OnUndoClicked"
                     Content="Undo"
                     Visibility="{x:Bind helpers:Show.When(ViewModel.CanUndo), Mode=OneWay}" />
             </StackPanel>
@@ -151,14 +159,21 @@
                 Margin="{StaticResource LeonardoSpaceXLTopThickness}"
                 Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
                 AutomationProperties.Name="Files"
-                ItemContainerStyle="{StaticResource GalleryTableItemStyle}"
-                ItemsSource="{x:Bind ViewModel.SelectedFolder.Files, Mode=OneWay}"
+                ItemContainerStyle="{StaticResource GalleryStatusTableItemStyle}"
+                DoubleTapped="OnFileListDoubleTapped"
+                ItemsSource="{x:Bind ViewModel.Entries}"
+                PreviewKeyDown="OnFileListPreviewKeyDown"
                 SelectionChanged="OnFileSelectionChanged"
                 SizeChanged="OnFileListSizeChanged"
                 SelectionMode="Single">
+                <!-- Leave and Reflow animate deletions; the platform's own item transitions would animate them a second time. -->
+                <ListView.ItemContainerTransitions>
+                    <TransitionCollection />
+                </ListView.ItemContainerTransitions>
                 <ListView.Header>
+                    <!-- Same padding as the rows; the icon and status columns hang left of "Name". -->
                     <Grid
-                        Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                        Padding="{StaticResource LeonardoSpaceXSHorizontalThickness}"
                         AutomationProperties.AccessibilityView="Raw"
                         ColumnSpacing="{StaticResource LeonardoSpaceM}">
                         <Grid.ColumnDefinitions>
@@ -167,9 +182,13 @@
                             <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.PersonWidth, Mode=OneWay}" />
                             <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                        <StackPanel Orientation="Horizontal">
                             <Border Width="{StaticResource GalleryIconSize}" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Name" />
+                            <Border Width="{StaticResource LeonardoStatusDotSize}" />
+                            <TextBlock
+                                Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                                Style="{StaticResource LeonardoMetaTextStyle}"
+                                Text="Name" />
                         </StackPanel>
                         <TextBlock Grid.Column="1" Visibility="{x:Bind vm:TableColumns.Files.DateVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified" />
                         <TextBlock Grid.Column="2" Visibility="{x:Bind vm:TableColumns.Files.PersonVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified by" />
@@ -213,28 +232,57 @@
                             </Grid.ColumnDefinitions>
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        Click="OnOpenClicked"
+                                        Text="Open"
+                                        Visibility="{x:Bind helpers:Show.When(IsFolder)}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8DA;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem Click="OnShareClicked" Text="Share">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE72D;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="OnDeleteClicked" Text="Delete">
+                                    <MenuFlyoutItem
+                                        Click="OnDeleteClicked"
+                                        Text="Delete"
+                                        Visibility="{x:Bind helpers:Show.Unless(IsFolder)}">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE74D;" />
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
-                            <Grid VerticalAlignment="Center" ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                            <!-- Icon and status dot hang left of the alignment line: 4 + 4 + 16 + 12 + 4 = 40.
+                                 The dot sits next to the name, away from the selection indicator at the left edge. -->
+                            <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid
+                                    Grid.Column="1"
+                                    Width="{StaticResource LeonardoStatusDotSize}"
+                                    Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                    VerticalAlignment="Top">
+                                    <leonardo:StatusDot
+                                        Description="{x:Bind StatusDescription}"
+                                        Kind="{x:Bind StatusValue}"
+                                        Visibility="{x:Bind helpers:Show.When(HasStatus)}" />
+                                </Grid>
                                 <FontIcon
                                     VerticalAlignment="Top"
                                     FontSize="{StaticResource GalleryIconSize}"
                                     Glyph="{x:Bind Glyph}" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                                <TextBlock
+                                    x:Name="EntryName"
+                                    Grid.Column="2"
+                                    Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                                    Style="{StaticResource LeonardoBodyTextStyle}"
+                                    Text="{x:Bind Name}" />
                             </Grid>
                             <TextBlock
                                 Grid.Column="1"
@@ -270,36 +318,52 @@
             <StackPanel Padding="{StaticResource LeonardoSpaceLThickness}" Spacing="{StaticResource LeonardoSpaceM}">
                 <TextBlock
                     Style="{StaticResource LeonardoBodyTextStyle}"
-                    Text="Select a file to see its details."
-                    Visibility="{x:Bind helpers:Show.UnlessSet(ViewModel.SelectedFile), Mode=OneWay}" />
+                    Text="Select a file or folder to see its details."
+                    Visibility="{x:Bind helpers:Show.Unless(ViewModel.HasSelection), Mode=OneWay}" />
 
-                <StackPanel Spacing="{StaticResource LeonardoSpaceM}" Visibility="{x:Bind helpers:Show.WhenSet(ViewModel.SelectedFile), Mode=OneWay}">
+                <StackPanel Spacing="{StaticResource LeonardoSpaceM}" Visibility="{x:Bind helpers:Show.When(ViewModel.HasSelection), Mode=OneWay}">
                     <FontIcon
                         HorizontalAlignment="Left"
                         FontSize="{StaticResource GalleryLargeIconSize}"
-                        Glyph="{x:Bind ViewModel.SelectedFile.Glyph, Mode=OneWay, FallbackValue=''}" />
+                        Glyph="{x:Bind ViewModel.SelectedEntry.Glyph, Mode=OneWay, FallbackValue=''}" />
                     <StackPanel>
                         <TextBlock
                             AutomationProperties.HeadingLevel="Level2"
                             Style="{StaticResource LeonardoSectionTextStyle}"
-                            Text="{x:Bind ViewModel.SelectedFile.Name, Mode=OneWay, FallbackValue=''}" />
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SelectedFile.Kind, Mode=OneWay, FallbackValue=''}" />
+                            Text="{x:Bind ViewModel.SelectedEntry.Name, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.Kind, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel Visibility="{x:Bind helpers:Show.When(ViewModel.SelectedHasStatus), Mode=OneWay}">
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Status" />
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                            <leonardo:StatusDot
+                                VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Description="{x:Bind ViewModel.SelectedEntry.StatusDescription, Mode=OneWay, FallbackValue=''}"
+                                Kind="{x:Bind ViewModel.SelectedEntry.StatusValue, Mode=OneWay}" />
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.StatusDescription, Mode=OneWay, FallbackValue=''}" />
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Modified" />
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.ModifiedLongText, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.ModifiedLongText, Mode=OneWay, FallbackValue=''}" />
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Modified by" />
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.ModifiedBy, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.ModifiedBy, Mode=OneWay, FallbackValue=''}" />
                     </StackPanel>
-                    <StackPanel>
+                    <Button
+                        Click="OnOpenClicked"
+                        Content="Open folder"
+                        Style="{StaticResource AccentButtonStyle}"
+                        Visibility="{x:Bind helpers:Show.When(ViewModel.IsFolderSelected), Mode=OneWay}" />
+                    <StackPanel Visibility="{x:Bind helpers:Show.When(ViewModel.IsFileSelected), Mode=OneWay}">
                         <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Size" />
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.SizeText, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.SizeText, Mode=OneWay, FallbackValue=''}" />
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Location" />
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.Location, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.Location, Mode=OneWay, FallbackValue=''}" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

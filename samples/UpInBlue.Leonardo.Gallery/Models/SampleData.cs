@@ -1,3 +1,5 @@
+using UpInBlue.Leonardo.WinUI.Controls;
+
 namespace UpInBlue.Leonardo.Gallery.Models;
 
 /// <summary>
@@ -29,16 +31,16 @@ public static class SampleData
                 [
                     new FolderNode("Contracts", hofmann, files:
                     [
-                        new("Framework agreement 2026.docx", "Word document", Word, At(18, 10, 42), "Lea Schmid", 248_310, $"{hofmann} / Contracts"),
-                        new("Rahmenvertragsverlängerungsvereinbarung 2027.docx", "Word document", Word, At(19, 16, 5), "Anna Berg", 194_880, $"{hofmann} / Contracts"),
-                        new("Price list 2027.xlsx", "Excel workbook", Sheet, At(17, 9, 12), "Jonas Weber", 88_412, $"{hofmann} / Contracts"),
+                        new("Framework agreement 2026.docx", "Word document", Word, At(18, 10, 42), "Lea Schmid", 248_310, $"{hofmann} / Contracts") { Status = StatusKind.New, StatusDescription = "New since your last visit" },
+                        new("Rahmenvertragsverlängerungsvereinbarung 2027.docx", "Word document", Word, At(19, 16, 5), "Anna Berg", 194_880, $"{hofmann} / Contracts") { Status = StatusKind.CheckedOut, StatusDescription = "Checked out by Anna Berg" },
+                        new("Price list 2027.xlsx", "Excel workbook", Sheet, At(17, 9, 12), "Jonas Weber", 88_412, $"{hofmann} / Contracts") { Status = StatusKind.New, StatusDescription = "New since your last visit" },
                         new("Signed framework agreement 2025.pdf", "PDF document", Pdf, At(3, 11, 30), "Tim Kraus", 1_284_002, $"{hofmann} / Contracts"),
-                        new("Service level appendix.docx", "Word document", Word, At(12, 14, 18), "Lea Schmid", 61_740, $"{hofmann} / Contracts"),
+                        new("Service level appendix.docx", "Word document", Word, At(12, 14, 18), "Lea Schmid", 61_740, $"{hofmann} / Contracts") { Status = StatusKind.Conflict, StatusDescription = "Sync conflict: Lea Schmid and Jonas Weber changed this file at the same time" },
                     ]),
                     new FolderNode("Invoices", hofmann, files:
                     [
                         new("Invoice 2026-118.pdf", "PDF document", Pdf, At(15, 8, 55), "Mara Lindqvist", 402_118, $"{hofmann} / Invoices"),
-                        new("Invoice 2026-119.pdf", "PDF document", Pdf, At(20, 8, 40), "Mara Lindqvist", 398_204, $"{hofmann} / Invoices"),
+                        new("Invoice 2026-119.pdf", "PDF document", Pdf, At(20, 8, 40), "Mara Lindqvist", 398_204, $"{hofmann} / Invoices") { Status = StatusKind.New, StatusDescription = "New since your last visit" },
                     ]),
                 ])
             {
@@ -49,7 +51,7 @@ public static class SampleData
                     new FolderNode("Plant expansion", brenner, files:
                     [
                         new("Site plan hall 4.pdf", "PDF document", Pdf, At(14, 13, 20), "Felix Okafor", 5_402_331, $"{brenner} / Plant expansion"),
-                        new("Cost estimate.xlsx", "Excel workbook", Sheet, At(16, 17, 2), "Jonas Weber", 120_554, $"{brenner} / Plant expansion"),
+                        new("Cost estimate.xlsx", "Excel workbook", Sheet, At(16, 17, 2), "Jonas Weber", 120_554, $"{brenner} / Plant expansion") { Status = StatusKind.CheckedOut, StatusDescription = "Checked out by Jonas Weber" },
                         new("Photo foundation.jpg", "JPEG image", Picture, At(11, 10, 15), "Felix Okafor", 3_120_448, $"{brenner} / Plant expansion"),
                     ]),
                 ]),

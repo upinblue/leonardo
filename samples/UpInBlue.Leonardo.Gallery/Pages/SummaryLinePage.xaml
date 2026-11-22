@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.SummaryLinePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:leonardo="using:UpInBlue.Leonardo.WinUI.Controls">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <leonardo:PlaceHeader
+            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Padding="{StaticResource LeonardoSpaceLTopThickness}"
+            Meta="Leonardo controls"
+            ScrollSource="{x:Bind Scroller}"
+            Title="Summary line" />
+
+        <ScrollViewer x:Name="Scroller" Grid.Row="1">
+            <StackPanel
+                MaxWidth="{StaticResource GalleryReadingWidth}"
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Padding="{StaticResource LeonardoSpaceXLVerticalThickness}"
+                HorizontalAlignment="Left"
+                Spacing="{StaticResource LeonardoSpaceXL}">
+                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="A summary line says in one sentence what just happened. Each phrase is a filter you can turn on and off. Phrases with nothing to count are left out, and the line hides itself when there is nothing to say." />
+
+                <!-- Try it -->
+                <StackPanel Spacing="{StaticResource LeonardoSpaceM}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Try it" />
+                    <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceM}">
+                        <NumberBox
+                            Header="New"
+                            Maximum="999"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{x:Bind ViewModel.NewCount, Mode=TwoWay}" />
+                        <NumberBox
+                            Header="Checked out"
+                            Maximum="999"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{x:Bind ViewModel.CheckedOutCount, Mode=TwoWay}" />
+                        <NumberBox
+                            Header="Conflicts"
+                            Maximum="999"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{x:Bind ViewModel.ConflictCount, Mode=TwoWay}" />
+                    </StackPanel>
+                    <leonardo:SummaryLine
+                        x:Name="TrySummary"
+                        Items="{x:Bind ViewModel.Items}"
+                        Prefix="Since your last visit:" />
+                    <TextBlock
+                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Text="All counts are 0, so the summary line hides itself."
+                        Visibility="{x:Bind helpers:Show.When(ViewModel.IsHidden), Mode=OneWay}" />
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Text="{x:Bind ViewModel.FilterText, Mode=OneWay}" />
+                </StackPanel>
+
+                <!-- States -->
+                <StackPanel Spacing="{StaticResource LeonardoSpaceM}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="States" />
+
+                    <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Every phrase" />
+                        <leonardo:SummaryLine Items="{x:Bind ViewModel.AllPhrases}" Prefix="Since your last visit:" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="A filter is on" />
+                        <leonardo:SummaryLine Items="{x:Bind ViewModel.ActivePhrase}" Prefix="Since your last visit:" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Phrases with their own words" />
+                        <leonardo:SummaryLine Items="{x:Bind ViewModel.CustomPhrases}" Prefix="In your inbox:" />
+                    </StackPanel>
+
+                    <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Narrow space: the sentence wraps" />
+                        <leonardo:SummaryLine
+                            Width="{StaticResource GalleryWrapSampleWidth}"
+                            HorizontalAlignment="Left"
+                            Items="{x:Bind ViewModel.AllPhrases}"
+                            Prefix="Since your last visit to Rahmenvertragsverlängerungsvereinbarungen:" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Accessibility -->
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Keyboard and screen readers" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Every phrase is a standard toggle button: Tab moves between them, Space turns a filter on or off. Screen readers read the whole sentence as the name of the group, then each phrase with its state. Changes are announced politely." />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Screen readers hear the sentence above as:" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind SpokenSentence, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

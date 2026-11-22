@@ -1,10 +1,13 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using UpInBlue.Leonardo.Gallery.ViewModels;
+using UpInBlue.Leonardo.WinUI.Motion;
 
 namespace UpInBlue.Leonardo.Gallery.Pages;
 
 /// <summary>
-/// The Approvals scenario: an inbox of requests to approve or reject.
+/// The Approvals scenario: an inbox of requests to approve or reject. The pressed decision button transforms into
+/// the panel that confirms the decision, and Undo transforms the panel back into the buttons.
 /// </summary>
 public sealed partial class ApprovalsPage : Page
 {
@@ -14,6 +17,8 @@ public sealed partial class ApprovalsPage : Page
     public ApprovalsPage()
     {
         InitializeComponent();
+        Loaded += (_, _) => ViewModel.FilterRequested += OnFilterRequested;
+        Unloaded += (_, _) => ViewModel.FilterRequested -= OnFilterRequested;
     }
 
     /// <summary>
@@ -27,5 +32,32 @@ public sealed partial class ApprovalsPage : Page
         {
             ViewModel.Selected = request;
         }
+    }
+
+    /// <summary>
+    /// A phrase of the summary line was turned on or off: the requests that stay glide to their place.
+    /// </summary>
+    private void OnFilterRequested(object? sender, EventArgs e)
+    {
+        var reflow = Reflow.Capture(RequestList);
+        ViewModel.ApplyFilter();
+        RequestList.SelectedItem = ViewModel.Shown.Contains(ViewModel.Selected) ? ViewModel.Selected : null;
+        reflow.Play();
+    }
+
+    private void OnApproveClicked(object sender, RoutedEventArgs e) => Decide(ApproveButton, ViewModel.ApproveCommand);
+
+    private void OnRejectClicked(object sender, RoutedEventArgs e) => Decide(RejectButton, ViewModel.RejectCommand);
+
+    private void Decide(Button pressed, System.Windows.Input.ICommand command)
+    {
+        Transform.Run(pressed, DecisionPanel, () => command.Execute(null));
+        UndoDecisionButton.Focus(FocusState.Programmatic);
+    }
+
+    private void OnUndoClicked(object sender, RoutedEventArgs e)
+    {
+        Transform.Run(DecisionPanel, WaitingPanel, () => ViewModel.UndoCommand.Execute(null));
+        ApproveButton.Focus(FocusState.Programmatic);
     }
 }

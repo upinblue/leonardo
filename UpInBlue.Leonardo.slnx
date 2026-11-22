@@ -16,5 +16,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/UpInBlue.Leonardo.Tokens.Tests/UpInBlue.Leonardo.Tokens.Tests.csproj" />
+    <Project Path="tests/UpInBlue.Leonardo.WinUI.Tests/UpInBlue.Leonardo.WinUI.Tests.csproj" />
   </Folder>
 </Solution>
