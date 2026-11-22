@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.PlaceHeaderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
+    xmlns:leonardo="using:UpInBlue.Leonardo.WinUI.Controls"
+    xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- The header of this page is the live example: scroll the content below. -->
+        <leonardo:PlaceHeader
+            x:Name="Header"
+            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Padding="{StaticResource LeonardoSpaceLTopThickness}"
+            Meta="Leonardo controls"
+            ScrollSource="{x:Bind Scroller}"
+            Title="Place header">
+            <leonardo:SummaryLine
+                Margin="{StaticResource LeonardoSpaceSTopThickness}"
+                Items="{x:Bind ViewModel.Summary}"
+                Prefix="Since your last visit:" />
+        </leonardo:PlaceHeader>
+
+        <ScrollViewer x:Name="Scroller" Grid.Row="1">
+            <StackPanel Padding="{StaticResource LeonardoSpaceXLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
+                <StackPanel
+                    MaxWidth="{StaticResource GalleryReadingWidth}"
+                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    HorizontalAlignment="Left"
+                    Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="The place name answers “Where am I?” like a station sign: large and light at the top of the view, with a meta line above it and room for a summary line below. It is the level 1 heading of the view." />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Scroll this page. First the title moves up a little more slowly than the content, the only depth effect Leonardo allows. Then the header shrinks to a compact line, and the content keeps its place. Back at the top, the header grows again. With animations off, there is no parallax and no animation." />
+                    <TextBlock
+                        AutomationProperties.LiveSetting="Polite"
+                        Style="{StaticResource LeonardoBodyStrongTextStyle}"
+                        Text="{x:Bind HeaderState(Header.IsCompact), Mode=OneWay}" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock
+                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource LeonardoSectionTextStyle}"
+                        Text="Long titles" />
+                    <TextBlock
+                        MaxWidth="{StaticResource GalleryReadingWidth}"
+                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Text="Titles wrap instead of being clipped. This header has no scroll source, so it stays large." />
+                    <leonardo:PlaceHeader
+                        Width="{StaticResource GalleryWrapSampleWidth}"
+                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        HorizontalAlignment="Left"
+                        AutomationProperties.AccessibilityView="Raw"
+                        Meta="Hofmann Logistics / Contracts"
+                        Title="Rahmenvertragsverlängerungsvereinbarungen" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock
+                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        AutomationProperties.HeadingLevel="Level2"
+                        Style="{StaticResource LeonardoSectionTextStyle}"
+                        Text="Recent documents" />
+                    <ItemsControl Margin="{StaticResource LeonardoSpaceXSLeftThickness}" ItemsSource="{x:Bind ViewModel.Rows}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:PlaceHeaderRow">
+                                <StackPanel
+                                    MinHeight="{x:Bind gallery:App.Settings.RowHeight, Mode=OneWay}"
+                                    Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                                    Orientation="Horizontal"
+                                    Spacing="{StaticResource LeonardoSpaceXS}">
+                                    <FontIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="{StaticResource GalleryIconSize}"
+                                        Glyph="&#xE8A5;" />
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

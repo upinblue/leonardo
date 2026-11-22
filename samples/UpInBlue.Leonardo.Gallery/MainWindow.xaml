@@ -68,6 +68,23 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
+                <NavigationViewItemHeader Content="Controls" />
+                <NavigationViewItem Content="Place header" Tag="placeheader">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7C3;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Summary line" Tag="summaryline">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8FD;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="Status dot" Tag="statusdot">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEA3A;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
                 <NavigationViewItemHeader Content="Scenarios" />
                 <NavigationViewItem Content="Files" Tag="files">
                     <NavigationViewItem.Icon>

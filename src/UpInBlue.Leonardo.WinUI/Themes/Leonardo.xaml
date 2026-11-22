@@ -7,7 +7,8 @@
         <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Leonardo.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    It adds the token resources (Leonardo…), the accent ramp (SystemAccentColor…) and the text styles of the type roles.
+    It adds the token resources (Leonardo…), the accent ramp (SystemAccentColor…), the text styles of the type roles and
+    the sizes the Leonardo controls (PlaceHeader, SummaryLine, StatusDot) share with layouts.
     It does not change any other Fluent resource.
 -->
 <ResourceDictionary
@@ -17,5 +18,6 @@
         <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/Tokens.xaml" />
         <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/AccentColors.xaml" />
         <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/TextStyles.xaml" />
+        <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

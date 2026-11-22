@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
     xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:leonardo="using:UpInBlue.Leonardo.WinUI.Controls"
     xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
 
     <!-- Inbox: the list of requests is flexible, the details of the selected request are fixed. -->
@@ -35,42 +36,72 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Padding="{StaticResource LeonardoSpaceLVerticalThickness}">
-            <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="Approvals" />
-            <TextBlock
-                AutomationProperties.LiveSetting="Polite"
-                Style="{StaticResource LeonardoBodyTextStyle}"
-                Text="{x:Bind ViewModel.WaitingSummary, Mode=OneWay}" />
-        </StackPanel>
+        <!-- Where am I, and what is waiting. Shrinks to a compact line when the list scrolls. -->
+        <leonardo:PlaceHeader
+            x:Name="PlaceHeader"
+            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Padding="{StaticResource LeonardoSpaceLVerticalThickness}"
+            ScrollSource="{x:Bind RequestList}"
+            Title="Approvals">
+            <StackPanel Margin="{StaticResource LeonardoSpaceSTopThickness}">
+                <leonardo:SummaryLine Items="{x:Bind ViewModel.Summary}" Prefix="In your inbox:" />
+                <TextBlock
+                    AutomationProperties.LiveSetting="Polite"
+                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Text="Nothing is waiting for you."
+                    Visibility="{x:Bind helpers:Show.When(ViewModel.IsInboxEmpty), Mode=OneWay}" />
+            </StackPanel>
+        </leonardo:PlaceHeader>
 
         <ListView
             x:Name="RequestList"
             Grid.Row="1"
             Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
             AutomationProperties.Name="Requests"
-            ItemContainerStyle="{StaticResource GalleryTableItemStyle}"
-            ItemsSource="{x:Bind ViewModel.Requests}"
+            ItemContainerStyle="{StaticResource GalleryStatusTableItemStyle}"
+            ItemsSource="{x:Bind ViewModel.Shown}"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
             SelectionChanged="OnRequestSelectionChanged"
             SelectionMode="Single">
+            <!-- Reflow animates filtering; the platform's own item transitions would animate it a second time. -->
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection />
+            </ListView.ItemContainerTransitions>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ApprovalRequest">
                     <Grid
                         MinHeight="{x:Bind gallery:App.Settings.RowHeight, Mode=OneWay}"
                         Padding="{StaticResource LeonardoSpaceXSVerticalThickness}"
-                        AutomationProperties.Name="{x:Bind AccessibleName, Mode=OneWay}"
-                        ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                        AutomationProperties.Name="{x:Bind AccessibleName, Mode=OneWay}">
+                        <!-- Icon and status dot hang left of the alignment line: 4 + 4 + 16 + 12 + 4 = 40.
+                             The dot sits next to the title, away from the selection indicator at the left edge. -->
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        <Grid
+                            Grid.Column="1"
+                            Width="{StaticResource LeonardoStatusDotSize}"
+                            Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                            VerticalAlignment="Top">
+                            <leonardo:StatusDot
+                                Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                Description="New since your last visit"
+                                Kind="New"
+                                Visibility="{x:Bind helpers:Show.When(ShowsNew), Mode=OneWay}" />
+                        </Grid>
                         <FontIcon
+                            Grid.Column="0"
                             Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                             VerticalAlignment="Top"
                             FontSize="{StaticResource GalleryIconSize}"
                             Glyph="{x:Bind StateGlyph, Mode=OneWay}" />
-                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <StackPanel
+                            Grid.Column="2"
+                            Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                            VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Title}" />
                             <TextBlock Style="{StaticResource LeonardoMetaTextStyle}">
                                 <Run Text="{x:Bind StateText, Mode=OneWay}" />
@@ -79,7 +110,7 @@
                             </TextBlock>
                         </StackPanel>
                         <TextBlock
-                            Grid.Column="2"
+                            Grid.Column="3"
                             Margin="{StaticResource LeonardoSpaceMLeftThickness}"
                             VerticalAlignment="Center"
                             Style="{StaticResource LeonardoBodyTabularTextStyle}"

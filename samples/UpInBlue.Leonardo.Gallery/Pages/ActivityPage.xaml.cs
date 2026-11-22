@@ -1,15 +1,15 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Shapes;
 using UpInBlue.Leonardo.Gallery.Helpers;
 using UpInBlue.Leonardo.Gallery.ViewModels;
+using UpInBlue.Leonardo.WinUI.Controls;
 using UpInBlue.Leonardo.WinUI.Motion;
 
 namespace UpInBlue.Leonardo.Gallery.Pages;
 
 /// <summary>
-/// The Activity scenario: a timeline of events. New events arrive at the top of today with a short accent marker,
-/// the events below make room, and screen readers announce the new event.
+/// The Activity scenario: a timeline of events with a summary of what happened since the last visit. New events arrive
+/// at the top of today with a short accent marker, the events below make room, and screen readers announce the new event.
 /// </summary>
 public sealed partial class ActivityPage : Page
 {
@@ -19,6 +19,8 @@ public sealed partial class ActivityPage : Page
     public ActivityPage()
     {
         InitializeComponent();
+        Loaded += (_, _) => ViewModel.FilterRequested += OnFilterRequested;
+        Unloaded += (_, _) => ViewModel.FilterRequested -= OnFilterRequested;
     }
 
     /// <summary>
@@ -26,16 +28,28 @@ public sealed partial class ActivityPage : Page
     /// </summary>
     public ActivityViewModel ViewModel { get; } = new();
 
+    private ItemsControl[] Lists()
+        => [DayList, .. Enumerable.Range(0, ViewModel.Days.Count)
+            .Select(index => VisualTree.FindDescendant<ItemsControl>(DayList.ContainerFromIndex(index), "EventList"))
+            .OfType<ItemsControl>()];
+
+    private void OnFilterRequested(object? sender, EventArgs e)
+    {
+        var reflow = Reflow.Capture(Lists());
+        ViewModel.ApplyFilter();
+        reflow.Play();
+    }
+
     private void OnSimulateEventClicked(object sender, RoutedEventArgs e)
     {
         var today = VisualTree.FindDescendant<ItemsControl>(DayList.ContainerFromIndex(0), "EventList");
-        var reflow = today is null ? Reflow.Capture(DayList) : Reflow.Capture(DayList, today);
+        var reflow = Reflow.Capture(Lists());
         var added = ViewModel.AddEvent();
         reflow.Play();
 
-        if (today?.ContainerFromItem(added) is UIElement container)
+        if (added is not null && today?.ContainerFromItem(added) is UIElement container)
         {
-            Arrive.Run(container, VisualTree.FindDescendant<Ellipse>(container, "ArriveMarker"), $"New event: {added.Text}");
+            Arrive.Run(container, VisualTree.FindDescendant<StatusDot>(container, "ArriveMarker"), $"New event: {added.Text}");
         }
     }
 }

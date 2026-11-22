@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
     xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:leonardo="using:UpInBlue.Leonardo.WinUI.Controls"
     xmlns:models="using:UpInBlue.Leonardo.Gallery.Models"
     xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
 
@@ -120,13 +121,18 @@
                 ItemClicked="OnBreadcrumbClicked"
                 ItemsSource="{x:Bind ViewModel.Folder.Trail}" />
 
-            <TextBlock
-                x:Name="PlaceName"
+            <!-- Where am I, and what happened since the last visit. Shrinks to a compact line when the list scrolls. -->
+            <leonardo:PlaceHeader
+                x:Name="PlaceHeader"
                 Grid.Row="2"
                 Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
-                AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
-                Text="{x:Bind ViewModel.Folder.Name}" />
+                ScrollSource="{x:Bind FileList}"
+                Title="{x:Bind ViewModel.Folder.Name}">
+                <leonardo:SummaryLine
+                    Margin="{StaticResource LeonardoSpaceSTopThickness}"
+                    Items="{x:Bind ViewModel.Summary}"
+                    Prefix="Since your last visit:" />
+            </leonardo:PlaceHeader>
 
             <!-- What just happened: shown where it happened, with undo. -->
             <StackPanel
@@ -153,7 +159,7 @@
                 Margin="{StaticResource LeonardoSpaceXLTopThickness}"
                 Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
                 AutomationProperties.Name="Files"
-                ItemContainerStyle="{StaticResource GalleryTableItemStyle}"
+                ItemContainerStyle="{StaticResource GalleryStatusTableItemStyle}"
                 DoubleTapped="OnFileListDoubleTapped"
                 ItemsSource="{x:Bind ViewModel.Entries}"
                 PreviewKeyDown="OnFileListPreviewKeyDown"
@@ -165,8 +171,9 @@
                     <TransitionCollection />
                 </ListView.ItemContainerTransitions>
                 <ListView.Header>
+                    <!-- Same padding as the rows; the icon and status columns hang left of "Name". -->
                     <Grid
-                        Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                        Padding="{StaticResource LeonardoSpaceXSHorizontalThickness}"
                         AutomationProperties.AccessibilityView="Raw"
                         ColumnSpacing="{StaticResource LeonardoSpaceM}">
                         <Grid.ColumnDefinitions>
@@ -175,9 +182,13 @@
                             <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.PersonWidth, Mode=OneWay}" />
                             <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                        <StackPanel Orientation="Horizontal">
                             <Border Width="{StaticResource GalleryIconSize}" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Name" />
+                            <Border Width="{StaticResource LeonardoStatusDotSize}" />
+                            <TextBlock
+                                Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                                Style="{StaticResource LeonardoMetaTextStyle}"
+                                Text="Name" />
                         </StackPanel>
                         <TextBlock Grid.Column="1" Visibility="{x:Bind vm:TableColumns.Files.DateVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified" />
                         <TextBlock Grid.Column="2" Visibility="{x:Bind vm:TableColumns.Files.PersonVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified by" />
@@ -244,18 +255,32 @@
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
-                            <Grid VerticalAlignment="Center" ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                            <!-- Icon and status dot hang left of the alignment line: 4 + 4 + 16 + 12 + 4 = 40.
+                                 The dot sits next to the name, away from the selection indicator at the left edge. -->
+                            <Grid VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Grid
+                                    Grid.Column="1"
+                                    Width="{StaticResource LeonardoStatusDotSize}"
+                                    Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                    VerticalAlignment="Top">
+                                    <leonardo:StatusDot
+                                        Description="{x:Bind StatusDescription}"
+                                        Kind="{x:Bind StatusValue}"
+                                        Visibility="{x:Bind helpers:Show.When(HasStatus)}" />
+                                </Grid>
                                 <FontIcon
                                     VerticalAlignment="Top"
                                     FontSize="{StaticResource GalleryIconSize}"
                                     Glyph="{x:Bind Glyph}" />
                                 <TextBlock
                                     x:Name="EntryName"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
+                                    Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
                                     Style="{StaticResource LeonardoBodyTextStyle}"
                                     Text="{x:Bind Name}" />
                             </Grid>
@@ -307,6 +332,17 @@
                             Style="{StaticResource LeonardoSectionTextStyle}"
                             Text="{x:Bind ViewModel.SelectedEntry.Name, Mode=OneWay, FallbackValue=''}" />
                         <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.Kind, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel Visibility="{x:Bind helpers:Show.When(ViewModel.SelectedHasStatus), Mode=OneWay}">
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Status" />
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                            <leonardo:StatusDot
+                                VerticalAlignment="Center"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Description="{x:Bind ViewModel.SelectedEntry.StatusDescription, Mode=OneWay, FallbackValue=''}"
+                                Kind="{x:Bind ViewModel.SelectedEntry.StatusValue, Mode=OneWay}" />
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedEntry.StatusDescription, Mode=OneWay, FallbackValue=''}" />
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel>
                         <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Modified" />

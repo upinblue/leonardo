@@ -41,6 +41,28 @@ internal sealed class CompositionMotion
     }
 
     /// <summary>
+    /// Scales an element around its top-left corner, for example a title that shrinks.
+    /// </summary>
+    public CompositionMotion Scale(UIElement element, float from, float to, MotionEasing easing, TimeSpan duration)
+    {
+        var visual = Prepare(element);
+        var compositor = visual.Compositor;
+        var animation = compositor.CreateVector3KeyFrameAnimation();
+        animation.InsertKeyFrame(0f, new Vector3(from, from, 1f));
+        animation.InsertKeyFrame(1f, new Vector3(to, to, 1f), MotionCurves.Create(compositor, easing));
+        animation.Duration = AtLeastOneMillisecond(duration);
+        visual.CenterPoint = Vector3.Zero;
+        visual.Scale = new Vector3(from, from, 1f);
+        visual.StartAnimation("Scale", animation);
+        _run.OnSkip(() =>
+        {
+            visual.StopAnimation("Scale");
+            visual.Scale = new Vector3(to, to, 1f);
+        });
+        return this;
+    }
+
+    /// <summary>
     /// Fades an element linearly, as opacity always is.
     /// </summary>
     public CompositionMotion Fade(UIElement element, float from, float to, TimeSpan duration, TimeSpan delay = default)
