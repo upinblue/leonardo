@@ -6,4 +6,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="UpInBlue.Leonardo.Tokens.Tests" />
+  </ItemGroup>
+
 </Project>
