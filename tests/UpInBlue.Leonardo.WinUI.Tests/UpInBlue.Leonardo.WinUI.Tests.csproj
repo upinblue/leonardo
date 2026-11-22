@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Tests for the logic of UpInBlue.Leonardo.WinUI that does not need WinUI: timing, stagger and reflow calculations,
+    and the rules of the Leonardo controls. The files are compiled into this project directly, so the tests run
+    without the Windows App SDK runtime.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>UpInBlue.Leonardo.WinUI.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\UpInBlue.Leonardo.WinUI\Motion\MotionMath.cs" Link="Linked\MotionMath.cs" />
+  </ItemGroup>
+
+</Project>
