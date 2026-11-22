@@ -9,7 +9,7 @@
     <Company>up in blue</Company>
     <Authors>up in blue</Authors>
     <Product>Leonardo</Product>
-    <!-- Only the libraries are NuGet packages. They import build/Packaging.props, which sets IsPackable to true. -->
+    <!-- Only the two libraries and the check tool are NuGet packages. They import build/Packaging.props, which sets IsPackable to true. -->
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 </Project>
