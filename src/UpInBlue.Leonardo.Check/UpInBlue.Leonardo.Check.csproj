@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>UpInBlue.Leonardo.Check</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>leonardo-check</ToolCommandName>
+    <PackageId>UpInBlue.Leonardo.Check</PackageId>
+    <Description>Finds literal design values and common accessibility mistakes in UI code of up in blue apps (XAML, C#, Swift, CSS, SCSS, HTML, TSX). Used by the Claude Code plugin leonardo.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="UpInBlue.Leonardo.Check.Tests" />
+  </ItemGroup>
+
+</Project>
