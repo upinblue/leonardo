@@ -187,4 +187,6 @@
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
     <!-- motion.arrive.hold (proposal) -->
     <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
+    <KeyTime x:Key="LeonardoArriveHoldKeyTime">0:0:2</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoArriveHoldTimeSpan">0:0:2</sys:TimeSpan>
 </ResourceDictionary>

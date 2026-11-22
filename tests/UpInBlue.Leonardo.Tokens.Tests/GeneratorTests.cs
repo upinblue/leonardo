@@ -167,7 +167,7 @@ public sealed class GeneratorTests
         {
             "motion.arrive.hold",
             """{ "value": 3000, "unit": "ms" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
         },
         {
             "motion.ios.spring.durationMax",
