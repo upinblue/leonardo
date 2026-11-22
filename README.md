@@ -22,8 +22,9 @@ honest fallbacks for reduced motion, missing transparency and high contrast.
 | Web values | [`generated/web/leonardo.css`](generated/web/leonardo.css) | Standalone web apps and websites |
 | Presentation values | [`generated/presentation`](generated/presentation) | PowerPoint |
 | Gallery | [`samples/UpInBlue.Leonardo.Gallery`](samples/UpInBlue.Leonardo.Gallery) | Every Leonardo resource, motion and control in WinUI 3 |
-| Samples | [`samples/`](samples) | A WPF window, a web page and (later) a SwiftUI app |
+| Samples | [`samples/`](samples) | A WPF window, a web page and (in stage 6b) a SwiftUI app |
 | Claude Code plugin | [`claude/`](claude) | Designing and reviewing UI with Claude Code |
+| `UpInBlue.Leonardo.Check` | [`src/UpInBlue.Leonardo.Check`](src/UpInBlue.Leonardo.Check) | `leonardo-check`, a .NET tool that finds literal design values and common accessibility mistakes |
 
 ## Screenshots
 
@@ -103,7 +104,22 @@ the copies; when the tokens change, copy them again.
 
 ### Claude Code plugin
 
-The plugin with the skill `leonardo` is installed as described in [`claude/README.md`](claude/README.md).
+The plugin with the skill `leonardo` is installed from the marketplace `upinblue` as described in
+[`claude/README.md`](claude/README.md).
+
+### Check tool
+
+`leonardo-check` is a .NET tool in the same GitHub Packages feed. With the `upinblue` source and its credentials in
+your NuGet configuration (for a global tool, the user-level `NuGet.Config`; the `nuget.config` above shows the
+entries), install it with:
+
+```powershell
+dotnet tool install --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json
+```
+
+Then run `leonardo-check src samples`. The Claude Code plugin runs it after every edit of a UI file; without the tool,
+the plugin's hook prints a one-line warning and does nothing else. On Windows the hook runs in Git Bash, which comes
+with Git for Windows.
 
 ## Quick starts
 
@@ -212,7 +228,9 @@ withAnimation(reduceMotion ? nil : .spring(duration: Leonardo.Motion.Spring.dura
 }
 ```
 
-There is no Apple sample app yet; it is planned for stage 6 and needs a Mac. See [`generated/apple/README.md`](generated/apple/README.md).
+The generated colors are looked up in the main bundle, so add the files to the app target, not to a Swift package
+module. There is no Apple sample app yet: it was split off from stage 6 into stage 6b, which runs on a Mac. See
+[`generated/apple/README.md`](generated/apple/README.md).
 
 ### Web
 
@@ -265,7 +283,7 @@ dotnet run --project src/UpInBlue.Leonardo.Tokens -- check
 ```
 
 To change a value, edit `tokens/leonardo.tokens.json` and run the generator with `generate`; never edit generated files.
-Packing and publishing the NuGet packages is described in [`docs/publishing.md`](docs/publishing.md).
+Packing and publishing the NuGet packages and the check tool is described in [`docs/publishing.md`](docs/publishing.md).
 
 ## Contributing
 

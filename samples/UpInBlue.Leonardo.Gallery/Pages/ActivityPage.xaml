@@ -44,7 +44,7 @@
                             <TextBlock
                                 Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
                                 AutomationProperties.HeadingLevel="Level2"
-                                Style="{StaticResource LeonardoSectionTextStyle}"
+                                Style="{ThemeResource LeonardoSectionTextStyle}"
                                 Text="{x:Bind Day}" />
                             <ItemsControl
                                 x:Name="EventList"
@@ -52,46 +52,48 @@
                                 ItemsSource="{x:Bind Events}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:ActivityEvent">
-                                        <!-- Icon and status column hang left of the alignment line: 4 + 4 + 16 + 12 + 4 = 40, as in the lists. -->
+                                        <!--
+                                            The Arrive bar fills the row's leading padding; icon and status column hang left of the
+                                            alignment line: 4 + 4 + 16 + 12 + 4 = 40, as in the lists.
+                                        -->
                                         <Grid
                                             MaxWidth="{StaticResource GallerySettingsWidth}"
-                                            Padding="{StaticResource LeonardoSpaceXSHorizontalThickness}"
+                                            Padding="{StaticResource LeonardoSpaceXSRightThickness}"
                                             HorizontalAlignment="Left"
                                             AutomationProperties.Name="{x:Bind AccessibleName}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
+                                            <!-- The Arrive marker: a short accent bar that fades away. Arrive announces the event itself. -->
+                                            <Border
+                                                x:Name="ArriveMarker"
+                                                Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                                Style="{StaticResource LeonardoArriveMarkerStyle}" />
                                             <Grid
-                                                Grid.Column="1"
-                                                Width="{StaticResource LeonardoStatusDotSize}"
+                                                Grid.Column="2"
+                                                Width="{StaticResource LeonardoSizeStatusDot}"
                                                 Margin="{StaticResource LeonardoSpaceSTopThickness}"
                                                 VerticalAlignment="Top">
                                                 <leonardo:StatusDot
                                                     Description="{x:Bind StatusDescription}"
                                                     Kind="{x:Bind StatusValue}"
                                                     Visibility="{x:Bind helpers:Show.When(HasStatus)}" />
-                                                <!-- The Arrive marker: a "new" dot that fades away. Arrive announces the event itself. -->
-                                                <leonardo:StatusDot
-                                                    x:Name="ArriveMarker"
-                                                    AutomationProperties.AccessibilityView="Raw"
-                                                    IsHitTestVisible="False"
-                                                    Kind="New"
-                                                    Opacity="0" />
                                             </Grid>
                                             <FontIcon
-                                                Grid.Column="0"
+                                                Grid.Column="1"
                                                 Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                                                 VerticalAlignment="Top"
-                                                FontSize="{StaticResource GalleryIconSize}"
+                                                FontSize="{StaticResource LeonardoSizeIcon}"
                                                 Glyph="{x:Bind Glyph}" />
                                             <StackPanel
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
                                                 Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
-                                                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
-                                                <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
+                                                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
+                                                <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
                                             </StackPanel>
                                         </Grid>
                                     </DataTemplate>

@@ -16,7 +16,7 @@
         <!-- The header of this page is the live example: scroll the content below. -->
         <leonardo:PlaceHeader
             x:Name="Header"
-            Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+            Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
             Padding="{StaticResource LeonardoSpaceLTopThickness}"
             Meta="Leonardo controls"
             ScrollSource="{x:Bind Scroller}"
@@ -31,32 +31,32 @@
             <StackPanel Padding="{StaticResource LeonardoSpaceXLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
                 <StackPanel
                     MaxWidth="{StaticResource GalleryReadingWidth}"
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     HorizontalAlignment="Left"
                     Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="The place name answers “Where am I?” like a station sign: large and light at the top of the view, with a meta line above it and room for a summary line below. It is the level 1 heading of the view." />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Scroll this page. First the title moves up a little more slowly than the content, the only depth effect Leonardo allows. Then the header shrinks to a compact line, and the content keeps its place. Back at the top, the header grows again. With animations off, there is no parallax and no animation." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="The place name answers “Where am I?” like a station sign: large and light at the top of the view, with a meta line above it and room for a summary line below. It is the level 1 heading of the view." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Scroll this page. First the title moves up a little more slowly than the content, the only depth effect Leonardo allows. Then the header shrinks to a compact line, and the content keeps its place. Back at the top, the header grows again. With animations off, there is no parallax and no animation." />
                     <TextBlock
                         AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource LeonardoBodyStrongTextStyle}"
+                        Style="{ThemeResource LeonardoBodyStrongTextStyle}"
                         Text="{x:Bind HeaderState(Header.IsCompact), Mode=OneWay}" />
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
                     <TextBlock
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource LeonardoSectionTextStyle}"
+                        Style="{ThemeResource LeonardoSectionTextStyle}"
                         Text="Long titles" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{ThemeResource LeonardoBodyTextStyle}"
                         Text="Titles wrap instead of being clipped. This header has no scroll source, so it stays large." />
                     <leonardo:PlaceHeader
                         Width="{StaticResource GalleryWrapSampleWidth}"
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         HorizontalAlignment="Left"
                         AutomationProperties.AccessibilityView="Raw"
                         Meta="Hofmann Logistics / Contracts"
@@ -65,9 +65,9 @@
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
                     <TextBlock
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource LeonardoSectionTextStyle}"
+                        Style="{ThemeResource LeonardoSectionTextStyle}"
                         Text="Recent documents" />
                     <ItemsControl Margin="{StaticResource LeonardoSpaceXSLeftThickness}" ItemsSource="{x:Bind ViewModel.Rows}">
                         <ItemsControl.ItemTemplate>
@@ -79,11 +79,11 @@
                                     Spacing="{StaticResource LeonardoSpaceXS}">
                                     <FontIcon
                                         VerticalAlignment="Center"
-                                        FontSize="{StaticResource GalleryIconSize}"
+                                        FontSize="{StaticResource LeonardoSizeIcon}"
                                         Glyph="&#xE8A5;" />
                                     <StackPanel VerticalAlignment="Center">
-                                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
-                                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
+                                        <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>

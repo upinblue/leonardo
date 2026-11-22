@@ -33,6 +33,11 @@ public enum LeonardoAppearance
 /// system colors.
 /// </para>
 /// <para>
+/// In a contrast theme, the Leonardo text styles set no <c>Foreground</c>, so text inherits the system color of its
+/// container, for example of a selected list item (Microsoft, "Contrast themes"). Reference the text styles with
+/// <c>DynamicResource</c>, so that they follow when the dictionary is swapped.
+/// </para>
+/// <para>
 /// Light and dark colors live in separate dictionaries, <c>Themes/Leonardo.Light.xaml</c>, <c>Themes/Leonardo.Dark.xaml</c>
 /// and <c>Themes/Leonardo.HighContrast.xaml</c>. With <see cref="ThemeMode.System"/>, Leonardo follows the Windows app mode
 /// and contrast themes while the app runs. Call the members on the UI thread.

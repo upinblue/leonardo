@@ -17,7 +17,7 @@ For features you are not sure about, look up the current PowerPoint help (see `s
 
 - **Typeface:** Inter, titles in Inter Display. Never system typefaces.
 - **Type roles:** place name (slide title) Inter Display 40 pt Light, section Inter 24 pt Semibold, body Inter 18 pt, meta Inter 12 pt.
-- **Colors:** only from the blue scale and the cool neutrals in `leonardo.tokens.json`. One accent surface per slide. Charts use the blue scale; status colors only for real status.
+- **Colors:** only from the blue scale and the cool neutrals in `leonardo.tokens.json`. One accent surface per slide. A single-series chart uses `theme.*.chart`, charts with several series the blue scale; the status colors (`theme.*.statusCritical`, `statusCaution`, `statusSuccess`) only for real status.
 - **Alignment line:** title, body text and charts share one left edge.
 - **Logo:** only the files from the logo package, with clear space; the short form below the minimum size.
 

@@ -40,7 +40,7 @@
             Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
             Padding="{StaticResource LeonardoSpaceLVerticalThickness}"
             AutomationProperties.HeadingLevel="Level1"
-            Style="{StaticResource LeonardoPlaceNameTextStyle}"
+            Style="{ThemeResource LeonardoPlaceNameTextStyle}"
             Text="Customers" />
 
         <!-- Commands of the list. Sorting lets the rows glide to their new place (Reflow). -->
@@ -102,13 +102,13 @@
                         <FontIcon
                             Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                             VerticalAlignment="Top"
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Glyph="&#xE821;" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind SavedName, Mode=OneWay}" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind City}" />
+                            <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind SavedName, Mode=OneWay}" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind City}" />
                             <TextBlock
-                                Style="{StaticResource LeonardoMetaTextStyle}"
+                                Style="{ThemeResource LeonardoMetaTextStyle}"
                                 Text="Unsaved changes"
                                 Visibility="{x:Bind helpers:Show.When(HasChanges), Mode=OneWay}" />
                         </StackPanel>
@@ -131,9 +131,9 @@
                 <StackPanel>
                     <TextBlock
                         AutomationProperties.HeadingLevel="Level2"
-                        Style="{StaticResource LeonardoViewTextStyle}"
+                        Style="{ThemeResource LeonardoViewTextStyle}"
                         Text="{x:Bind ViewModel.Selected.SavedName, Mode=OneWay}" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Fields marked with * are required." />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Fields marked with * are required." />
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
@@ -149,12 +149,12 @@
                         Spacing="{StaticResource LeonardoSpaceXS}"
                         Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.NameError), Mode=OneWay}">
                         <FontIcon
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Glyph="&#xEA39;" />
                         <TextBlock
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Style="{ThemeResource LeonardoMetaTextStyle}"
                             Text="{x:Bind ViewModel.Selected.NameError, Mode=OneWay}" />
                     </StackPanel>
                 </StackPanel>
@@ -175,12 +175,12 @@
                         Spacing="{StaticResource LeonardoSpaceXS}"
                         Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.EmailError), Mode=OneWay}">
                         <FontIcon
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                             Glyph="&#xEA39;" />
                         <TextBlock
                             Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Style="{ThemeResource LeonardoMetaTextStyle}"
                             Text="{x:Bind ViewModel.Selected.EmailError, Mode=OneWay}" />
                     </StackPanel>
                 </StackPanel>
@@ -217,7 +217,7 @@
                     </StackPanel>
                     <TextBlock
                         AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="{x:Bind ViewModel.Feedback, Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>

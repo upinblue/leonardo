@@ -11,10 +11,10 @@ public enum MotionDuration
     /// <summary>Opacity: <c>motion.duration.fade</c>.</summary>
     Fade,
 
-    /// <summary>Short distances and all exits: <c>motion.duration.short</c>.</summary>
+    /// <summary>Exits only: <c>motion.duration.short</c>. Entrances start at <see cref="Normal"/>.</summary>
     Short,
 
-    /// <summary>Medium distances: <c>motion.duration.normal</c>.</summary>
+    /// <summary>Entrances and movements up to <c>motion.distance.enterMax</c>: <c>motion.duration.normal</c>.</summary>
     Normal,
 
     /// <summary>Long distances and navigation: <c>motion.duration.long</c>.</summary>
@@ -35,7 +35,7 @@ public static class MotionTiming
     /// <summary>The offset between stagger groups, <c>motion.stagger.step</c>.</summary>
     public static TimeSpan StaggerStep => Scale(LeonardoTokens.Motion.StaggerStep);
 
-    /// <summary>How long the Arrive marker stays, <c>motion.arrive.hold</c> (proposal).</summary>
+    /// <summary>How long the Arrive marker stays, <c>motion.arrive.hold</c>.</summary>
     public static TimeSpan ArriveHold => Scale(LeonardoTokens.Motion.ArriveHold);
 
     /// <summary>

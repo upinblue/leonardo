@@ -110,6 +110,21 @@ public sealed class SummaryLineTests
     }
 
     [Fact]
+    public void SeveralPhrasesCanBeActiveAtOnce()
+    {
+        var items = Items((SummaryKind.New, 2), (SummaryKind.CheckedOut, 1), (SummaryKind.Conflict, 1));
+
+        items[0].IsActive = true;
+        items[2].IsActive = true;
+        var sentence = SummaryLineText.Compose("Since your last visit:", items, English);
+
+        Assert.True(items[0].IsActive);
+        Assert.False(items[1].IsActive);
+        Assert.True(items[2].IsActive);
+        Assert.Equal(3, sentence.Phrases.Count);
+    }
+
+    [Fact]
     public void ChangingAnItemRaisesPropertyChanged()
     {
         var item = new SummaryLineItem();

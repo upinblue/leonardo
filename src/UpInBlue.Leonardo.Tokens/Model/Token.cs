@@ -9,8 +9,14 @@ namespace UpInBlue.Leonardo.Tokens.Model;
 /// <param name="Description">The <c>$description</c>, if any.</param>
 /// <param name="Status">The value of <c>$extensions.status</c>, if any.</param>
 /// <param name="Reference">The path of the referenced token if the value is a reference such as <c>{palette.brand}</c>.</param>
-internal sealed record Token(string Path, TokenType Type, object Value, string? Description, string? Status, string? Reference)
+/// <param name="Platforms">The outputs named in <c>$extensions.platforms</c>, or <see langword="null"/> if the token appears in every output.</param>
+internal sealed record Token(string Path, TokenType Type, object Value, string? Description, string? Status, string? Reference, IReadOnlySet<OutputPlatform>? Platforms = null)
 {
+    /// <summary>
+    /// Whether the token appears in the outputs of a platform.
+    /// </summary>
+    public bool IsFor(OutputPlatform platform) => Platforms is null || Platforms.Contains(platform);
+
     /// <summary>
     /// The last segment of the path, for example <c>accent</c>.
     /// </summary>

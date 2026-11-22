@@ -31,7 +31,7 @@ internal static class AppleGenerator
         yield return GeneratedFile.FromText($"{CatalogPath}/Contents.json", Contents(providesNamespace: false));
         yield return GeneratedFile.FromText($"{CatalogPath}/Leonardo/Contents.json", Contents(providesNamespace: true));
 
-        var accent = catalog.ThemePairs.FirstOrDefault(pair => pair.Light.Name == "accent");
+        var accent = catalog.ThemePairsFor(OutputPlatform.Apple).FirstOrDefault(pair => pair.Light.Name == "accent");
         if (accent.Light is null)
         {
             throw new TokenException("The theme color 'accent' is required for the AccentColor of the asset catalog.");
@@ -39,7 +39,7 @@ internal static class AppleGenerator
 
         yield return GeneratedFile.FromText($"{CatalogPath}/AccentColor.colorset/Contents.json", ColorSet(accent.Light.Color, accent.Dark.Color));
 
-        foreach (var (light, dark) in catalog.ThemePairs)
+        foreach (var (light, dark) in catalog.ThemePairsFor(OutputPlatform.Apple))
         {
             yield return GeneratedFile.FromText($"{CatalogPath}/Leonardo/{Text.Pascal(light.Name)}.colorset/Contents.json", ColorSet(light.Color, dark.Color));
         }
@@ -54,7 +54,7 @@ internal static class AppleGenerator
             .Line("# Leonardo for iOS and macOS")
             .Line()
             .Line("- `Leonardo.xcassets`: one color set per theme color in the folder `Leonardo` (for example `Leonardo/Accent`), with light and dark appearance, plus `AccentColor`. Add the catalog to the app target. JSON files cannot carry the generated-file header; this note stands for them.")
-            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, spring parameters and the type roles as SwiftUI text styles.")
+            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, sizes, spring parameters, stagger and arrive timing, and the type roles as SwiftUI text styles.")
             .ToString();
 
     private static string Contents(bool providesNamespace)
@@ -130,7 +130,7 @@ internal static class AppleGenerator
 
         writer.Line("/// Theme colors from the asset catalog `Leonardo.xcassets`, with light and dark appearance.");
         writer.Line("public enum Colors {").Indent();
-        foreach (var token in catalog.Light)
+        foreach (var token in catalog.LightFor(OutputPlatform.Apple))
         {
             Comment(writer, null, $"theme.*.{token.Name}");
             writer.Line($"public static let {token.Name} = Color(\"Leonardo/{Text.Pascal(token.Name)}\")");
@@ -145,8 +145,10 @@ internal static class AppleGenerator
         writer.Line();
         PointEnum(writer, "Density", "List row heights in points. " + catalog.Tokens.GroupDescription("density"), catalog.Density);
         writer.Line();
+        PointEnum(writer, "Size", "Sizes in points. " + catalog.Tokens.GroupDescription("size"), catalog.SizeFor(OutputPlatform.Apple));
+        writer.Line();
 
-        writer.Line("/// Motion on iOS and macOS: springs without bounce.");
+        writer.Line("/// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.");
         writer.Line("public enum Motion {").Indent();
         writer.Line("/// Spring parameters, for example `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`.");
         writer.Line("public enum Spring {").Indent();
@@ -162,10 +164,10 @@ internal static class AppleGenerator
         }
 
         writer.Outdent().Line("}");
-        foreach (var motion in catalog.Motion.Where(motion => motion.Group == "stagger"))
+        foreach (var motion in catalog.Motion.Where(motion => motion.Group is "stagger" or "arrive"))
         {
             var token = motion.Token;
-            var name = "stagger" + Text.Pascal(token.Name);
+            var name = motion.Group + Text.Pascal(token.Name);
             writer.Line();
             Comment(writer, token.Description, token.Path, token.IsProposal);
             writer.Line(token.Type switch

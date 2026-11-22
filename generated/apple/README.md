@@ -3,4 +3,4 @@
 # Leonardo for iOS and macOS
 
 - `Leonardo.xcassets`: one color set per theme color in the folder `Leonardo` (for example `Leonardo/Accent`), with light and dark appearance, plus `AccentColor`. Add the catalog to the app target. JSON files cannot carry the generated-file header; this note stands for them.
-- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, spring parameters and the type roles as SwiftUI text styles.
+- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, sizes, spring parameters, stagger and arrive timing, and the type roles as SwiftUI text styles.

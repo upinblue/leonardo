@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Leonardo for WPF, for contrast themes. It maps every Leonardo color to a system color and leaves the accent to the system: no accent override.
+    Its text styles set no Foreground, so text inherits the system color of its container, for example of a selected list item.
     It does not change any other Fluent resource.
 
     Do not merge it by hand. Call LeonardoTheme.Apply in App.OnStartup; it sets Application.ThemeMode and merges
@@ -12,6 +13,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/Tokens.HighContrast.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/TextStyles.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/UpInBlue.Leonardo.Wpf;component/Themes/Generated/TextStyles.HighContrast.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -47,7 +47,7 @@
                 <leonardo:SummaryLine Items="{x:Bind ViewModel.Summary}" Prefix="In your inbox:" />
                 <TextBlock
                     AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="Nothing is waiting for you."
                     Visibility="{x:Bind helpers:Show.When(ViewModel.IsInboxEmpty), Mode=OneWay}" />
             </StackPanel>
@@ -83,7 +83,7 @@
                         </Grid.ColumnDefinitions>
                         <Grid
                             Grid.Column="1"
-                            Width="{StaticResource LeonardoStatusDotSize}"
+                            Width="{StaticResource LeonardoSizeStatusDot}"
                             Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                             VerticalAlignment="Top">
                             <leonardo:StatusDot
@@ -96,14 +96,14 @@
                             Grid.Column="0"
                             Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                             VerticalAlignment="Top"
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Glyph="{x:Bind StateGlyph, Mode=OneWay}" />
                         <StackPanel
                             Grid.Column="2"
                             Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
                             VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Title}" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}">
+                            <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Title}" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}">
                                 <Run Text="{x:Bind StateText, Mode=OneWay}" />
                                 <Run Text="·" />
                                 <Run Text="{x:Bind Meta}" />
@@ -113,7 +113,7 @@
                             Grid.Column="3"
                             Margin="{StaticResource LeonardoSpaceMLeftThickness}"
                             VerticalAlignment="Center"
-                            Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                            Style="{ThemeResource LeonardoBodyTabularTextStyle}"
                             Text="{x:Bind AmountText}" />
                     </Grid>
                 </DataTemplate>
@@ -129,23 +129,23 @@
             <StackPanel Padding="{StaticResource LeonardoSpaceLThickness}" Spacing="{StaticResource LeonardoSpaceM}">
                 <TextBlock
                     AutomationProperties.HeadingLevel="Level2"
-                    Style="{StaticResource LeonardoSectionTextStyle}"
+                    Style="{ThemeResource LeonardoSectionTextStyle}"
                     Text="{x:Bind ViewModel.Selected.Title, Mode=OneWay}" />
                 <StackPanel>
-                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Requested by" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Requester, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Requested by" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Requester, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Customer" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Company, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Customer" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Company, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Selected.AmountText), Mode=OneWay}">
-                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Amount" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind ViewModel.Selected.AmountText, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Amount" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="{x:Bind ViewModel.Selected.AmountText, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Reason" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Description, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Reason" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.Selected.Description, Mode=OneWay}" />
                 </StackPanel>
 
                 <!-- Waiting: decide. -->
@@ -177,12 +177,12 @@
                     Spacing="{StaticResource LeonardoSpaceS}"
                     Visibility="{x:Bind helpers:Show.Unless(ViewModel.Selected.IsWaiting), Mode=OneWay}">
                     <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
-                        <FontIcon FontSize="{StaticResource GalleryIconSize}" Glyph="{x:Bind ViewModel.Selected.StateGlyph, Mode=OneWay}" />
-                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind ViewModel.Selected.StateText, Mode=OneWay}" />
+                        <FontIcon FontSize="{StaticResource LeonardoSizeIcon}" Glyph="{x:Bind ViewModel.Selected.StateGlyph, Mode=OneWay}" />
+                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind ViewModel.Selected.StateText, Mode=OneWay}" />
                     </StackPanel>
                     <TextBlock
                         AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{ThemeResource LeonardoBodyTextStyle}"
                         Text="{x:Bind ViewModel.Selected.DecisionText, Mode=OneWay}" />
                     <Button
                         x:Name="UndoDecisionButton"

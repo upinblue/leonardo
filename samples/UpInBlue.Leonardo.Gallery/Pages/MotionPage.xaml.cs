@@ -1,6 +1,5 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Shapes;
 using UpInBlue.Leonardo.Gallery.Helpers;
 using UpInBlue.Leonardo.Gallery.ViewModels;
 using UpInBlue.Leonardo.WinUI.Motion;
@@ -92,7 +91,7 @@ public sealed partial class MotionPage : Page
         reflow.Play();
         if (EventList.ContainerFromItem(added) is UIElement container)
         {
-            Arrive.Run(container, VisualTree.FindDescendant<Ellipse>(container, "ArriveMarker"), $"New event: {added.Text}");
+            Arrive.Run(container, VisualTree.FindDescendant<Border>(container, "ArriveMarker"), $"New event: {added.Text}");
         }
     }
 

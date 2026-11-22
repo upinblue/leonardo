@@ -1,5 +1,5 @@
 {
-  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed in the gallery app before they are considered final.",
+  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). A token with $extensions.platforms appears only in the outputs it names: windows (WinUI 3, WPF and their C# values), apple (asset catalog and Swift), web (CSS) and presentation; the skill copy always carries every token. A token without it appears everywhere. Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed before they are considered final.",
   "palette": {
     "$description": "The blue scale follows aerial perspective: near is dark and dense, far is light and airy. Blues MUST only come from this scale.",
     "depth": {
@@ -60,10 +60,7 @@
       "surface": {
         "$type": "color",
         "$value": "#FAFBFD",
-        "$description": "Opaque content surface, cool neutral.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Opaque content surface, cool neutral."
       },
       "surfaceAlt": {
         "$type": "color",
@@ -72,57 +69,95 @@
       "textPrimary": {
         "$type": "color",
         "$value": "#141B2B",
-        "$description": "16.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "16.6:1 on surface."
       },
       "textSecondary": {
         "$type": "color",
         "$value": "#4A5568",
-        "$description": "7.3:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "7.3:1 on surface."
       },
       "textTertiary": {
         "$type": "color",
         "$value": "#5E6878",
-        "$description": "Metadata. 5.4:1 on surface, 4.6:1 on selection.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Metadata. 5.4:1 on surface, 4.6:1 on selection."
       },
       "strokeSubtle": {
         "$type": "color",
         "$value": "#DFE5EE",
-        "$description": "Decorative separators only. Not for boundaries that carry meaning.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Decorative separators only. Not for boundaries that carry meaning."
       },
       "strokeStrong": {
         "$type": "color",
         "$value": "#78849A",
-        "$description": "Boundaries of interactive elements. 3.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Boundaries of interactive elements. 3.6:1 on surface."
+      },
+      "chart": {
+        "$type": "color",
+        "$value": "{palette.near}",
+        "$description": "Data series in charts, the one blue of a single-series chart. 8.3:1 on surface. In contrast themes, the system highlight color."
       },
       "statusCritical": {
         "$type": "color",
         "$value": "#C42B1C",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusCaution": {
         "$type": "color",
         "$value": "#9D5D00",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusSuccess": {
         "$type": "color",
         "$value": "#0F7B0F",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{palette.near}",
+        "$description": "Standalone web only: the focus outline where the browser default fails 3:1. 8.3:1 on surface, 8.0:1 on surfaceAlt.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentHover": {
+        "$type": "color",
+        "$value": "#1969D9",
+        "$description": "Standalone web only: accent fill on hover. Derived like WinUI's AccentFillColorSecondaryBrush, which is SystemAccentColorDark1 (brand) at 90 % opacity (Microsoft.UI.Xaml generic.xaml, Light theme dictionary). Over the light surface that would drop white text to 4.2:1, so the 90 % brand is composited over SystemAccentColorDark2 (near) instead. White text 5.2:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentPressed": {
+        "$type": "color",
+        "$value": "#1865D2",
+        "$description": "Standalone web only: accent fill while pressed. Derived like WinUI's AccentFillColorTertiaryBrush, which is SystemAccentColorDark1 (brand) at 80 % opacity (Microsoft.UI.Xaml generic.xaml, Light theme dictionary). Over the light surface that would drop white text to 3.5:1, so the 80 % brand is composited over SystemAccentColorDark2 (near) instead. White text 5.5:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
       }
     },
     "dark": {
@@ -137,85 +172,111 @@
       "link": {
         "$type": "color",
         "$value": "#A9CCF6",
-        "$description": "9.8:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "9.8:1 on surface."
       },
       "selection": {
         "$type": "color",
-        "$value": "#1E3A66",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#1E3A66"
       },
       "surface": {
         "$type": "color",
-        "$value": "#1A2030",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#1A2030"
       },
       "surfaceAlt": {
         "$type": "color",
-        "$value": "#141926",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#141926"
       },
       "textPrimary": {
         "$type": "color",
         "$value": "#EEF2F8",
-        "$description": "14.5:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "14.5:1 on surface."
       },
       "textSecondary": {
         "$type": "color",
         "$value": "#B3BDCC",
-        "$description": "8.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "8.6:1 on surface."
       },
       "textTertiary": {
         "$type": "color",
         "$value": "#A3AEC0",
-        "$description": "7.3:1 on surface, 5.1:1 on selection.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "7.2:1 on surface, 5.1:1 on selection."
       },
       "strokeSubtle": {
         "$type": "color",
-        "$value": "#2C3547",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#2C3547"
       },
       "strokeStrong": {
         "$type": "color",
         "$value": "#6E7A8F",
-        "$description": "3.8:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "3.7:1 on surface."
+      },
+      "chart": {
+        "$type": "color",
+        "$value": "{palette.far}",
+        "$description": "Data series in charts, the one blue of a single-series chart. 7.4:1 on surface. In contrast themes, the system highlight color."
       },
       "statusCritical": {
         "$type": "color",
         "$value": "#FF99A4",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusCaution": {
         "$type": "color",
         "$value": "#FCE100",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
       },
       "statusSuccess": {
         "$type": "color",
         "$value": "#6CCB5F",
-        "$description": "Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors."
+        "$description": "Mirrors the Windows Fluent status color. Native apps use their platform's status colors; only standalone web and presentations use this token.",
+        "$extensions": {
+          "platforms": [
+            "web",
+            "presentation"
+          ]
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{palette.far}",
+        "$description": "Standalone web only: the focus outline where the browser default fails 3:1. 7.4:1 on surface, 8.0:1 on surfaceAlt.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentHover": {
+        "$type": "color",
+        "$value": "#75A3DD",
+        "$description": "Standalone web only: accent fill on hover. Derived like WinUI's AccentFillColorSecondaryBrush, which is SystemAccentColorLight2 (far) at 90 % opacity (Microsoft.UI.Xaml generic.xaml, Default/Dark theme dictionary), composited over the dark surface. Depth text 6.7:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
+      },
+      "accentPressed": {
+        "$type": "color",
+        "$value": "#6B95CA",
+        "$description": "Standalone web only: accent fill while pressed. Derived like WinUI's AccentFillColorTertiaryBrush, which is SystemAccentColorLight2 (far) at 80 % opacity (Microsoft.UI.Xaml generic.xaml, Default/Dark theme dictionary), composited over the dark surface. Depth text 5.6:1.",
+        "$extensions": {
+          "platforms": [
+            "web"
+          ]
+        }
       }
     }
   },
@@ -269,9 +330,6 @@
       "$value": {
         "value": 4,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     },
     "m": {
@@ -279,9 +337,6 @@
       "$value": {
         "value": 8,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     },
     "l": {
@@ -289,9 +344,6 @@
       "$value": {
         "value": 16,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     }
   },
@@ -316,6 +368,38 @@
       "$value": {
         "value": 48,
         "unit": "px"
+      }
+    }
+  },
+  "size": {
+    "$description": "Small elements with a fixed size, such as icons and status dots.",
+    "icon": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      },
+      "$description": "Icons in list rows and next to labels."
+    },
+    "statusDot": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      },
+      "$description": "The diameter of the status dot."
+    },
+    "focusStroke": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      },
+      "$description": "Standalone web only: the width of the focus outline drawn with theme.*.focus.",
+      "$extensions": {
+        "platforms": [
+          "web"
+        ]
       }
     }
   },
@@ -504,7 +588,7 @@
           "value": 167,
           "unit": "ms"
         },
-        "$description": "Short distances, all exits."
+        "$description": "Exits only. Entrances start at motion.duration.normal."
       },
       "normal": {
         "$type": "duration",
@@ -555,10 +639,7 @@
       "placeNameFactor": {
         "$type": "number",
         "$value": 0.7,
-        "$description": "The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks."
       }
     },
     "arrive": {
@@ -568,10 +649,7 @@
           "value": 2000,
           "unit": "ms"
         },
-        "$description": "How long the accent marker of Arrive stays fully visible before it fades away.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "How long the accent marker of Arrive stays fully visible before it fades away."
       }
     },
     "ios": {
@@ -605,10 +683,7 @@
           "value": 300,
           "unit": "ms"
         },
-        "$description": "Smooth end fully applied.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Smooth end fully applied."
       },
       "exit": {
         "$type": "duration",
@@ -616,19 +691,13 @@
           "value": 200,
           "unit": "ms"
         },
-        "$description": "Smooth start fully applied, with fade.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Smooth start fully applied, with fade."
       },
       "morph": {
         "$type": "duration",
         "$value": {
           "value": 500,
           "unit": "ms"
-        },
-        "$extensions": {
-          "status": "proposal"
         }
       },
       "fade": {
@@ -636,9 +705,6 @@
         "$value": {
           "value": 100,
           "unit": "ms"
-        },
-        "$extensions": {
-          "status": "proposal"
         }
       },
       "staggerStep": {

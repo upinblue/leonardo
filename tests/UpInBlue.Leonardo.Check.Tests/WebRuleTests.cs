@@ -47,6 +47,38 @@ public sealed class WebRuleTests
     [InlineData(".row { outline: none; } :focus-visible { outline: 2px solid var(--leonardo-text-primary); }")]
     public void OutlineNoneWithReplacementIsClean(string css) => Check.Clean(Css, css);
 
+    [Theory]
+    [InlineData(".button { padding: 5px 15px; }")]
+    [InlineData(".panel { margin: 0 auto 2rem; }")]
+    [InlineData(".list { gap: 12px; }")]
+    [InlineData(".grid { row-gap: 0.75em; }")]
+    [InlineData(".row { padding-inline-start: 40px; }")]
+    [InlineData(".row { margin-top: calc(var(--leonardo-space-m) + 4px); }")]
+    [InlineData("$gutter: 12px; .row { margin-block-end: 16px; }")]
+    public void LiteralSpacingIsReported(string css) => Check.Reports(Rules.LiteralSpacing, Css, css);
+
+    [Theory]
+    [InlineData(".button { padding: var(--leonardo-space-xs) var(--leonardo-space-m); }")]
+    [InlineData(".list { margin: 0; padding: 0; gap: 0px; }")]
+    [InlineData(".visually-hidden { margin: -1px; padding: 0; }")]
+    [InlineData(".pane { padding-top: calc(var(--leonardo-space-l) - 1px); }")]
+    [InlineData(".page { margin: 0 auto; padding-inline: 5%; }")]
+    [InlineData(".row { padding: calc(var(--leonardo-space-xl) - var(--leonardo-space-xs)); }")]
+    [InlineData(":root { --files-nav-width: 16rem; }")]
+    public void TokenZeroAndHairlineSpacingAreClean(string css) => Check.Clean(Css, css);
+
+    [Fact]
+    public void SpacingSuggestionNamesTheMatchingToken()
+    {
+        var finding = Assert.Single(Check.Run(Css, ".row { padding: 1.5rem; }"));
+        Assert.Equal(Rules.LiteralSpacing, finding.Rule);
+        Assert.Contains("var(--leonardo-space-l)", finding.Suggestion, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void LiteralSpacingIsReportedInHtmlStyles()
+        => Check.Reports(Rules.LiteralSpacing, Html, """<p style="margin-top: 12px">Note</p>""");
+
     [Fact]
     public void LiteralTransitionWithoutReducedMotionIsReported()
     {

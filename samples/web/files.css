@@ -1,34 +1,38 @@
 /*
  * Files scenario of the Leonardo web sample.
  *
- * Every color, spacing, radius, type and motion value comes from the --leonardo-* custom properties
- * of generated/web/leonardo.css. The few sample properties below (--files-*) only name layout
- * dimensions that Leonardo does not define, or pick a Leonardo value per theme or setting.
+ * Every color, spacing, size, radius, type and motion value comes from the --leonardo-* custom
+ * properties of generated/web/leonardo.css. The few sample properties below (--files-*) only name
+ * layout dimensions that Leonardo does not define, or pick a Leonardo value per view or setting.
  *
- * Literal values that remain are not Leonardo values: 0, 1px hairlines and the 2px focus outline
- * (Leonardo has no stroke width token), 50% for circles, 100% and 100vh, 1em for the chevron so it
- * follows the text size, the rotation of the chevron, the visually-hidden technique, and the layout
- * breakpoints (custom properties cannot be used in media queries). All are listed in the pull request.
+ * Literal values that remain are not Leonardo values: 0, 1px hairlines (Leonardo has no hairline
+ * token; an open question), 50% for circles, 100% and 100vh, the rotation of the chevron, the
+ * visually-hidden technique, and the layout breakpoints (custom properties cannot be used in media
+ * queries).
  */
 
 /* ---------- Sample properties ---------- */
 
 :root {
-    /* Layout dimensions of the three areas. Not Leonardo tokens; see the pull request. */
+    /* Layout dimensions of the three areas. Not Leonardo tokens. */
     --files-nav-width: 16rem;
     --files-details-width: 20rem;
+
+    /* Alignment line: where text starts, measured from the content edge of the main area.
+       Pages without list rows use the page margin space-l; the file list uses space-xl (see below). */
+    --files-alignment-line: var(--leonardo-space-l);
 
     /* List density, chosen in Settings. Standard is the default. */
     --files-row-height: var(--leonardo-density-standard);
 
-    /* Status dot. Leonardo has no size token for it yet; space-s gives the 8 px the gallery uses. */
-    --files-status-dot-size: var(--leonardo-space-s);
-
-    /* Pressed state of the accent button: one step deeper on the blue scale. */
-    --files-accent-pressed: var(--leonardo-palette-near);
-
     /* Direction of "Dive in": forward comes from the right, back from the left. */
     --files-enter-from: var(--leonardo-distance-enter-min);
+}
+
+/* The file list has status dots and, later, file icons that hang to the left of the text, so the
+   folder view puts its alignment line at space-xl. */
+:root[data-view="files"] {
+    --files-alignment-line: var(--leonardo-space-xl);
 }
 
 :root[data-density="compact"] {
@@ -37,16 +41,6 @@
 
 :root[data-density="comfortable"] {
     --files-row-height: var(--leonardo-density-comfortable);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-        --files-accent-pressed: var(--leonardo-palette-haze);
-    }
-}
-
-[data-theme="dark"] {
-    --files-accent-pressed: var(--leonardo-palette-haze);
 }
 
 /* ---------- Base ---------- */
@@ -90,20 +84,31 @@ ul {
     margin: 0;
 }
 
-/* Focus: a better replacement for the browser's ring, never a removal. Edge and Chrome draw their
-   default ring in a near-black color in light and dark mode, which stays below 3:1 on the dark surface
-   (WCAG 1.4.11). The primary text color reaches at least 4.5:1 on every Leonardo surface in both themes.
-   In forced colors the browser replaces the color with a system color. */
-:focus-visible {
-    outline: 2px solid var(--leonardo-text-primary);
-    outline-offset: var(--leonardo-space-xs);
+/* Focus: the browser draws it; the sample replaces it only where it fails 3:1 (design language,
+   "Color as signal"). Edge and Chrome draw their default ring in #101010 in both color schemes. On the
+   light surfaces that is at least 15:1, so the light theme keeps it. On the dark surface it is about
+   1.2:1, so the dark theme replaces it with the focus tokens: far, at least 5:1 on every dark surface
+   including the selection. Like the browser's ring it sits right at the element, so it stays clear of the
+   status dots that hang to the left of the alignment line. In forced colors the browser's own ring with
+   system colors stays. */
+@media (prefers-color-scheme: dark) and (forced-colors: none) {
+    :root:not([data-theme="light"]) :focus-visible {
+        outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus);
+        outline-offset: 0;
+    }
+}
+
+@media (forced-colors: none) {
+    :root[data-theme="dark"] :focus-visible {
+        outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus);
+        outline-offset: 0;
+    }
 }
 
 .visually-hidden {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
-    margin: -1px;
     padding: 0;
     overflow: hidden;
     clip-path: inset(50%);
@@ -214,9 +219,12 @@ ul {
     padding: var(--leonardo-space-l) var(--leonardo-space-s);
 }
 
+/* Page margin space-l on every side. Text starts on the alignment line, which is the page margin
+   on pages without list rows and space-xl in the folder view. */
 .main {
     grid-area: main;
-    padding: var(--leonardo-space-l) var(--leonardo-space-l) var(--leonardo-space-xl);
+    padding-block: var(--leonardo-space-l) var(--leonardo-space-xl);
+    padding-inline: var(--files-alignment-line) var(--leonardo-space-l);
 }
 
 .details {
@@ -294,8 +302,8 @@ ul {
 .disclosure,
 .disclosure-spacer {
     flex: none;
-    inline-size: calc(1em + 2 * var(--leonardo-space-xs));
-    block-size: calc(1em + 2 * var(--leonardo-space-xs));
+    inline-size: calc(var(--leonardo-size-icon) + 2 * var(--leonardo-space-xs));
+    block-size: calc(var(--leonardo-size-icon) + 2 * var(--leonardo-space-xs));
 }
 
 .disclosure {
@@ -314,16 +322,18 @@ ul {
     background: var(--leonardo-surface-alt);
 }
 
+/* Transform: the chevron turns into its new state. The transition is set on the state it goes to:
+   collapsing is an exit and may use the short duration, expanding is an entrance and uses normal. */
 .disclosure svg {
-    inline-size: 1em;
-    block-size: 1em;
+    inline-size: var(--leonardo-size-icon);
+    block-size: var(--leonardo-size-icon);
     fill: currentColor;
-    /* Transform: the chevron turns into its new state. */
     transition: rotate var(--leonardo-duration-short) var(--leonardo-ease-move);
 }
 
 .disclosure[aria-expanded="true"] svg {
     rotate: 90deg;
+    transition-duration: var(--leonardo-duration-normal);
 }
 
 .folder-link {
@@ -433,21 +443,25 @@ ul {
 }
 
 .button-accent:hover {
-    background: var(--leonardo-accent);
+    border-color: var(--leonardo-accent-hover);
+    background: var(--leonardo-accent-hover);
 }
 
 .button-accent:active {
-    border-color: var(--files-accent-pressed);
-    background: var(--files-accent-pressed);
+    border-color: var(--leonardo-accent-pressed);
+    background: var(--leonardo-accent-pressed);
 }
 
 /* ---------- File list ---------- */
 
+/* The row backplates (hover, selection) reach to space-xs from both content edges. The first column
+   starts its text on the alignment line (space-xl), where the place name starts; status dots and the
+   Arrive bar hang to the left of it. The last column ends on the page margin (space-l). */
 .file-table {
-    /* The table reaches into the gutter by space-m so that the text of the first column sits on the
-       alignment line of the place name, and status dots and selection backgrounds hang to the left of it. */
-    inline-size: calc(100% + 2 * var(--leonardo-space-m));
-    margin-inline: calc(-1 * var(--leonardo-space-m));
+    --files-table-reach-start: calc(var(--files-alignment-line) - var(--leonardo-space-xs));
+    --files-table-reach-end: calc(var(--leonardo-space-l) - var(--leonardo-space-xs));
+    inline-size: calc(100% + var(--files-table-reach-start) + var(--files-table-reach-end));
+    margin-inline: calc(-1 * var(--files-table-reach-start)) calc(-1 * var(--files-table-reach-end));
     border-collapse: separate;
     border-spacing: 0;
 }
@@ -461,6 +475,14 @@ ul {
 .file-table td {
     padding: var(--leonardo-space-xs) var(--leonardo-space-m);
     vertical-align: middle;
+}
+
+.file-table :is(th, td):first-child {
+    padding-inline-start: var(--files-table-reach-start);
+}
+
+.file-table :is(th, td):last-child {
+    padding-inline-end: var(--files-table-reach-end);
 }
 
 .file-table tbody tr {
@@ -539,14 +561,14 @@ ul {
 .status-dot {
     display: inline-block;
     flex: none;
-    inline-size: var(--files-status-dot-size);
-    block-size: var(--files-status-dot-size);
+    inline-size: var(--leonardo-size-status-dot);
+    block-size: var(--leonardo-size-status-dot);
     border-radius: 50%;
     background: currentColor;
 }
 
 .file-table .status-dot {
-    margin-inline: calc(-1 * (var(--files-status-dot-size) + var(--leonardo-space-xs))) var(--leonardo-space-xs);
+    margin-inline: calc(-1 * (var(--leonardo-size-status-dot) + var(--leonardo-space-xs))) var(--leonardo-space-xs);
     vertical-align: middle;
 }
 
@@ -583,10 +605,6 @@ ul {
 
 .details-hint {
     color: var(--leonardo-text-secondary);
-}
-
-.details h2:focus {
-    outline-offset: var(--leonardo-space-xs);
 }
 
 .details-status {
@@ -660,7 +678,9 @@ ul {
 
 /* ---------- Motion ---------- */
 
-/* Dive in and Stagger: groups enter in reading order. Opacity is faster than movement. */
+/* Dive in and Stagger: when the user navigates to another folder or view, its groups enter in reading
+   order. files.js never sets is-entering on the first view after the page loads. Entrances use the
+   normal duration; opacity is faster than movement. */
 .is-entering {
     animation:
         files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both,
@@ -672,13 +692,24 @@ ul {
     --files-enter-from: calc(-1 * var(--leonardo-distance-enter-min));
 }
 
-/* Arrive: new and restored rows appear in place with a short accent marker. */
-.file-table tbody tr.is-new {
+/* Arrive: new and restored rows appear in place. A short accent bar at the start of the row stays for
+   arrive-hold and then fades out like an exit. When the row is drawn again during the hold, files.js
+   sets --files-arrived-for to the time already shown, so the bar continues instead of starting over. */
+.file-table tbody tr.is-arriving {
     animation: files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both;
 }
 
-.file-table tbody tr.is-new td:first-child {
-    box-shadow: inset var(--leonardo-space-xs) 0 0 var(--leonardo-accent);
+.file-table tbody tr.has-arrive-bar td:first-child::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(50% - var(--leonardo-size-icon) / 2);
+    inline-size: var(--leonardo-space-xs);
+    block-size: var(--leonardo-size-icon);
+    border-radius: var(--leonardo-radius-s);
+    background: var(--leonardo-accent);
+    animation: files-fade-out var(--leonardo-duration-short) var(--leonardo-ease-fade) both;
+    animation-delay: calc(var(--leonardo-arrive-hold) - var(--files-arrived-for, 0ms));
 }
 
 /* Leave: the row accelerates out and fades while doing so. */
@@ -712,8 +743,19 @@ ul {
     }
 }
 
+/* Place name: the only depth effect. While the page scrolls, the place name moves slower than the
+   content (parallax-place-name-factor) and shrinks toward the view size. files.js computes both from
+   the scroll position so that the heading never grows beyond its box: it only moves down by as much as
+   it has shrunk, so it can neither cover the breadcrumb above nor the summary below. */
+@media (prefers-reduced-motion: no-preference) {
+    .role-place-name {
+        transform-origin: 0 0;
+        transform: translateY(var(--files-place-shift, 0)) scale(var(--files-place-scale, 1));
+    }
+}
+
 /* Reduced motion: leonardo.css already turns durations into a short crossfade and distances into 0.
-   The chevron only changes its state, without turning. */
+   The chevron only changes its state, without turning, and the place name neither moves nor shrinks. */
 @media (prefers-reduced-motion: reduce) {
     .disclosure svg {
         transition: none;
@@ -771,7 +813,12 @@ ul {
         background: HighlightText;
     }
 
-    .file-table tbody tr.is-new td:first-child {
-        border-inline-start: var(--leonardo-space-xs) solid Highlight;
+    .file-table tbody tr.has-arrive-bar td:first-child::before {
+        forced-color-adjust: none;
+        background: Highlight;
+    }
+
+    .file-table tbody tr.is-current.has-arrive-bar td:first-child::before {
+        background: HighlightText;
     }
 }

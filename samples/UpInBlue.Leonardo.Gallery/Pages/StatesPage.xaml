@@ -12,12 +12,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}">
-            <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="States" />
+        <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}">
+            <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{ThemeResource LeonardoPlaceNameTextStyle}" Text="States" />
             <TextBlock
                 MaxWidth="{StaticResource GalleryReadingWidth}"
                 HorizontalAlignment="Left"
-                Style="{StaticResource LeonardoBodyTextStyle}"
+                Style="{ThemeResource LeonardoBodyTextStyle}"
                 Text="A view is designed for every state, not only the happy path. Choose a state to see the file list of Kessler Construction in it." />
         </StackPanel>
 
@@ -36,28 +36,28 @@
         <StackPanel Grid.Row="2" Spacing="{StaticResource LeonardoSpaceS}">
             <!-- The structure stays visible in every state: the column headers of the file list. -->
             <Grid
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.AccessibilityView="Raw"
                 ColumnSpacing="{StaticResource LeonardoSpaceM}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="{StaticResource GalleryDateColumnWidth}" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Name" />
-                <TextBlock Grid.Column="1" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified" />
+                <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Name" />
+                <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoMetaTextStyle}" Text="Modified" />
             </Grid>
 
             <!-- Empty: explain what appears here and offer the first action. -->
             <StackPanel
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 Padding="{StaticResource LeonardoSpaceLVerticalThickness}"
                 Spacing="{StaticResource LeonardoSpaceS}"
                 Visibility="{x:Bind helpers:Show.When(IsEmpty), Mode=OneWay}">
-                <TextBlock Style="{StaticResource LeonardoSectionTextStyle}" Text="No files yet" />
+                <TextBlock Style="{ThemeResource LeonardoSectionTextStyle}" Text="No files yet" />
                 <TextBlock
                     MaxWidth="{StaticResource GalleryReadingWidth}"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="Files you add for Kessler Construction appear here, with the newest first." />
                 <Button Click="OnSampleActionClicked" Content="Upload files" Style="{StaticResource AccentButtonStyle}" />
             </StackPanel>
@@ -65,20 +65,20 @@
             <!-- Loading: one progress bar at the top of the list; nothing else is blocked. -->
             <StackPanel Spacing="{StaticResource LeonardoSpaceS}" Visibility="{x:Bind helpers:Show.When(IsLoading), Mode=OneWay}">
                 <ProgressBar
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     AutomationProperties.Name="Loading files"
                     IsIndeterminate="{x:Bind IsLoading, Mode=OneWay}" />
                 <TextBlock
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     AutomationProperties.LiveSetting="Polite"
-                    Style="{StaticResource LeonardoMetaTextStyle}"
+                    Style="{ThemeResource LeonardoMetaTextStyle}"
                     Text="Loading files…" />
             </StackPanel>
 
             <!-- Error: what happened, why, and what to do. -->
             <InfoBar
                 Title="Couldn't load the files"
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 IsClosable="False"
                 IsOpen="{x:Bind IsError, Mode=OneWay}"
                 Message="The server didn't respond. Your files are safe. Check your connection, then try again."
@@ -93,13 +93,13 @@
             <StackPanel Spacing="{StaticResource LeonardoSpaceS}" Visibility="{x:Bind helpers:Show.When(IsOffline), Mode=OneWay}">
                 <InfoBar
                     Title="You're offline"
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     IsClosable="False"
                     IsOpen="{x:Bind IsOffline, Mode=OneWay}"
                     Message="You can still open the files you used recently. Changes are saved and sync when you're back online."
                     Severity="Warning" />
                 <Grid
-                    Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                    Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                     ColumnSpacing="{StaticResource LeonardoSpaceM}"
                     RowSpacing="{StaticResource LeonardoSpaceS}">
                     <Grid.ColumnDefinitions>
@@ -111,26 +111,26 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Tender documents hall 2.pdf" />
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Available offline" />
+                        <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Tender documents hall 2.pdf" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Available offline" />
                     </StackPanel>
-                    <TextBlock Grid.Column="1" Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="Nov 19, 2026" />
+                    <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="Nov 19, 2026" />
                     <StackPanel Grid.Row="1">
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Site meeting notes.docx" />
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Available offline · 1 change waiting to sync" />
+                        <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Site meeting notes.docx" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Available offline · 1 change waiting to sync" />
                     </StackPanel>
                     <TextBlock
                         Grid.Row="1"
                         Grid.Column="1"
-                        Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                        Style="{ThemeResource LeonardoBodyTabularTextStyle}"
                         Text="Nov 17, 2026" />
                 </Grid>
             </StackPanel>
 
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.LiveSetting="Polite"
-                Style="{StaticResource LeonardoMetaTextStyle}"
+                Style="{ThemeResource LeonardoMetaTextStyle}"
                 Text="{x:Bind Feedback, Mode=OneWay}" />
         </StackPanel>
     </Grid>

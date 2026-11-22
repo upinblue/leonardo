@@ -61,13 +61,16 @@ No research is needed to apply existing tokens or for small fixes in UI that alr
 - Read [references/usability.md](references/usability.md) and the platform file.
 - Read [references/design-language.md](references/design-language.md) for Leonardo. Its rules are marked MUST, SHOULD and NEVER.
 - Use platform components first. Leonardo adds only the content layer: type roles, alignment line, grid, density, color semantics, status shapes, motion vocabulary.
-- Take every value from tokens: [references/leonardo.tokens.json](references/leonardo.tokens.json) or the Leonardo resources in the repository. Never use literal colors, spacing, font sizes, radii, durations or easing curves.
+- Take every value from tokens: [references/leonardo.tokens.json](references/leonardo.tokens.json) or the Leonardo resources in the repository. Never use literal colors, spacing, font sizes, radii, durations or easing curves. A token with `$extensions.platforms` exists only in the outputs it names; for example the focus and accent state colors are standalone web only.
+- Status colors come from the platform: Fluent's status brushes on Windows, system colors on iOS and macOS, the host's colors inside a host. Only the standalone web and presentations have Leonardo status colors.
+- Keep page margin and alignment line apart: the page margin is `space.l`; on pages with icon lists, text starts on the alignment line at `space.xl`.
+- One accent surface for actions per view; checked toggles are selection and do not count. Stagger only when the user navigates to a view, never at launch. The short duration is for exits only. The Arrive marker is a short accent bar; the dot belongs to the status dot.
 - Every view answers three questions at a glance: Where am I? What can I do here? What just happened?
 - Design all states, not only the happy path: empty, loading, error, offline, long and translated text, large text, dark mode, high contrast, reduced motion, keyboard only.
 
 ### 5. Verify and report
 
-- If a "Leonardo check" message appears after an edit, it comes from the plugin's hook. Fix each finding in the lines you changed with the suggested token or resource. Leave findings in other lines alone unless the task is about them. Add a `leonardo-check: ignore <rule> <reason>` comment only for a real exception, and name it in the pull request.
+- If a "Leonardo check" message appears after an edit, it comes from the plugin's hook. Fix each finding in the lines you changed with the suggested token or resource. Leave findings in other lines alone unless the task is about them. Add a `leonardo-check: ignore <rule> <reason>` comment only for a real exception, and name it in the pull request. If the hook says the check was skipped because `leonardo-check` is not installed, mention it in your report; do not install it yourself.
 
 - Go through the checklist of your mode.
 - Where possible, run the app and look at the result in light and dark mode.
@@ -87,5 +90,6 @@ No research is needed to apply existing tokens or for small fixes in UI that alr
 - Windows: the packages `UpInBlue.Leonardo.WinUI` and `UpInBlue.Leonardo.Wpf`
 - iOS and macOS: the generated asset catalog and Swift values in `generated/apple` of upinblue/leonardo
 - Web: the generated CSS custom properties in `generated/web` of upinblue/leonardo
+- Checks: the .NET tool `leonardo-check` (package `UpInBlue.Leonardo.Check`), which the plugin's hook runs after edits
 
 If a repository does not contain Leonardo values yet, add them from upinblue/leonardo and note which version you used.

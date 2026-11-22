@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 namespace UpInBlue.Leonardo.Check.Checkers;
 
 /// <summary>
-/// Checks CSS, SCSS, HTML and TSX: literal colors and font sizes instead of <c>--leonardo-*</c> properties, literal
-/// motion timing, transitions without a <c>prefers-reduced-motion</c> rule, <c>outline: none</c> without a
+/// Checks CSS, SCSS, HTML and TSX: literal colors, font sizes and spacing (margin, padding, gap) instead of
+/// <c>--leonardo-*</c> properties, literal motion timing, transitions without a <c>prefers-reduced-motion</c> rule, <c>outline: none</c> without a
 /// replacement, custom glass, and clickable <c>div</c> elements.
 /// </summary>
 internal sealed partial class WebChecker(WebLanguage language) : IChecker
@@ -103,6 +103,14 @@ internal sealed partial class WebChecker(WebLanguage language) : IChecker
             findings.Add(offset, Rules.LiteralFontSize, $"{property}: {Vocabulary.Excerpt(value)} is a literal font size.", FontSuggestion);
         }
 
+        if (IsSpacingProperty(property) && FindSpacingLiteral(withoutVariables) is { } spacing)
+        {
+            findings.Add(offset, Rules.LiteralSpacing, $"{property}: {Vocabulary.Excerpt(value)} uses the literal spacing {spacing.Text}.",
+                spacing.Token is null
+                    ? "Use var(--leonardo-space-xs), -s, -m, -l or -xl, or calc() with them; spacing comes only from space.xs to space.xl. 0 and 1px hairlines are allowed."
+                    : $"Use var(--leonardo-space-{spacing.Token}).");
+        }
+
         if (property.Equals("outline", StringComparison.OrdinalIgnoreCase) && OutlineNoneRegex().IsMatch(value)
             || property.Equals("outline-style", StringComparison.OrdinalIgnoreCase) && value.Equals("none", StringComparison.OrdinalIgnoreCase)
             || property.Equals("outline-width", StringComparison.OrdinalIgnoreCase) && ZeroRegex().IsMatch(value))
@@ -113,7 +121,7 @@ internal sealed partial class WebChecker(WebLanguage language) : IChecker
             if (!replacedHere && !hasFocusVisibleReplacement)
             {
                 findings.Add(offset, Rules.FocusVisual, $"{property}: {value} removes the focus outline without a replacement.",
-                    "Keep the browser's focus ring, or replace it on :focus-visible, for example outline: 2px solid var(--leonardo-text-primary).");
+                    "Keep the browser's focus ring. Where it has less than 3:1 contrast, replace it on :focus-visible with outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus).");
             }
         }
 
@@ -173,6 +181,41 @@ internal sealed partial class WebChecker(WebLanguage language) : IChecker
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Margins, paddings and gaps, including their longhands (<c>margin-inline-start</c>, <c>padding-top</c>,
+    /// <c>row-gap</c> …) and the older <c>grid-gap</c> names.
+    /// </summary>
+    private static bool IsSpacingProperty(string property)
+    {
+        var name = property.ToLowerInvariant();
+        return name.StartsWith("margin", StringComparison.Ordinal)
+            || name.StartsWith("padding", StringComparison.Ordinal)
+            || name is "gap" or "row-gap" or "column-gap" or "grid-gap" or "grid-row-gap" or "grid-column-gap";
+    }
+
+    /// <summary>
+    /// The first px, rem or em length in a spacing value that is neither 0 nor a 1px hairline, with the matching
+    /// spacing token (<c>xs</c> … <c>xl</c>) if its value is one; or null.
+    /// </summary>
+    private static (string Text, string? Token)? FindSpacingLiteral(string value)
+    {
+        foreach (Match match in SpacingLengthRegex().Matches(value))
+        {
+            var number = double.Parse(match.Groups["number"].Value, System.Globalization.CultureInfo.InvariantCulture);
+            var unit = match.Groups["unit"].Value.ToLowerInvariant();
+            if (number == 0 || (unit == "px" && Vocabulary.IsAllowedSpacingLiteral(number)))
+            {
+                continue;
+            }
+
+            var pixels = unit == "px" ? Math.Abs(number) : Math.Abs(number) * 16;
+            var token = Vocabulary.Spacing.TryGetValue(pixels, out var step) ? step.ToLowerInvariant() : null;
+            return (match.Value, token);
+        }
+
+        return null;
     }
 
     private static string? FindColor(string value)
@@ -245,6 +288,9 @@ internal sealed partial class WebChecker(WebLanguage language) : IChecker
 
     [GeneratedRegex(@"(?<![\w-])\d*\.?\d+(?:px|pt|pc|rem|em|ex|ch|vw|vh)(?![\w-])")]
     private static partial Regex FontShorthandSizeRegex();
+
+    [GeneratedRegex(@"(?<![\w.])-?(?<number>\d*\.?\d+)(?<unit>px|rem|em)(?![\w-])", RegexOptions.IgnoreCase)]
+    private static partial Regex SpacingLengthRegex();
 
     [GeneratedRegex(@"^(?:none|0)(?:\s|$)", RegexOptions.IgnoreCase)]
     private static partial Regex OutlineNoneRegex();

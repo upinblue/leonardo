@@ -27,12 +27,8 @@
     <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
     <x:Static x:Key="LeonardoStrokeStrongColor" Member="SystemColors.WindowTextColor" />
     <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
-    <x:Static x:Key="LeonardoStatusCriticalColor" Member="SystemColors.WindowTextColor" />
-    <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
-    <x:Static x:Key="LeonardoStatusCautionColor" Member="SystemColors.WindowTextColor" />
-    <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
-    <x:Static x:Key="LeonardoStatusSuccessColor" Member="SystemColors.WindowTextColor" />
-    <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="{DynamicResource {x:Static SystemColors.WindowTextColorKey}}" />
+    <x:Static x:Key="LeonardoChartColor" Member="SystemColors.HighlightColor" />
+    <SolidColorBrush x:Key="LeonardoChartBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
 
     <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
     <!-- palette.depth -->
@@ -98,11 +94,11 @@
     <Thickness x:Key="LeonardoSpaceXLVerticalThickness">0,40,0,40</Thickness>
 
     <!-- Corner radii in epx. -->
-    <!-- radius.s (proposal) -->
+    <!-- radius.s -->
     <CornerRadius x:Key="LeonardoRadiusS">4</CornerRadius>
-    <!-- radius.m (proposal) -->
+    <!-- radius.m -->
     <CornerRadius x:Key="LeonardoRadiusM">8</CornerRadius>
-    <!-- radius.l (proposal) -->
+    <!-- radius.l -->
     <CornerRadius x:Key="LeonardoRadiusL">16</CornerRadius>
 
     <!-- List row heights in epx. -->
@@ -112,6 +108,12 @@
     <sys:Double x:Key="LeonardoDensityStandard">40</sys:Double>
     <!-- density.comfortable -->
     <sys:Double x:Key="LeonardoDensityComfortable">48</sys:Double>
+
+    <!-- Sizes of small elements in epx. -->
+    <!-- size.icon -->
+    <sys:Double x:Key="LeonardoSizeIcon">16</sys:Double>
+    <!-- size.statusDot -->
+    <sys:Double x:Key="LeonardoSizeStatusDot">12</sys:Double>
 
     <!-- Type roles: font family, font size and line height in epx. -->
     <!-- typography.placeName.windows -->
@@ -170,9 +172,9 @@
     <sys:Double x:Key="LeonardoDistanceEnterMin">24</sys:Double>
     <!-- motion.distance.enterMax -->
     <sys:Double x:Key="LeonardoDistanceEnterMax">40</sys:Double>
-    <!-- motion.parallax.placeNameFactor (proposal) -->
+    <!-- motion.parallax.placeNameFactor -->
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
-    <!-- motion.arrive.hold (proposal) -->
+    <!-- motion.arrive.hold -->
     <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
     <KeyTime x:Key="LeonardoArriveHoldKeyTime">0:0:2</KeyTime>
     <sys:TimeSpan x:Key="LeonardoArriveHoldTimeSpan">0:0:2</sys:TimeSpan>

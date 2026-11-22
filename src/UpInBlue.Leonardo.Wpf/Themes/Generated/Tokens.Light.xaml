@@ -16,36 +16,30 @@
     <!-- theme.light.selection -->
     <Color x:Key="LeonardoSelectionColor">#FFDCEAFB</Color>
     <SolidColorBrush x:Key="LeonardoSelectionBrush" Color="#FFDCEAFB" />
-    <!-- theme.light.surface (proposal) -->
+    <!-- theme.light.surface -->
     <Color x:Key="LeonardoSurfaceColor">#FFFAFBFD</Color>
     <SolidColorBrush x:Key="LeonardoSurfaceBrush" Color="#FFFAFBFD" />
     <!-- theme.light.surfaceAlt -->
     <Color x:Key="LeonardoSurfaceAltColor">#FFF3F7FC</Color>
     <SolidColorBrush x:Key="LeonardoSurfaceAltBrush" Color="#FFF3F7FC" />
-    <!-- theme.light.textPrimary (proposal) -->
+    <!-- theme.light.textPrimary -->
     <Color x:Key="LeonardoTextPrimaryColor">#FF141B2B</Color>
     <SolidColorBrush x:Key="LeonardoTextPrimaryBrush" Color="#FF141B2B" />
-    <!-- theme.light.textSecondary (proposal) -->
+    <!-- theme.light.textSecondary -->
     <Color x:Key="LeonardoTextSecondaryColor">#FF4A5568</Color>
     <SolidColorBrush x:Key="LeonardoTextSecondaryBrush" Color="#FF4A5568" />
-    <!-- theme.light.textTertiary (proposal) -->
+    <!-- theme.light.textTertiary -->
     <Color x:Key="LeonardoTextTertiaryColor">#FF5E6878</Color>
     <SolidColorBrush x:Key="LeonardoTextTertiaryBrush" Color="#FF5E6878" />
-    <!-- theme.light.strokeSubtle (proposal) -->
+    <!-- theme.light.strokeSubtle -->
     <Color x:Key="LeonardoStrokeSubtleColor">#FFDFE5EE</Color>
     <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="#FFDFE5EE" />
-    <!-- theme.light.strokeStrong (proposal) -->
+    <!-- theme.light.strokeStrong -->
     <Color x:Key="LeonardoStrokeStrongColor">#FF78849A</Color>
     <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF78849A" />
-    <!-- theme.light.statusCritical -->
-    <Color x:Key="LeonardoStatusCriticalColor">#FFC42B1C</Color>
-    <SolidColorBrush x:Key="LeonardoStatusCriticalBrush" Color="#FFC42B1C" />
-    <!-- theme.light.statusCaution -->
-    <Color x:Key="LeonardoStatusCautionColor">#FF9D5D00</Color>
-    <SolidColorBrush x:Key="LeonardoStatusCautionBrush" Color="#FF9D5D00" />
-    <!-- theme.light.statusSuccess -->
-    <Color x:Key="LeonardoStatusSuccessColor">#FF0F7B0F</Color>
-    <SolidColorBrush x:Key="LeonardoStatusSuccessBrush" Color="#FF0F7B0F" />
+    <!-- theme.light.chart -->
+    <Color x:Key="LeonardoChartColor">#FF0B4A99</Color>
+    <SolidColorBrush x:Key="LeonardoChartBrush" Color="#FF0B4A99" />
 
     <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
     <!-- palette.depth -->
@@ -111,11 +105,11 @@
     <Thickness x:Key="LeonardoSpaceXLVerticalThickness">0,40,0,40</Thickness>
 
     <!-- Corner radii in epx. -->
-    <!-- radius.s (proposal) -->
+    <!-- radius.s -->
     <CornerRadius x:Key="LeonardoRadiusS">4</CornerRadius>
-    <!-- radius.m (proposal) -->
+    <!-- radius.m -->
     <CornerRadius x:Key="LeonardoRadiusM">8</CornerRadius>
-    <!-- radius.l (proposal) -->
+    <!-- radius.l -->
     <CornerRadius x:Key="LeonardoRadiusL">16</CornerRadius>
 
     <!-- List row heights in epx. -->
@@ -125,6 +119,12 @@
     <sys:Double x:Key="LeonardoDensityStandard">40</sys:Double>
     <!-- density.comfortable -->
     <sys:Double x:Key="LeonardoDensityComfortable">48</sys:Double>
+
+    <!-- Sizes of small elements in epx. -->
+    <!-- size.icon -->
+    <sys:Double x:Key="LeonardoSizeIcon">16</sys:Double>
+    <!-- size.statusDot -->
+    <sys:Double x:Key="LeonardoSizeStatusDot">12</sys:Double>
 
     <!-- Type roles: font family, font size and line height in epx. -->
     <!-- typography.placeName.windows -->
@@ -183,9 +183,9 @@
     <sys:Double x:Key="LeonardoDistanceEnterMin">24</sys:Double>
     <!-- motion.distance.enterMax -->
     <sys:Double x:Key="LeonardoDistanceEnterMax">40</sys:Double>
-    <!-- motion.parallax.placeNameFactor (proposal) -->
+    <!-- motion.parallax.placeNameFactor -->
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
-    <!-- motion.arrive.hold (proposal) -->
+    <!-- motion.arrive.hold -->
     <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
     <KeyTime x:Key="LeonardoArriveHoldKeyTime">0:0:2</KeyTime>
     <sys:TimeSpan x:Key="LeonardoArriveHoldTimeSpan">0:0:2</sys:TimeSpan>

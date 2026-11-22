@@ -28,12 +28,8 @@ public enum Leonardo {
         public static let strokeSubtle = Color("Leonardo/StrokeSubtle")
         /// Token: `theme.*.strokeStrong`.
         public static let strokeStrong = Color("Leonardo/StrokeStrong")
-        /// Token: `theme.*.statusCritical`.
-        public static let statusCritical = Color("Leonardo/StatusCritical")
-        /// Token: `theme.*.statusCaution`.
-        public static let statusCaution = Color("Leonardo/StatusCaution")
-        /// Token: `theme.*.statusSuccess`.
-        public static let statusSuccess = Color("Leonardo/StatusSuccess")
+        /// Token: `theme.*.chart`.
+        public static let chart = Color("Leonardo/Chart")
     }
 
     /// Spacing in points. Base grid 4, layout steps of 8. Values are epx on Windows and pt on iOS. Spacing MUST only come from this table.
@@ -52,11 +48,11 @@ public enum Leonardo {
 
     /// Corner radii in points. Concentric rule: inner radius = outer radius - padding. Example: a card with radius l and padding s contains elements with radius m.
     public enum Radius {
-        /// Token: `radius.s`. Proposal, not final yet.
+        /// Token: `radius.s`.
         public static let s: CGFloat = 4
-        /// Token: `radius.m`. Proposal, not final yet.
+        /// Token: `radius.m`.
         public static let m: CGFloat = 8
-        /// Token: `radius.l`. Proposal, not final yet.
+        /// Token: `radius.l`.
         public static let l: CGFloat = 16
     }
 
@@ -70,7 +66,15 @@ public enum Leonardo {
         public static let comfortable: CGFloat = 48
     }
 
-    /// Motion on iOS and macOS: springs without bounce.
+    /// Sizes in points. Small elements with a fixed size, such as icons and status dots.
+    public enum Size {
+        /// Icons in list rows and next to labels. Token: `size.icon`.
+        public static let icon: CGFloat = 16
+        /// The diameter of the status dot. Token: `size.statusDot`.
+        public static let statusDot: CGFloat = 12
+    }
+
+    /// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.
     public enum Motion {
         /// Spring parameters, for example `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`.
         public enum Spring {
@@ -87,6 +91,9 @@ public enum Leonardo {
 
         /// Token: `motion.stagger.maxGroups`.
         public static let staggerMaxGroups: Int = 4
+
+        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: `motion.arrive.hold`.
+        public static let arriveHold: TimeInterval = 2
     }
 
     /// The type roles as system text styles. The system decides the size, so roles follow Dynamic Type.

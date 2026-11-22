@@ -59,9 +59,7 @@ public sealed class ColorViewModel
         Row("textTertiary", "Metadata", L => L.TextTertiary, D => D.TextTertiary, OnSurface),
         Row("strokeSubtle", "Decorative separators only", L => L.StrokeSubtle, D => D.StrokeSubtle, OnSurface),
         Row("strokeStrong", "Boundaries of interactive elements", L => L.StrokeStrong, D => D.StrokeStrong, OnSurface),
-        Row("statusCritical", "Standalone web only; Windows uses Fluent status colors", L => L.StatusCritical, D => D.StatusCritical, OnSurface),
-        Row("statusCaution", "Standalone web only; Windows uses Fluent status colors", L => L.StatusCaution, D => D.StatusCaution, OnSurface),
-        Row("statusSuccess", "Standalone web only; Windows uses Fluent status colors", L => L.StatusSuccess, D => D.StatusSuccess, OnSurface),
+        Row("chart", "The one blue of a single-series chart", L => L.Chart, D => D.Chart, OnSurface),
     ];
 
     private static PaletteSwatch Swatch(string name, Color color, string use) => new(name, Hex(color), new SolidColorBrush(color), use);
@@ -129,9 +127,7 @@ public sealed class ColorViewModel
         Color TextTertiary,
         Color StrokeSubtle,
         Color StrokeStrong,
-        Color StatusCritical,
-        Color StatusCaution,
-        Color StatusSuccess)
+        Color Chart)
     {
         public static Theme Light { get; } = new(
             LeonardoTokens.Light.Accent,
@@ -145,9 +141,7 @@ public sealed class ColorViewModel
             LeonardoTokens.Light.TextTertiary,
             LeonardoTokens.Light.StrokeSubtle,
             LeonardoTokens.Light.StrokeStrong,
-            LeonardoTokens.Light.StatusCritical,
-            LeonardoTokens.Light.StatusCaution,
-            LeonardoTokens.Light.StatusSuccess);
+            LeonardoTokens.Light.Chart);
 
         public static Theme Dark { get; } = new(
             LeonardoTokens.Dark.Accent,
@@ -161,8 +155,6 @@ public sealed class ColorViewModel
             LeonardoTokens.Dark.TextTertiary,
             LeonardoTokens.Dark.StrokeSubtle,
             LeonardoTokens.Dark.StrokeStrong,
-            LeonardoTokens.Dark.StatusCritical,
-            LeonardoTokens.Dark.StatusCaution,
-            LeonardoTokens.Dark.StatusSuccess);
+            LeonardoTokens.Dark.Chart);
     }
 }

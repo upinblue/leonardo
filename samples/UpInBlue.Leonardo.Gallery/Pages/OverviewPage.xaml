@@ -7,25 +7,25 @@
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Overview" />
 
             <StackPanel
                 MaxWidth="{StaticResource GalleryReadingWidth}"
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 HorizontalAlignment="Left"
                 Spacing="{StaticResource LeonardoSpaceL}">
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Leonardo is the design language of up in blue. Every app is first a good Windows, iOS, macOS or web app with good usability. Leonardo is the up in blue handwriting on top." />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="This gallery shows the foundations of Leonardo on Windows and a few typical app scenarios, built only from WinUI controls and Leonardo resources." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Leonardo is the design language of up in blue. Every app is first a good Windows, iOS, macOS or web app with good usability. Leonardo is the up in blue handwriting on top." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="This gallery shows the foundations of Leonardo on Windows and a few typical app scenarios, built only from WinUI controls and Leonardo resources." />
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Who owns what" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="The platform owns ground and tools. Leonardo owns the content." />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Who owns what" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="The platform owns ground and tools. Leonardo owns the content." />
                     <Grid ColumnSpacing="{StaticResource LeonardoSpaceM}" RowSpacing="{StaticResource LeonardoSpaceS}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{StaticResource GalleryLabelColumnWidth}" />
@@ -38,27 +38,27 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel>
-                            <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Tools" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Platform" />
+                            <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Tools" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Platform" />
                         </StackPanel>
-                        <TextBlock Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Command bars, menus, navigation, dialogs and flyouts, closest to the user." />
+                        <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Command bars, menus, navigation, dialogs and flyouts, closest to the user." />
 
                         <StackPanel Grid.Row="1">
-                            <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Content" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Leonardo" />
+                            <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Content" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Leonardo" />
                         </StackPanel>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Type roles, the alignment line, grid, density, color semantics, status shapes and motion." />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Type roles, the alignment line, grid, density, color semantics, status shapes and motion." />
 
                         <StackPanel Grid.Row="2">
-                            <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Ground" />
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Platform" />
+                            <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Ground" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Platform" />
                         </StackPanel>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="The window backdrop, the navigation pane and the page background." />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="The window backdrop, the navigation pane and the page background." />
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Rule levels" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Rule levels" />
                     <Grid ColumnSpacing="{StaticResource LeonardoSpaceM}" RowSpacing="{StaticResource LeonardoSpaceS}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{StaticResource GalleryLabelColumnWidth}" />
@@ -69,22 +69,22 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="MUST" />
-                        <TextBlock Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Applies without exception." />
-                        <TextBlock Grid.Row="1" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="SHOULD" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Applies in the normal case. An exception needs a reason that is recorded in the code or in the review." />
-                        <TextBlock Grid.Row="2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="NEVER" />
-                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Is forbidden." />
+                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="MUST" />
+                        <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Applies without exception." />
+                        <TextBlock Grid.Row="1" Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="SHOULD" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Applies in the normal case. An exception needs a reason that is recorded in the code or in the review." />
+                        <TextBlock Grid.Row="2" Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="NEVER" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Is forbidden." />
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="When a case isn't covered" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Decide in this order:" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="When a case isn't covered" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Decide in this order:" />
                     <ItemsControl ItemsSource="{x:Bind DecisionRules}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind}" />
+                                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>
@@ -96,8 +96,8 @@
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="In this gallery" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Foundations show color, type, grid and the fallbacks for system settings. Scenarios show Leonardo in typical app pages. Choose the theme and the list density in Settings." />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="In this gallery" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Foundations show color, type, grid and the fallbacks for system settings. Scenarios show Leonardo in typical app pages. Choose the theme and the list density in Settings." />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

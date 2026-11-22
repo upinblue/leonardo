@@ -55,7 +55,7 @@ internal static class CSharpGenerator
 
         Class(writer, "Light", "Theme colors for light mode. In high contrast, use system colors instead.", () =>
         {
-            foreach (var token in catalog.Light)
+            foreach (var token in catalog.LightFor(OutputPlatform.Windows))
             {
                 Member(writer, token, $"public static readonly Color {Text.Pascal(token.Name)} = {platform.Color(token.Color)};");
             }
@@ -63,7 +63,7 @@ internal static class CSharpGenerator
 
         Class(writer, "Dark", "Theme colors for dark mode. In high contrast, use system colors instead.", () =>
         {
-            foreach (var token in catalog.Dark)
+            foreach (var token in catalog.DarkFor(OutputPlatform.Windows))
             {
                 Member(writer, token, $"public static readonly Color {Text.Pascal(token.Name)} = {platform.Color(token.Color)};");
             }
@@ -88,6 +88,14 @@ internal static class CSharpGenerator
         Class(writer, "Density", "List row heights in epx. " + (catalog.Tokens.GroupDescription("density") ?? string.Empty), () =>
         {
             foreach (var token in catalog.Density)
+            {
+                Member(writer, token, $"public const double {Text.Pascal(token.Name)} = {Text.Double(token.Dimension.Value)};");
+            }
+        });
+
+        Class(writer, "Size", "Sizes in epx. " + (catalog.Tokens.GroupDescription("size") ?? string.Empty), () =>
+        {
+            foreach (var token in catalog.SizeFor(OutputPlatform.Windows))
             {
                 Member(writer, token, $"public const double {Text.Pascal(token.Name)} = {Text.Double(token.Dimension.Value)};");
             }

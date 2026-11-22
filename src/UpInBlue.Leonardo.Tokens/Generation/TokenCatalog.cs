@@ -20,6 +20,7 @@ internal sealed class TokenCatalog
         Space = Pixels(tokens.Children("space"));
         Radius = Pixels(tokens.Children("radius"));
         Density = Pixels(tokens.Children("density"));
+        Size = Pixels(tokens.Children("size"));
         IosSpring = tokens.Children($"{MotionIos}.spring");
         PresentationMotion = tokens.Children(MotionPresentation);
         Motion = tokens.Descendants("motion")
@@ -35,6 +36,7 @@ internal sealed class TokenCatalog
 
         ValidateThemes();
         ValidateCoverage();
+        ValidatePlatforms();
     }
 
     public TokenSet Tokens { get; }
@@ -48,14 +50,14 @@ internal sealed class TokenCatalog
     /// <summary>Theme colors for dark mode (<c>theme.dark.*</c>), in the same order as <see cref="Light"/>.</summary>
     public IReadOnlyList<Token> Dark { get; }
 
-    /// <summary>The names of the theme colors, for example <c>accent</c>.</summary>
-    public IEnumerable<string> ThemeColorNames => Light.Select(token => token.Name);
-
     public IReadOnlyList<Token> Space { get; }
 
     public IReadOnlyList<Token> Radius { get; }
 
     public IReadOnlyList<Token> Density { get; }
+
+    /// <summary>Fixed sizes of small elements (<c>size.*</c>), for every platform. Use <see cref="SizeFor"/> in an output.</summary>
+    public IReadOnlyList<Token> Size { get; }
 
     /// <summary>Motion shared by Windows and the web: easing, durations, stagger, distances, parallax.</summary>
     public IReadOnlyList<MotionToken> Motion { get; }
@@ -72,6 +74,21 @@ internal sealed class TokenCatalog
     /// The pairs of light and dark tokens for each theme color.
     /// </summary>
     public IEnumerable<(Token Light, Token Dark)> ThemePairs => Light.Zip(Dark);
+
+    /// <summary>The light theme colors that appear in the outputs of a platform.</summary>
+    public IReadOnlyList<Token> LightFor(OutputPlatform platform) => Light.Where(token => token.IsFor(platform)).ToList();
+
+    /// <summary>The dark theme colors that appear in the outputs of a platform, in the same order as <see cref="LightFor"/>.</summary>
+    public IReadOnlyList<Token> DarkFor(OutputPlatform platform) => Dark.Where(token => token.IsFor(platform)).ToList();
+
+    /// <summary>The names of the theme colors that appear in the outputs of a platform.</summary>
+    public IEnumerable<string> ThemeColorNamesFor(OutputPlatform platform) => LightFor(platform).Select(token => token.Name);
+
+    /// <summary>The pairs of light and dark tokens for each theme color that appears in the outputs of a platform.</summary>
+    public IEnumerable<(Token Light, Token Dark)> ThemePairsFor(OutputPlatform platform) => LightFor(platform).Zip(DarkFor(platform));
+
+    /// <summary>The sizes that appear in the outputs of a platform.</summary>
+    public IReadOnlyList<Token> SizeFor(OutputPlatform platform) => Size.Where(token => token.IsFor(platform)).ToList();
 
     private static bool IsInside(Token token, string group)
         => token.Path.StartsWith(group + ".", StringComparison.Ordinal);
@@ -112,6 +129,31 @@ internal sealed class TokenCatalog
         }
     }
 
+    /// <summary>
+    /// Only theme colors and sizes can be limited to some platforms, and a theme color has the same platforms in light and dark.
+    /// </summary>
+    private void ValidatePlatforms()
+    {
+        var limitable = Light.Concat(Dark).Concat(Size).Select(token => token.Path).ToHashSet(StringComparer.Ordinal);
+        foreach (var token in Tokens.Tokens)
+        {
+            if (token.Platforms is not null && !limitable.Contains(token.Path))
+            {
+                throw new TokenException($"Token '{token.Path}' has $extensions.platforms, which only theme colors and sizes support.");
+            }
+        }
+
+        foreach (var (light, dark) in ThemePairs)
+        {
+            var lightPlatforms = Enum.GetValues<OutputPlatform>().Where(light.IsFor);
+            var darkPlatforms = Enum.GetValues<OutputPlatform>().Where(dark.IsFor);
+            if (!lightPlatforms.SequenceEqual(darkPlatforms))
+            {
+                throw new TokenException($"The theme color '{light.Name}' must have the same $extensions.platforms in light and dark.");
+            }
+        }
+    }
+
     private void ValidateCoverage()
     {
         var covered = Palette
@@ -120,6 +162,7 @@ internal sealed class TokenCatalog
             .Concat(Space)
             .Concat(Radius)
             .Concat(Density)
+            .Concat(Size)
             .Concat(Motion.Select(motion => motion.Token))
             .Concat(IosSpring)
             .Concat(PresentationMotion)

@@ -111,11 +111,13 @@ public sealed class WpfWinUIParityTests
         Assert.Equal(winUI.OrderBy(pair => pair.Key, StringComparer.Ordinal), wpf.OrderBy(pair => pair.Key, StringComparer.Ordinal));
     }
 
-    [Fact]
-    public void TextStylesAreTheSame()
+    [Theory]
+    [InlineData("Default", "TextStyles.xaml")]
+    [InlineData("HighContrast", "TextStyles.HighContrast.xaml")]
+    public void TextStylesAreTheSame(string winUITheme, string wpfFile)
     {
-        var winUI = Styles(Load(WinUITextStyles));
-        var wpf = Styles(Load(WpfThemes + "TextStyles.xaml"));
+        var winUI = Styles(ThemeDictionary(Load(WinUITextStyles), winUITheme));
+        var wpf = Styles(Load(WpfThemes + wpfFile).Root!);
 
         Assert.Equal(8, winUI.Count);
         Assert.Equal(winUI.Keys.Order(StringComparer.Ordinal), wpf.Keys.Order(StringComparer.Ordinal));
@@ -126,7 +128,24 @@ public sealed class WpfWinUIParityTests
                 Assert.True(wpf[key].TryGetValue(property, out var wpfValue), $"{key}: WPF lacks the setter {property}.");
                 Assert.Equal(value, wpfValue);
             }
+
+            Assert.Equal(setters.ContainsKey("Foreground"), wpf[key].ContainsKey("Foreground"));
         }
+    }
+
+    /// <summary>
+    /// Microsoft, "Contrast themes", list items with colored text: in contrast themes, text styles must not set
+    /// <c>Foreground</c>, so that text in a selected list item inherits HighlightText. In light and dark they set it.
+    /// </summary>
+    [Fact]
+    public void TextStylesLeaveTheForegroundToContrastThemes()
+    {
+        var winUI = Load(WinUITextStyles);
+        Assert.Empty(winUI.Root!.Elements(Presentation + "Style"));
+        Assert.All(Styles(ThemeDictionary(winUI, "Default")).Values, setters => Assert.True(setters.ContainsKey("Foreground")));
+        Assert.All(Styles(ThemeDictionary(winUI, "HighContrast")).Values, setters => Assert.False(setters.ContainsKey("Foreground")));
+        Assert.All(Styles(Load(WpfThemes + "TextStyles.xaml").Root!).Values, setters => Assert.True(setters.ContainsKey("Foreground")));
+        Assert.All(Styles(Load(WpfThemes + "TextStyles.HighContrast.xaml").Root!).Values, setters => Assert.False(setters.ContainsKey("Foreground")));
     }
 
     private static XDocument Load(string path) => XDocument.Load(Repository.PathOf(path));
@@ -157,8 +176,8 @@ public sealed class WpfWinUIParityTests
     /// <summary>
     /// The setters of every style, with resource references reduced to their key and font weights to their OpenType value.
     /// </summary>
-    private static Dictionary<string, Dictionary<string, string>> Styles(XDocument document)
-        => document.Root!.Elements(Presentation + "Style").ToDictionary(
+    private static Dictionary<string, Dictionary<string, string>> Styles(XElement dictionary)
+        => dictionary.Elements(Presentation + "Style").ToDictionary(
             style => (string)style.Attribute(X + "Key")!,
             style => style.Elements(Presentation + "Setter").ToDictionary(
                 setter => (string)setter.Attribute("Property")!,

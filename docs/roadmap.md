@@ -162,18 +162,13 @@ Design every gallery page with the skill in `claude/skills/leonardo` in build mo
 
 ---
 
-## Stage 6 – Apple and web samples
+## Stage 6 – Web sample
 
-**Goal:** Show that Leonardo works as a dialect on iOS, macOS and the web, and give the skill real examples to point to.
+**Goal:** Show that Leonardo works as a dialect on the web, and give the skill real examples to point to.
 
-Design with the skill in build mode. Read the Human Interface Guidelines pages "Designing for iOS" and "Designing for macOS" and the pages for every pattern used, and list them in the pull request.
+The Apple half of the original stage 6 is split off into stage 6b, because it needs a Mac.
 
-**Apple sample** (`samples/apple/`, runs on a Mac with the current stable Xcode)
-
-1. One SwiftUI multiplatform app with two scenarios: Files and Customers, with invented content.
-2. On iOS: navigation stack with large titles, a tab bar for the two scenarios, sheets for editing, swipe actions and context menus, Dynamic Type.
-3. On macOS: `NavigationSplitView` with sidebar, the window title as place name, a complete menu bar with shortcuts via `Commands`, a Settings window opened with Command-comma, toolbar, context menus, multiple selection, keyboard navigation, undo and redo.
-4. Leonardo values only from `generated/apple`: asset catalog and `LeonardoTokens.swift`. Motion as springs without bounce; Reduce Motion respected.
+Design with the skill in build mode. Read MDN, WCAG 2.2 and the ARIA Authoring Practices Guide pages for every pattern used, and list them in the pull request.
 
 **Web sample** (`samples/web/`)
 
@@ -182,9 +177,31 @@ Design with the skill in build mode. Read the Human Interface Guidelines pages "
 
 **Acceptance criteria**
 
-- The Apple sample builds and runs on iOS (simulator) and macOS; the Mac version uses the menu bar and Settings window, the iOS version does not imitate Mac patterns and vice versa.
 - The web sample passes a keyboard-only walkthrough and works with reduced motion and forced colors.
-- No literal design values in either sample.
+- No literal design values.
+
+---
+
+## Stage 6b – Apple sample on a Mac
+
+**Goal:** Show that Leonardo works as a dialect on iOS and macOS, and give the skill real Apple examples to point to.
+
+This stage runs on a Mac with the current stable Xcode. Branch: `stage/06b-apple-sample`.
+
+Design with the skill in build mode. Read the Human Interface Guidelines pages "Designing for iOS" and "Designing for macOS" and the pages for every pattern used, and list them in the pull request.
+
+**Apple sample** (`samples/apple/`)
+
+1. One SwiftUI multiplatform app with two scenarios: Files and Customers, with invented content.
+2. On iOS: navigation stack with large titles, a tab bar for the two scenarios, sheets for editing, swipe actions and context menus, Dynamic Type. Lists keep the system row heights (at least 44 pt); the Leonardo densities do not apply.
+3. On macOS: `NavigationSplitView` with sidebar, the window title as place name, a complete menu bar with shortcuts via `Commands`, a Settings window opened with Command-comma, toolbar, context menus, multiple selection, keyboard navigation, undo and redo. Lists offer compact (the system's default table row), standard (`density.standard`) and comfortable (`density.comfortable`).
+4. Leonardo values only from `generated/apple`: asset catalog and `LeonardoTokens.swift`, both in the app target (the generated colors have no `bundle:` argument). Status in system colors. Motion as springs without bounce, stagger only on navigation, the Arrive marker as a bar; Reduce Motion respected.
+5. Replace the examples in `claude/skills/leonardo/references/platforms/ios.md` and `macos.md`, which are not taken from a running app yet, with short examples from the sample.
+
+**Acceptance criteria**
+
+- The Apple sample builds and runs on iOS (simulator) and macOS; the Mac version uses the menu bar and Settings window, the iOS version does not imitate Mac patterns and vice versa.
+- No literal design values: `leonardo-check samples/apple` reports no findings.
 
 ---
 
@@ -238,3 +255,52 @@ The skill already exists as a complete draft in `claude/skills/leonardo`. This s
 4. A checklist for going public: legal review of `LICENSE`, `TRADEMARKS.md` and the photo credits in the PDF, nuget.org account and reservation of the prefix `UpInBlue.`, removal of anything internal, switching the visibility.
 
 **Never** switch the repository visibility or publish to nuget.org yourself.
+
+---
+
+## Stage 10 – Decisions before the first release
+
+**Status:** done. Bastian Wirth decided the open questions of stages 1 to 9. Stage 10 implemented the decisions in parallel branches: tokens, generator and design language; the WinUI and WPF libraries and samples; the web sample; and the skill, the check tool and the documentation.
+
+**Decided and implemented**
+
+1. All token proposals are confirmed.
+2. Tokens can be limited to outputs with `$extensions.platforms`. The status colors exist only for the standalone web and presentations; Windows uses Fluent's status brushes, iOS and macOS use system colors.
+3. New tokens: `theme.*.chart` on every platform; `size.icon` and `size.statusDot` (`LeonardoSizeStatusDot` replaces `LeonardoStatusDotSize`); for the standalone web only `theme.*.focus`, `size.focusStroke`, `theme.*.accentHover` and `theme.*.accentPressed`. Swift gains `Leonardo.Motion.arriveHold`.
+4. Design language: the page margin is `space.l`, with an alignment line at `space.xl` on pages with icon lists; `motion.duration.short` is for exits only; stagger only on navigation, never at launch; checked toggles count as selection; the Arrive marker is a short accent bar; the web replaces a focus ring below 3:1 with the focus tokens; the Inter statement is neutral; iOS keeps system row heights, and on macOS compact is the system table row.
+5. `StatusKind` is chosen by meaning: `CheckedOut` stands for attention, `Conflict` for broken or overdue.
+6. The Apple sample moves to stage 6b. The generated Swift colors stay "app target only".
+7. The check tool is packed as the .NET tool `UpInBlue.Leonardo.Check`, checks literal spacing in Swift, CSS and SCSS too, and the hook prints a one-line warning when the tool is missing, without blocking.
+
+**Kept as they are**
+
+- The marketplace is named `upinblue`; the plugin is MIT licensed, with `brand/` excluded.
+- WinUI durations are `x:String` resources, like Fluent's own.
+- Web units and fallbacks: type roles in `rem`; spacing, radii and distances in `px`; font stacks fall back to `sans-serif`; reduced motion turns movement into the fade.
+- Key naming: two-letter sizes in capitals (`LeonardoSpaceXS`), motion keys without the `motion` segment (`LeonardoDurationNormal`).
+- Screenshots stay in the repository, under `docs/screenshots/`.
+- The gallery scenario "Overview" is called "Key figures".
+- `CHANGELOG.md` keeps "Unreleased" until the release is packed.
+- `CONTRIBUTING.md` stays "inbound = outbound" under the MIT License.
+- The packages have no icon until `TRADEMARKS.md` allows one.
+
+**Acceptance criteria**
+
+- `dotnet build UpInBlue.Leonardo.slnx` has no warnings, all tests pass, and the generator check is clean.
+- The skill, the README, the changelog and the publishing guide describe the decisions above.
+
+---
+
+## Open topics
+
+Raised by the stage 7 skill tests and not decided yet. Each needs a decision by Bastian Wirth before the skill or the design language says anything about it.
+
+- A writing guide for the standalone web: Microsoft's, Apple's, or neither.
+- Uppercase as a stylistic device; the design language only forbids lowercase.
+- A minimum severity for privacy problems in reviews, such as fonts loaded from third-party servers.
+- A helper for F6 between the panes of a window in WinUI.
+- How long a success message stays when it carries an Undo ("briefly confirmed").
+- Whether a `SummaryLine` may show standing counts, such as "Due for renewal: 3".
+- Labels of search boxes, which on Windows usually have no visible label.
+- Leonardo's exit curve (1, 0, 1, 1) with fade, compared with the "direct exit" curve that Microsoft's "Motion in Windows" pairs with fades.
+- The icon family for the standalone web.

@@ -50,7 +50,8 @@ internal static class TokenGenerator
             XamlGenerator.Wpf(catalog, dark: true),
             XamlGenerator.WpfHighContrast(catalog),
             WpfThemeGenerator.AccentColors(catalog),
-            WpfThemeGenerator.TextStyles(catalog),
+            WpfThemeGenerator.TextStyles(catalog, highContrast: false),
+            WpfThemeGenerator.TextStyles(catalog, highContrast: true),
             CSharpGenerator.Wpf(catalog),
         };
         files.AddRange(AppleGenerator.Generate(catalog));

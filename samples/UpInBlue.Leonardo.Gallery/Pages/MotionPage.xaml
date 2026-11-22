@@ -10,28 +10,28 @@
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Motion" />
 
             <!-- Inspect: the settings come first, because they change every demo below. -->
             <StackPanel
                 MaxWidth="{StaticResource GalleryReadingWidth}"
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 HorizontalAlignment="Left"
                 Spacing="{StaticResource LeonardoSpaceL}">
-                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Motion explains where something comes from and where it goes. Every motion is one of seven words. Arriving decelerates, leaving accelerates and is shorter, and opacity is faster than movement. Click or press a key while something moves to jump to its end." />
+                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Motion explains where something comes from and where it goes. Every motion is one of seven words. Arriving decelerates, leaving accelerates and is shorter, and opacity is faster than movement. Click or press a key while something moves to jump to its end." />
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Inspect" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Inspect" />
                     <RadioButtons
                         Header="Animations"
                         ItemsSource="{x:Bind ViewModel.AnimationModes}"
                         SelectedIndex="{x:Bind ViewModel.AnimationModeIndex, Mode=TwoWay}" />
                     <TextBlock
                         AutomationProperties.LiveSetting="Polite"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="{x:Bind ViewModel.AnimationState, Mode=OneWay}" />
                     <Slider
                         x:Name="SlowDownSlider"
@@ -44,13 +44,13 @@
                         TickFrequency="1"
                         TickPlacement="Outside"
                         Value="{x:Bind ViewModel.SlowDown, Mode=TwoWay}" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SlowDownText, Mode=OneWay}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SlowDownText, Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>
 
             <!-- Curves and values -->
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceM}">
-                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Easing curves" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceM}">
+                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Easing curves" />
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Curves}">
                     <ItemsRepeater.Layout>
                         <UniformGridLayout MinColumnSpacing="{StaticResource LeonardoSpaceL}" MinRowSpacing="{StaticResource LeonardoSpaceL}" />
@@ -68,23 +68,23 @@
                                         StrokeThickness="{StaticResource GalleryGuideLineWidth}" />
                                     <Path
                                         Data="{x:Bind helpers:Curves.Geometry(Easing)}"
-                                        Stroke="{ThemeResource GalleryChartBrush}"
+                                        Stroke="{ThemeResource LeonardoChartBrush}"
                                         StrokeThickness="{StaticResource GalleryCurveThickness}" />
                                 </Grid>
                                 <StackPanel>
-                                    <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                    <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind Value}" />
-                                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Use}" TextWrapping="Wrap" />
+                                    <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                    <TextBlock Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="{x:Bind Value}" />
+                                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Use}" TextWrapping="Wrap" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
-                <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Time runs to the right, progress upwards." />
+                <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Time runs to the right, progress upwards." />
             </StackPanel>
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Durations and distances" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Durations and distances" />
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Timing}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:TimingSample">
@@ -97,13 +97,13 @@
                                     <ColumnDefinition Width="{StaticResource GalleryDateColumnWidth}" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
                                 <TextBlock
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
-                                    Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                                    Style="{ThemeResource LeonardoBodyTabularTextStyle}"
                                     Text="{x:Bind ValueText}" />
-                                <TextBlock Grid.Column="2" Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Use}" />
+                                <TextBlock Grid.Column="2" Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Use}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -112,9 +112,9 @@
 
             <!-- Dive in -->
             <StackPanel x:Name="DiveSection" Spacing="{StaticResource LeonardoSpaceS}">
-                <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Dive in" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="I go one level deeper. Open a folder: its name flies to the top and becomes the heading, the rest follows. Back reverses the motion." TextWrapping="Wrap" />
+                <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Dive in" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="I go one level deeper. Open a folder: its name flies to the top and becomes the heading, the rest follows. Back reverses the motion." TextWrapping="Wrap" />
                 </StackPanel>
                 <Grid>
                     <ListView
@@ -138,26 +138,26 @@
                                     Spacing="{StaticResource LeonardoSpaceXS}">
                                     <FontIcon
                                         VerticalAlignment="Center"
-                                        FontSize="{StaticResource GalleryIconSize}"
+                                        FontSize="{StaticResource LeonardoSizeIcon}"
                                         Glyph="&#xE8B7;" />
                                     <TextBlock
                                         x:Name="FolderName"
                                         VerticalAlignment="Center"
-                                        Style="{StaticResource LeonardoBodyTextStyle}"
+                                        Style="{ThemeResource LeonardoBodyTextStyle}"
                                         Text="{x:Bind}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <StackPanel
-                        Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                        Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                         Spacing="{StaticResource LeonardoSpaceS}"
                         Visibility="{x:Bind helpers:Show.When(ViewModel.IsFolderOpen), Mode=OneWay}">
                         <TextBlock
                             x:Name="DiveHeading"
-                            Style="{StaticResource LeonardoViewTextStyle}"
+                            Style="{ThemeResource LeonardoViewTextStyle}"
                             Text="{x:Bind ViewModel.OpenFolder, Mode=OneWay}" />
-                        <TextBlock x:Name="DiveContent" Style="{StaticResource LeonardoBodyTextStyle}" Text="3 files, modified this week by Lea Schmid and Jonas Weber." />
+                        <TextBlock x:Name="DiveContent" Style="{ThemeResource LeonardoBodyTextStyle}" Text="3 files, modified this week by Lea Schmid and Jonas Weber." />
                         <Button
                             x:Name="DiveBackButton"
                             Click="OnDemoBackClicked"
@@ -167,9 +167,9 @@
             </StackPanel>
 
             <!-- Transform -->
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Transform" />
-                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="This thing becomes that. The button becomes the panel it opens, and the panel becomes the button again." TextWrapping="Wrap" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Transform" />
+                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="This thing becomes that. The button becomes the panel it opens, and the panel becomes the button again." TextWrapping="Wrap" />
                 <Grid HorizontalAlignment="Left">
                     <Button
                         x:Name="CommentButton"
@@ -193,16 +193,16 @@
             </StackPanel>
 
             <!-- Stagger -->
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Stagger" />
-                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="These belong together, in this order. The four groups of a view enter shortly after each other, in reading order." TextWrapping="Wrap" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Stagger" />
+                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="These belong together, in this order. When you navigate to a view, its groups enter shortly after each other, in reading order. The first view at app launch appears without it." TextWrapping="Wrap" />
                 <Button Click="OnPlayStaggerClicked" Content="Play the entrance" />
                 <StackPanel Padding="{StaticResource LeonardoSpaceMTopThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock x:Name="StaggerHeading" Style="{StaticResource LeonardoViewTextStyle}" Text="Lakeside Utilities" />
-                    <TextBlock x:Name="StaggerSummary" Style="{StaticResource LeonardoBodyTextStyle}" Text="Prospect since October 2, 2026. Contact: Mara Lindqvist." />
+                    <TextBlock x:Name="StaggerHeading" Style="{ThemeResource LeonardoViewTextStyle}" Text="Lakeside Utilities" />
+                    <TextBlock x:Name="StaggerSummary" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Prospect since October 2, 2026. Contact: Mara Lindqvist." />
                     <StackPanel x:Name="StaggerDetails">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Konstanz" />
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Interested in the document workflow." />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Konstanz" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Interested in the document workflow." />
                     </StackPanel>
                     <Button x:Name="StaggerAction" Content="Send offer" />
                 </StackPanel>
@@ -210,9 +210,9 @@
 
             <!-- Reflow -->
             <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Reflow" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="The order has changed. Sorted rows glide to their new place." TextWrapping="Wrap" />
+                <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Reflow" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="The order has changed. Sorted rows glide to their new place." TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
                         <Button Click="OnSortByNameClicked" Content="Sort by name" />
                         <Button Click="OnSortBySizeClicked" Content="Sort by size" />
@@ -242,14 +242,14 @@
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal"
                                     Spacing="{StaticResource LeonardoSpaceXS}">
-                                    <FontIcon FontSize="{StaticResource GalleryIconSize}" Glyph="&#xE8A5;" />
-                                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                                    <FontIcon FontSize="{StaticResource LeonardoSizeIcon}" Glyph="&#xE8A5;" />
+                                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
                                 </StackPanel>
                                 <TextBlock
                                     Grid.Column="1"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
-                                    Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                                    Style="{ThemeResource LeonardoBodyTabularTextStyle}"
                                     Text="{x:Bind SizeText}" />
                             </Grid>
                         </DataTemplate>
@@ -259,9 +259,9 @@
 
             <!-- Arrive and Leave -->
             <StackPanel x:Name="ArriveSection" Spacing="{StaticResource LeonardoSpaceS}">
-                <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Arrive and leave" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Something new is here: a new event appears in its place with a short accent marker, and screen readers announce it. This is gone: an event accelerates out and fades, and the others close the gap." TextWrapping="Wrap" />
+                <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Arrive and leave" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Something new is here: a new event appears in its place with a short accent bar at the start of the row, which fades out after a moment, and screen readers announce it. This is gone: an event accelerates out and fades, and the others close the gap." TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
                         <Button Click="OnAddEventClicked" Content="Add an event" />
                         <Button Click="OnRemoveEventClicked" Content="Remove the newest event" />
@@ -273,37 +273,39 @@
                     ItemsSource="{x:Bind ViewModel.DemoEvents}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:DemoEvent">
-                            <!-- Marker column (space.s) and icon hang to the left of the alignment line: 4 + 4 + 8 + 4 + 16 + 4 = 40. -->
+                            <!--
+                                The same geometry as the Activity timeline: the Arrive bar fills the row's leading padding, the
+                                icon and the status column hang left of the alignment line: 4 + 4 + 16 + 12 + 4 = 40.
+                            -->
                             <Grid
                                 MaxWidth="{StaticResource GalleryReadingWidth}"
-                                Padding="{StaticResource LeonardoSpaceXSHorizontalThickness}"
+                                Padding="{StaticResource LeonardoSpaceXSRightThickness}"
                                 HorizontalAlignment="Left"
-                                AutomationProperties.Name="{x:Bind AccessibleName}"
-                                ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                                AutomationProperties.Name="{x:Bind AccessibleName}">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid Width="{StaticResource LeonardoSpaceS}" Margin="{StaticResource LeonardoSpaceXSTopThickness}" VerticalAlignment="Top">
-                                    <Ellipse
-                                        x:Name="ArriveMarker"
-                                        Width="{StaticResource GalleryMarkerSize}"
-                                        Height="{StaticResource GalleryMarkerSize}"
-                                        Margin="{StaticResource LeonardoSpaceXSTopThickness}"
-                                        AutomationProperties.AccessibilityView="Raw"
-                                        Fill="{ThemeResource LeonardoAccentBrush}"
-                                        Opacity="0" />
-                                </Grid>
+                                <Border
+                                    x:Name="ArriveMarker"
+                                    Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                    Style="{StaticResource LeonardoArriveMarkerStyle}" />
                                 <FontIcon
                                     Grid.Column="1"
                                     Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                                     VerticalAlignment="Top"
-                                    FontSize="{StaticResource GalleryIconSize}"
+                                    FontSize="{StaticResource LeonardoSizeIcon}"
                                     Glyph="&#xE81C;" />
-                                <StackPanel Grid.Column="2" Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
-                                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
-                                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
+                                <!-- The status column of the lists stays, so names keep the alignment line. -->
+                                <Border Grid.Column="2" Width="{StaticResource LeonardoSizeStatusDot}" />
+                                <StackPanel
+                                    Grid.Column="3"
+                                    Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                                    Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
+                                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
+                                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
@@ -314,11 +316,11 @@
             <!-- Respond -->
             <StackPanel
                 MaxWidth="{StaticResource GalleryReadingWidth}"
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 HorizontalAlignment="Left"
                 Spacing="{StaticResource LeonardoSpaceS}">
-                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Respond" />
-                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="I heard you. Leonardo adds nothing here: the controls of Windows react the moment you press them and again when you release, and that is the response. Press and hold these buttons." TextWrapping="Wrap" />
+                <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Respond" />
+                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="I heard you. Leonardo adds nothing here: the controls of Windows react the moment you press them and again when you release, and that is the response. Press and hold these buttons." TextWrapping="Wrap" />
                 <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
                     <Button Content="Save changes" Style="{StaticResource AccentButtonStyle}" />
                     <Button Content="Discard changes" />

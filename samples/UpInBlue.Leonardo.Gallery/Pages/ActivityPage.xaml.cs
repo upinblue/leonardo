@@ -2,14 +2,13 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using UpInBlue.Leonardo.Gallery.Helpers;
 using UpInBlue.Leonardo.Gallery.ViewModels;
-using UpInBlue.Leonardo.WinUI.Controls;
 using UpInBlue.Leonardo.WinUI.Motion;
 
 namespace UpInBlue.Leonardo.Gallery.Pages;
 
 /// <summary>
 /// The Activity scenario: a timeline of events with a summary of what happened since the last visit. New events arrive
-/// at the top of today with a short accent marker, the events below make room, and screen readers announce the new event.
+/// at the top of today with a short accent bar, the events below make room, and screen readers announce the new event.
 /// </summary>
 public sealed partial class ActivityPage : Page
 {
@@ -49,7 +48,7 @@ public sealed partial class ActivityPage : Page
 
         if (added is not null && today?.ContainerFromItem(added) is UIElement container)
         {
-            Arrive.Run(container, VisualTree.FindDescendant<StatusDot>(container, "ArriveMarker"), $"New event: {added.Text}");
+            Arrive.Run(container, VisualTree.FindDescendant<Border>(container, "ArriveMarker"), $"New event: {added.Text}");
         }
     }
 }

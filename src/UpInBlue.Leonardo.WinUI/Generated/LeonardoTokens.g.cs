@@ -69,7 +69,7 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color Selection = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xDC, 0xEA, 0xFB);
         /// <summary>
-        /// Opaque content surface, cool neutral. Token: <c>theme.light.surface</c>. Proposal, not final yet.
+        /// Opaque content surface, cool neutral. Token: <c>theme.light.surface</c>.
         /// </summary>
         public static readonly Color Surface = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xFA, 0xFB, 0xFD);
         /// <summary>
@@ -77,37 +77,29 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color SurfaceAlt = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xF3, 0xF7, 0xFC);
         /// <summary>
-        /// 16.6:1 on surface. Token: <c>theme.light.textPrimary</c>. Proposal, not final yet.
+        /// 16.6:1 on surface. Token: <c>theme.light.textPrimary</c>.
         /// </summary>
         public static readonly Color TextPrimary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x14, 0x1B, 0x2B);
         /// <summary>
-        /// 7.3:1 on surface. Token: <c>theme.light.textSecondary</c>. Proposal, not final yet.
+        /// 7.3:1 on surface. Token: <c>theme.light.textSecondary</c>.
         /// </summary>
         public static readonly Color TextSecondary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x4A, 0x55, 0x68);
         /// <summary>
-        /// Metadata. 5.4:1 on surface, 4.6:1 on selection. Token: <c>theme.light.textTertiary</c>. Proposal, not final yet.
+        /// Metadata. 5.4:1 on surface, 4.6:1 on selection. Token: <c>theme.light.textTertiary</c>.
         /// </summary>
         public static readonly Color TextTertiary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x5E, 0x68, 0x78);
         /// <summary>
-        /// Decorative separators only. Not for boundaries that carry meaning. Token: <c>theme.light.strokeSubtle</c>. Proposal, not final yet.
+        /// Decorative separators only. Not for boundaries that carry meaning. Token: <c>theme.light.strokeSubtle</c>.
         /// </summary>
         public static readonly Color StrokeSubtle = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xDF, 0xE5, 0xEE);
         /// <summary>
-        /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>. Proposal, not final yet.
+        /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x78, 0x84, 0x9A);
         /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusCritical</c>.
+        /// Data series in charts, the one blue of a single-series chart. 8.3:1 on surface. In contrast themes, the system highlight color. Token: <c>theme.light.chart</c>.
         /// </summary>
-        public static readonly Color StatusCritical = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xC4, 0x2B, 0x1C);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusCaution</c>.
-        /// </summary>
-        public static readonly Color StatusCaution = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x9D, 0x5D, 0x00);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.light.statusSuccess</c>.
-        /// </summary>
-        public static readonly Color StatusSuccess = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x0F, 0x7B, 0x0F);
+        public static readonly Color Chart = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x0B, 0x4A, 0x99);
     }
 
     /// <summary>
@@ -124,53 +116,45 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color OnAccent = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x0A, 0x1A, 0x33);
         /// <summary>
-        /// 9.8:1 on surface. Token: <c>theme.dark.link</c>. Proposal, not final yet.
+        /// 9.8:1 on surface. Token: <c>theme.dark.link</c>.
         /// </summary>
         public static readonly Color Link = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xA9, 0xCC, 0xF6);
         /// <summary>
-        /// Token: <c>theme.dark.selection</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.selection</c>.
         /// </summary>
         public static readonly Color Selection = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x1E, 0x3A, 0x66);
         /// <summary>
-        /// Token: <c>theme.dark.surface</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.surface</c>.
         /// </summary>
         public static readonly Color Surface = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x1A, 0x20, 0x30);
         /// <summary>
-        /// Token: <c>theme.dark.surfaceAlt</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.surfaceAlt</c>.
         /// </summary>
         public static readonly Color SurfaceAlt = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x14, 0x19, 0x26);
         /// <summary>
-        /// 14.5:1 on surface. Token: <c>theme.dark.textPrimary</c>. Proposal, not final yet.
+        /// 14.5:1 on surface. Token: <c>theme.dark.textPrimary</c>.
         /// </summary>
         public static readonly Color TextPrimary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xEE, 0xF2, 0xF8);
         /// <summary>
-        /// 8.6:1 on surface. Token: <c>theme.dark.textSecondary</c>. Proposal, not final yet.
+        /// 8.6:1 on surface. Token: <c>theme.dark.textSecondary</c>.
         /// </summary>
         public static readonly Color TextSecondary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xB3, 0xBD, 0xCC);
         /// <summary>
-        /// 7.3:1 on surface, 5.1:1 on selection. Token: <c>theme.dark.textTertiary</c>. Proposal, not final yet.
+        /// 7.2:1 on surface, 5.1:1 on selection. Token: <c>theme.dark.textTertiary</c>.
         /// </summary>
         public static readonly Color TextTertiary = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xA3, 0xAE, 0xC0);
         /// <summary>
-        /// Token: <c>theme.dark.strokeSubtle</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.strokeSubtle</c>.
         /// </summary>
         public static readonly Color StrokeSubtle = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x2C, 0x35, 0x47);
         /// <summary>
-        /// 3.8:1 on surface. Token: <c>theme.dark.strokeStrong</c>. Proposal, not final yet.
+        /// 3.7:1 on surface. Token: <c>theme.dark.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x6E, 0x7A, 0x8F);
         /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusCritical</c>.
+        /// Data series in charts, the one blue of a single-series chart. 7.4:1 on surface. In contrast themes, the system highlight color. Token: <c>theme.dark.chart</c>.
         /// </summary>
-        public static readonly Color StatusCritical = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xFF, 0x99, 0xA4);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusCaution</c>.
-        /// </summary>
-        public static readonly Color StatusCaution = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0xFC, 0xE1, 0x00);
-        /// <summary>
-        /// Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. Token: <c>theme.dark.statusSuccess</c>.
-        /// </summary>
-        public static readonly Color StatusSuccess = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x6C, 0xCB, 0x5F);
+        public static readonly Color Chart = Microsoft.UI.ColorHelper.FromArgb(0xFF, 0x7F, 0xB2, 0xF0);
     }
 
     /// <summary>
@@ -206,15 +190,15 @@ public static class LeonardoTokens
     public static class Radius
     {
         /// <summary>
-        /// Token: <c>radius.s</c>. Proposal, not final yet.
+        /// Token: <c>radius.s</c>.
         /// </summary>
         public const double S = 4d;
         /// <summary>
-        /// Token: <c>radius.m</c>. Proposal, not final yet.
+        /// Token: <c>radius.m</c>.
         /// </summary>
         public const double M = 8d;
         /// <summary>
-        /// Token: <c>radius.l</c>. Proposal, not final yet.
+        /// Token: <c>radius.l</c>.
         /// </summary>
         public const double L = 16d;
     }
@@ -236,6 +220,21 @@ public static class LeonardoTokens
         /// Token: <c>density.comfortable</c>.
         /// </summary>
         public const double Comfortable = 48d;
+    }
+
+    /// <summary>
+    /// Sizes in epx. Small elements with a fixed size, such as icons and status dots.
+    /// </summary>
+    public static class Size
+    {
+        /// <summary>
+        /// Icons in list rows and next to labels. Token: <c>size.icon</c>.
+        /// </summary>
+        public const double Icon = 16d;
+        /// <summary>
+        /// The diameter of the status dot. Token: <c>size.statusDot</c>.
+        /// </summary>
+        public const double StatusDot = 12d;
     }
 
     /// <summary>
@@ -430,7 +429,7 @@ public static class LeonardoTokens
         public static readonly TimeSpan DurationFade = TimeSpan.FromMilliseconds(83d);
 
         /// <summary>
-        /// Short distances, all exits. Token: <c>motion.duration.short</c>.
+        /// Exits only. Entrances start at motion.duration.normal. Token: <c>motion.duration.short</c>.
         /// </summary>
         public static readonly TimeSpan DurationShort = TimeSpan.FromMilliseconds(167d);
 
@@ -465,12 +464,12 @@ public static class LeonardoTokens
         public const double DistanceEnterMax = 40d;
 
         /// <summary>
-        /// The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks. Token: <c>motion.parallax.placeNameFactor</c>. Proposal, not final yet.
+        /// The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks. Token: <c>motion.parallax.placeNameFactor</c>.
         /// </summary>
         public const double ParallaxPlaceNameFactor = 0.7d;
 
         /// <summary>
-        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: <c>motion.arrive.hold</c>. Proposal, not final yet.
+        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: <c>motion.arrive.hold</c>.
         /// </summary>
         public static readonly TimeSpan ArriveHold = TimeSpan.FromMilliseconds(2000d);
     }

@@ -120,6 +120,14 @@ public sealed partial class SummaryLineViewModel : ObservableObject
         new() { Kind = SummaryKind.Conflict, Count = 3, IsActive = true },
     ];
 
+    /// <summary>Several filters are on: checked toggles count as selection, so more than one may be active.</summary>
+    public ObservableCollection<SummaryLineItem> ActivePhrases { get; } =
+    [
+        new() { Kind = SummaryKind.New, Count = 2, IsActive = true },
+        new() { Kind = SummaryKind.CheckedOut, Count = 1 },
+        new() { Kind = SummaryKind.Conflict, Count = 3, IsActive = true },
+    ];
+
     /// <summary>Custom phrases with their own labels.</summary>
     public ObservableCollection<SummaryLineItem> CustomPhrases { get; } =
     [

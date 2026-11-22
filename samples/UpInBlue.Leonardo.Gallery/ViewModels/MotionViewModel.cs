@@ -143,12 +143,12 @@ public sealed partial class MotionViewModel : ObservableObject, IDisposable
     public IReadOnlyList<TimingSample> Timing { get; } =
     [
         new("Fade", "motion.duration.fade", Milliseconds(LeonardoTokens.Motion.DurationFade), "Opacity"),
-        new("Short", "motion.duration.short", Milliseconds(LeonardoTokens.Motion.DurationShort), "Leave"),
+        new("Short", "motion.duration.short", Milliseconds(LeonardoTokens.Motion.DurationShort), "Exits only: leave"),
         new("Normal", "motion.duration.normal", Milliseconds(LeonardoTokens.Motion.DurationNormal), "Stagger, transform, reflow"),
         new("Long", "motion.duration.long", Milliseconds(LeonardoTokens.Motion.DurationLong), "Dive in, long reflows"),
         new("Stagger step", "motion.stagger.step", Milliseconds(LeonardoTokens.Motion.StaggerStep), string.Create(CultureInfo.InvariantCulture, $"Between groups, at most {LeonardoTokens.Motion.StaggerMaxGroups} groups")),
         new("Distance", "motion.distance.*", string.Create(CultureInfo.InvariantCulture, $"{LeonardoTokens.Motion.DistanceEnterMin}–{LeonardoTokens.Motion.DistanceEnterMax} epx"), "How far entering elements travel"),
-        new("Arrive hold", "motion.arrive.hold", Milliseconds(LeonardoTokens.Motion.ArriveHold), "How long the marker stays (proposal)"),
+        new("Arrive hold", "motion.arrive.hold", Milliseconds(LeonardoTokens.Motion.ArriveHold), "How long the accent bar of Arrive stays"),
     ];
 
     /// <summary>The folders of the Dive in demo.</summary>

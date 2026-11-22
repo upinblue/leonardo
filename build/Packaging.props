@@ -1,7 +1,8 @@
 <Project>
   <!--
-    NuGet metadata shared by the two Leonardo libraries. Imported at the end of
-    src/UpInBlue.Leonardo.WinUI/UpInBlue.Leonardo.WinUI.csproj and src/UpInBlue.Leonardo.Wpf/UpInBlue.Leonardo.Wpf.csproj.
+    NuGet metadata shared by the Leonardo packages. Imported at the end of
+    src/UpInBlue.Leonardo.WinUI/UpInBlue.Leonardo.WinUI.csproj, src/UpInBlue.Leonardo.Wpf/UpInBlue.Leonardo.Wpf.csproj
+    and src/UpInBlue.Leonardo.Check/UpInBlue.Leonardo.Check.csproj (a .NET tool).
 
     Every other project stays non-packable (IsPackable is false in Directory.Build.props).
 
@@ -21,7 +22,8 @@
     <Company>up in blue</Company>
     <Product>Leonardo</Product>
     <Copyright>Copyright (c) 2026 up in blue</Copyright>
-    <!-- The code is MIT (LICENSE). The names and logos of up in blue are not part of any package (TRADEMARKS.md). -->
+    <!-- The code is MIT (LICENSE). The names and logos of up in blue are not part of any package (TRADEMARKS.md).
+         No package has an icon until TRADEMARKS.md allows one (docs/going-public.md). -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/upinblue/leonardo</PackageProjectUrl>
     <RepositoryUrl>https://github.com/upinblue/leonardo</RepositoryUrl>
@@ -41,6 +43,11 @@
   <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UpInBlue.Leonardo.Wpf'">
     <Description>Leonardo, the design language of up in blue, for WPF on .NET 10: token resources for light, dark and contrast themes, text styles for the type roles, the accent override for the built-in Fluent theme, and motion helpers. No custom controls.</Description>
     <PackageTags>leonardo;design-language;design-tokens;wpf;fluent;xaml</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UpInBlue.Leonardo.Check'">
+    <Description>leonardo-check, a .NET tool that finds literal design values and common accessibility mistakes in the UI code of up in blue apps: XAML, C#, Swift, CSS, SCSS, HTML and TSX. Used by the hook of the Claude Code plugin leonardo.</Description>
+    <PackageTags>leonardo;design-language;design-tokens;linter;dotnet-tool;claude-code;xaml;swiftui;css</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

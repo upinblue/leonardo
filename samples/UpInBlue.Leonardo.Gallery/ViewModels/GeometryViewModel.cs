@@ -27,11 +27,18 @@ public sealed class GeometryViewModel
     /// <summary>The spacing scale.</summary>
     public IReadOnlyList<GeometrySample> Spacing { get; } =
     [
-        new("space.xs", LeonardoTokens.Space.XS, "Icon to label"),
+        new("space.xs", LeonardoTokens.Space.XS, "Icon to label; how far list backplates reach toward the content edge"),
         new("space.s", LeonardoTokens.Space.S, "Within a group"),
         new("space.m", LeonardoTokens.Space.M, "Between groups"),
-        new("space.l", LeonardoTokens.Space.L, "Page margins, details pane"),
-        new("space.xl", LeonardoTokens.Space.XL, "Between place name and content"),
+        new("space.l", LeonardoTokens.Space.L, "Page margin, details pane"),
+        new("space.xl", LeonardoTokens.Space.XL, "Between place name and content; alignment line on pages with icon lists"),
+    ];
+
+    /// <summary>The sizes of small elements.</summary>
+    public IReadOnlyList<GeometrySample> Sizes { get; } =
+    [
+        new("size.icon", LeonardoTokens.Size.Icon, "Icons in list rows and next to labels"),
+        new("size.statusDot", LeonardoTokens.Size.StatusDot, "Diameter of the status dot"),
     ];
 
     /// <summary>The corner radii.</summary>

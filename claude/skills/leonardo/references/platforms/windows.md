@@ -64,29 +64,42 @@ All keys start with `Leonardo`. Colors are theme resources (Light, Dark, and Hig
 
 | Kind | Keys | Use with |
 | --- | --- | --- |
-| Theme colors | `LeonardoAccentBrush`, `LeonardoOnAccentBrush`, `LeonardoLinkBrush`, `LeonardoSelectionBrush`, `LeonardoSurfaceBrush`, `LeonardoSurfaceAltBrush`, `LeonardoTextPrimaryBrush`, `LeonardoTextSecondaryBrush`, `LeonardoTextTertiaryBrush`, `LeonardoStrokeSubtleBrush`, `LeonardoStrokeStrongBrush`; each also as `…Color` | `{ThemeResource …}` |
-| Status colors | Fluent's own: `SystemFillColorCriticalBrush`, `SystemFillColorCautionBrush`, `SystemFillColorSuccessBrush` (as `StatusDot` and `InfoBar` use them). The `LeonardoStatus…Brush` resources mirror them for the standalone web; do not use them on Windows. | `{ThemeResource …}` |
-| Blue scale | `LeonardoPaletteDepthColor`, `…NearColor`, `…BrandColor`, `…FarColor`, `…HazeColor`, `…SkyColor`, `…WhiteColor` | `{StaticResource …}`, only inside your own theme dictionaries (charts), never directly on an element |
+| Theme colors | `LeonardoAccentBrush`, `LeonardoOnAccentBrush`, `LeonardoLinkBrush`, `LeonardoSelectionBrush`, `LeonardoSurfaceBrush`, `LeonardoSurfaceAltBrush`, `LeonardoTextPrimaryBrush`, `LeonardoTextSecondaryBrush`, `LeonardoTextTertiaryBrush`, `LeonardoStrokeSubtleBrush`, `LeonardoStrokeStrongBrush`, `LeonardoChartBrush`; each also as `…Color` | `{ThemeResource …}` |
+| Chart | `LeonardoChartBrush`: the one blue of a single-series chart (near in Light, far in Dark, `SystemColorHighlightColor` in a contrast theme) | `{ThemeResource …}` on the series, never on text or surfaces |
+| Status colors | None in Leonardo. Use Fluent's own: `SystemFillColorCriticalBrush` (broken, overdue), `SystemFillColorCautionBrush` (attention), `SystemFillColorSuccessBrush` (briefly confirmed), as `StatusDot` and `InfoBar` use them. | `{ThemeResource …}` |
+| Blue scale | `LeonardoPaletteDepthColor`, `…NearColor`, `…BrandColor`, `…FarColor`, `…HazeColor`, `…SkyColor`, `…WhiteColor` | `{StaticResource …}`, only inside your own theme dictionaries (charts with several series), never directly on an element |
 | Spacing (`x:Double`) | `LeonardoSpaceXS` 4, `LeonardoSpaceS` 8, `LeonardoSpaceM` 16, `LeonardoSpaceL` 24, `LeonardoSpaceXL` 40 | `Spacing`, `ColumnSpacing`, `RowSpacing` |
 | Spacing (`Thickness`) | `LeonardoSpace{XS,S,M,L,XL}Thickness`, and `…LeftThickness`, `…TopThickness`, `…RightThickness`, `…BottomThickness`, `…HorizontalThickness`, `…VerticalThickness` | `Margin`, `Padding` |
 | Radii (`CornerRadius`) | `LeonardoRadiusS`, `LeonardoRadiusM`, `LeonardoRadiusL` | `CornerRadius`; concentric rule: inner = outer − padding |
 | Density (`x:Double`) | `LeonardoDensityCompact` 32, `LeonardoDensityStandard` 40, `LeonardoDensityComfortable` 48 | Row heights |
+| Sizes (`x:Double`) | `LeonardoSizeIcon` 16, `LeonardoSizeStatusDot` 12 | Icons in list rows and next to labels; the status dot and the status column of a row |
 | Text styles | `LeonardoPlaceNameTextStyle`, `LeonardoViewTextStyle`, `LeonardoSectionTextStyle`, `LeonardoBodyTextStyle`, `LeonardoBodyStrongTextStyle`, `LeonardoMetaTextStyle`, and `LeonardoBodyTabularTextStyle`, `LeonardoMetaTabularTextStyle` for numbers in columns | `Style` on `TextBlock` |
 | Type values | `Leonardo{PlaceName,View,Section,Body,Meta}{FontFamily,FontSize,LineHeight}` | Only where a text style cannot be used |
-| Motion | `LeonardoEaseEnter`, `LeonardoEaseExit`, `LeonardoEaseMove`, `LeonardoEaseFade` (KeySpline strings); `LeonardoDurationFade`, `…Short`, `…Normal`, `…Long`; `LeonardoArriveHold`; `LeonardoStaggerStep`, `LeonardoStaggerMaxGroups`; `LeonardoDistanceEnterMin`, `…Max`; `LeonardoParallaxPlaceNameFactor` | Storyboards that the motion helpers do not cover |
-| Controls | `LeonardoStatusDotSize` (12) | The status column of a row |
+| Motion | `LeonardoEaseEnter`, `LeonardoEaseExit`, `LeonardoEaseMove`, `LeonardoEaseFade` (KeySpline strings); `LeonardoDurationFade`, `…Short`, `…Normal`, `…Long` (`x:String` such as `0:0:0.25`, like Fluent's own motion resources, so they convert to `KeyTime`, `Duration` and `BeginTime`); `LeonardoArriveHold`; `LeonardoStaggerStep`, `LeonardoStaggerMaxGroups`; `LeonardoDistanceEnterMin`, `…Max`; `LeonardoParallaxPlaceNameFactor` | Storyboards that the motion helpers do not cover |
+
+The Leonardo packages have no status color resources. Windows draws status in Fluent's colors; only the standalone web and presentations have Leonardo status colors.
 
 Known issue: the Leonardo text styles set `Foreground`. In a contrast theme, text in a selected or hovered `ListView` row then keeps the window text color instead of switching to the highlight text color (Microsoft, "Contrast themes", list items with colored text). Check selected rows in a contrast theme, and until the library changes, use a row text style without `Foreground` where this happens. Say so in the pull request.
 
 In code, the same values are in the generated static class `UpInBlue.Leonardo.WinUI.LeonardoTokens` (`LeonardoTokens.Space.M`, `LeonardoTokens.Motion.DurationNormal`, `LeonardoTokens.Light.Accent` …). Use it only where XAML resources are not reachable; in high contrast, colors come from the system, not from `LeonardoTokens`.
 
-Layout sizes Leonardo does not define (pane widths, column widths, icon sizes) go into the app's own resource dictionary with a name and a comment, never inline. The gallery's `Resources/Gallery.xaml` is the model:
+Layout sizes Leonardo does not define (pane widths, column widths) go into the app's own resource dictionary with a name and a comment, never inline. The gallery's `Resources/Gallery.xaml` is the model:
 
 ```xml
 <!-- Asymmetric balance: navigation fixed, content flexible, details fixed. -->
 <GridLength x:Key="GalleryTreePaneWidth">200</GridLength>
 <GridLength x:Key="GalleryDetailsPaneWidth">280</GridLength>
 ```
+
+## Page margin and alignment line
+
+They are two different things. The page margin is the distance from the content edge to the content; the alignment line is the left edge on which text starts.
+
+- **Page margin:** `LeonardoSpaceL` (24), for example `Padding="{StaticResource LeonardoSpaceLHorizontalThickness}"` on the page content.
+- **Pages with icon lists** (rows with an icon and maybe a status dot before the text): the alignment line lies at `LeonardoSpaceXL` (40) from the content edge. `PlaceHeader`, headings, column headers and running text start on it (`LeonardoSpaceXLHorizontalThickness`); icons and status dots hang to the left of it. Hover and selection backplates of the rows may reach out to `LeonardoSpaceXS` from the content edge.
+- **Pages without such lists** (settings, forms, the overview): the page margin `LeonardoSpaceL` is the alignment line.
+
+The Files page of the gallery shows the arithmetic: the `ListView` has a left padding of `LeonardoSpaceXS`, its items a horizontal padding of `LeonardoSpaceXS`, then the icon (`LeonardoSizeIcon`), the status column (`LeonardoSizeStatusDot`) and `LeonardoSpaceXS` to the name: 4 + 4 + 16 + 12 + 4 = 40.
 
 ## WinUI 3: correct and incorrect
 
@@ -118,7 +131,7 @@ Incorrect:
 
 ### Hierarchy from type, not from frames
 
-Correct: a section heading in `LeonardoSectionTextStyle` with white space (`LeonardoSpaceXL` between groups). Incorrect: a `Border` with a background or a line under a heading to create hierarchy; a card around every group. Frames must justify their place, for example a details pane with `LeonardoSurfaceAltBrush`.
+Correct: a section heading in `LeonardoSectionTextStyle` with white space (`LeonardoSpaceM` between groups, `LeonardoSpaceXL` between place name and content). Incorrect: a `Border` with a background or a line under a heading to create hierarchy; a card around every group. Frames must justify their place, for example a details pane with `LeonardoSurfaceAltBrush`.
 
 ### Numbers in columns
 
@@ -126,7 +139,11 @@ Correct: `Style="{StaticResource LeonardoBodyTabularTextStyle}"` for dates, size
 
 ### Accent
 
-Correct: `Style="{StaticResource AccentButtonStyle}"` on the one primary action of a view; the accent ramp makes it brand blue. Incorrect: `Background="{ThemeResource LeonardoAccentBrush}"` on a `Button`, a heading or a surface; more than one accent surface per view.
+Correct: `Style="{StaticResource AccentButtonStyle}"` on the one primary action of a view; the accent ramp makes it brand blue. Checked toggle buttons are selection, not actions: the active phrases of a `SummaryLine` or a checked `ToggleButton` filter may show the accent fill Fluent gives them, several at once, next to the one primary action. Incorrect: `Background="{ThemeResource LeonardoAccentBrush}"` on a `Button`, a heading or a surface; a second `AccentButtonStyle` action in the same view.
+
+### Charts
+
+Correct: a single-series chart draws its series with `{ThemeResource LeonardoChartBrush}`; in a contrast theme it becomes the system highlight color on its own. Incorrect: `LeonardoAccentBrush` or a blue scale color directly on the series, or a status color for data that is not a status.
 
 ### Do not restyle Fluent
 
@@ -179,10 +196,18 @@ What just happened, as one sentence: "Since your last visit: 2 new · 1 checked 
 
 ### StatusDot
 
-`Kind` New (accent dot), CheckedOut (ring in the system caution color) or Conflict (circle with exclamation mark in the system critical color). The shapes carry the meaning, so they fit other domains too: CheckedOut stands for "attention, not blocked" (for example a contract that expires soon), Conflict for "something is broken or overdue". `Description` is required: it is the tooltip and the accessible name, and it says the specific state ("Expires on 3 March"). In rows the dot hangs left of the alignment line, between icon and name, in a column of `LeonardoStatusDotSize`; the alignment line works out when the `ListView` has a left padding of `LeonardoSpaceXS` and its items a horizontal padding of `LeonardoSpaceXS` (4 + 4 + icon 16 + dot 12 + 4 = 40). Correct (gallery, Files page row):
+`Kind` is a `StatusKind`. Choose it by meaning, not by the name of the file scenario:
+
+| `StatusKind` | Shape and color | Meaning | Examples |
+| --- | --- | --- | --- |
+| `New` | Filled dot in the accent color | New since the last visit | A new file, a new approval request |
+| `CheckedOut` | Ring in the system caution color (`SystemFillColorCautionBrush`) | Attention, not blocked | Checked out by someone else, a contract that expires soon |
+| `Conflict` | Circle with exclamation mark in the system critical color (`SystemFillColorCriticalBrush`) | Something is broken or overdue | A sync conflict, an overdue invoice |
+
+`Description` is required: it is the tooltip and the accessible name, and it says the specific state ("Expires on 3 March"). In rows the dot hangs left of the alignment line, between icon and name, in a column of `LeonardoSizeStatusDot` (see "Page margin and alignment line" for the arithmetic). Correct (gallery, Files page row):
 
 ```xml
-<Grid Grid.Column="1" Width="{StaticResource LeonardoStatusDotSize}"
+<Grid Grid.Column="1" Width="{StaticResource LeonardoSizeStatusDot}"
       Margin="{StaticResource LeonardoSpaceXSTopThickness}" VerticalAlignment="Top">
     <leonardo:StatusDot Description="{x:Bind StatusDescription}" Kind="{x:Bind StatusValue}"
                         Visibility="{x:Bind helpers:Show.When(HasStatus)}" />
@@ -205,9 +230,9 @@ Namespace `UpInBlue.Leonardo.WinUI.Motion`. Every helper takes its values from t
 | --- | --- | --- |
 | Dive in | `DiveIn.Prepare(list, item, elementName)` before navigating; `DiveIn.Start(placeName, rest)` on the target page; `DiveIn.PrepareBack(placeName)` and `await DiveIn.StartBackAsync(list, item, elementName, rest)` for back; `DiveIn.Cancel()` | Files: a folder name flies up and becomes the `PlaceHeader` title |
 | Transform | `Transform.Run(source, target, change)` | Approvals: the Approve button becomes the decision panel |
-| Stagger | `Stagger.Enter(groups, direction)`, at most `motion.stagger.maxGroups` groups in reading order | Files: jumping through the tree |
+| Stagger | `Stagger.Enter(groups, direction)`, at most `motion.stagger.maxGroups` groups in reading order, only when the user navigates to a view; never at app launch, where the first view appears without it | Files: jumping through the tree |
 | Reflow | `var reflow = Reflow.Capture(list); change(); reflow.Play();` | Customers: sorting; Files: delete and undo |
-| Arrive | `Arrive.Run(item, marker, announcement)`; the announcement is a UI Automation notification | Activity: a new event with an accent marker |
+| Arrive | `Arrive.Run(item, marker, announcement)`; the marker is a short accent bar at the start of the row, fully visible for `LeonardoArriveHold`, then fading out; the announcement is a UI Automation notification. Never a dot as marker: the dot shape belongs to `StatusDot`. | Activity: a new event with an accent bar |
 | Leave | `await Leave.RunAsync(element, remove)` | Files: a deleted row leaves, the rest reflows |
 | Respond | None. The platform's pressed states are the response. | – |
 
@@ -237,7 +262,7 @@ Incorrect:
 var animation = new DoubleAnimation { To = 0, Duration = TimeSpan.FromMilliseconds(400) };
 ```
 
-For a custom animation the helpers do not cover, use the factories: `MotionCurves.Create(compositor, MotionEasing.Enter)` for Composition, `MotionCurves.CreateKeySpline(…)` and `MotionTiming.CreateDoubleAnimation(…)` for Storyboards, and check `MotionSettings.AnimationsEnabled`. In XAML Storyboards use `KeySpline="{StaticResource LeonardoEaseEnter}"` and `KeyTime="{StaticResource LeonardoDurationNormal}"`. Entrances use `normal` or `long`, exits `short`.
+For a custom animation the helpers do not cover, use the factories: `MotionCurves.Create(compositor, MotionEasing.Enter)` for Composition, `MotionCurves.CreateKeySpline(…)` and `MotionTiming.CreateDoubleAnimation(…)` for Storyboards, and check `MotionSettings.AnimationsEnabled`. In XAML Storyboards use `KeySpline="{StaticResource LeonardoEaseEnter}"` and `KeyTime="{StaticResource LeonardoDurationNormal}"`. Entrances use `normal` or `long`; `LeonardoDurationShort` (167 ms) is for exits only, never for an entrance.
 
 ## WPF
 
@@ -258,7 +283,7 @@ protected override void OnStartup(StartupEventArgs e)
 
 ### Resource keys and the WPF difference
 
-The keys are the same as in WinUI (`LeonardoSpaceMThickness`, `LeonardoRadiusS`, `LeonardoBodyTextStyle`, `LeonardoTextPrimaryBrush` …). Durations also exist as `LeonardoDuration{Fade,Short,Normal,Long}KeyTime` and `…TimeSpan`. Because the color dictionaries are swapped at run time, colors MUST be `DynamicResource`; spacing, radii and text styles may stay `StaticResource`. Correct (WPF sample):
+The keys are the same as in WinUI (`LeonardoSpaceMThickness`, `LeonardoRadiusS`, `LeonardoBodyTextStyle`, `LeonardoTextPrimaryBrush`, `LeonardoChartBrush`, `LeonardoSizeIcon`, `LeonardoSizeStatusDot` …); in a contrast theme `LeonardoChartBrush` is `SystemColors.Highlight`. Like WinUI, the WPF package has no status colors: use the Fluent theme's `SystemFillColorCriticalBrush`, `SystemFillColorCautionBrush` and `SystemFillColorSuccessBrush` with `DynamicResource`. Durations also exist as `LeonardoDuration{Fade,Short,Normal,Long}KeyTime` and `…TimeSpan`. Because the color dictionaries are swapped at run time, colors MUST be `DynamicResource`; spacing, radii and text styles may stay `StaticResource`. Correct (WPF sample):
 
 ```xml
 <Border Padding="{StaticResource LeonardoSpaceLVerticalThickness}">
@@ -274,11 +299,14 @@ Incorrect: `BorderBrush="{StaticResource LeonardoStrokeSubtleBrush}"` (stays in 
 
 ### Motion in WPF
 
-`LeonardoMotion.AnimationsEnabled` reads the Windows setting "Animation effects" (`SystemParameters.ClientAreaAnimation`) and follows its changes. `LeonardoMotion.Stagger(groups)` lets up to four groups enter in reading order, or crossfades them together when animations are off. For other animations, `LeonardoMotion.Spline(from, to, begin, duration, controlPoint1, controlPoint2)` builds a key frame animation from token values, for example `LeonardoTokens.Motion.DurationNormal` and `LeonardoTokens.Motion.EaseEnterControlPoint1`. Correct (WPF sample): `LeonardoMotion.Stagger([HeaderGroup, ColorGroup, TypographyGroup, DensityGroup]);`
+`LeonardoMotion.AnimationsEnabled` reads the Windows setting "Animation effects" (`SystemParameters.ClientAreaAnimation`) and follows its changes. `LeonardoMotion.Stagger(groups)` lets up to four groups enter in reading order, or crossfades them together when animations are off. Call it when the user navigates to a view, not for the first window at launch. For other animations, `LeonardoMotion.Spline(from, to, begin, duration, controlPoint1, controlPoint2)` builds a key frame animation from token values, for example `LeonardoTokens.Motion.DurationNormal` and `LeonardoTokens.Motion.EaseEnterControlPoint1`. Correct (WPF sample): `LeonardoMotion.Stagger([HeaderGroup, ColorGroup, TypographyGroup, DensityGroup]);`
 
 ## Before the pull request (Windows)
 
 - [ ] `App.xaml` merges `Leonardo.xaml` after `XamlControlsResources`; the window uses `MicaBackdrop` and calls `MotionSettings.Initialize()` and `MotionInterruption.Attach(…)`. Check this in an existing app shell too, not only in new pages.
+- [ ] Page margin `LeonardoSpaceL`; on pages with icon lists, place name, headings and list text share the alignment line at `LeonardoSpaceXL`.
+- [ ] One accent surface for actions per view; checked toggles count as selection. Status in Fluent's status brushes, never in Leonardo colors.
+- [ ] Stagger only on navigation, not at launch; `LeonardoDurationShort` only for exits; the Arrive marker is a bar.
 - [ ] Light, Dark and a contrast theme (Settings › Accessibility › Contrast themes).
 - [ ] Animation effects off (Settings › Accessibility › Visual effects): every motion is a crossfade.
 - [ ] Transparency effects off: Mica becomes opaque, the layout stays readable.

@@ -8,7 +8,8 @@
     </ResourceDictionary.MergedDictionaries>
 
     It adds the token resources (Leonardo…), the accent ramp (SystemAccentColor…), the text styles of the type roles and
-    the sizes the Leonardo controls (PlaceHeader, SummaryLine, StatusDot) share with layouts.
+    the style of the Arrive marker. Reference the text styles with ThemeResource: in contrast themes they leave the
+    Foreground to the container, so text in a selected list item turns HighlightText.
     It does not change any other Fluent resource.
 -->
 <ResourceDictionary

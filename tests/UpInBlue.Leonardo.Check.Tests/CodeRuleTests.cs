@@ -112,6 +112,39 @@ public sealed class SwiftRuleTests
     [InlineData("withAnimation(.interpolatingSpring(stiffness: 170, damping: 15)) { expanded = true }")]
     public void BouncingSpringsAreReported(string code) => Check.Reports(Rules.SpringBounce, File, code);
 
+    [Theory]
+    [InlineData("Text(name).padding(15)")]
+    [InlineData("Text(name).padding(.horizontal, 12)")]
+    [InlineData("Text(name).padding([.top, .leading], 8)")]
+    [InlineData("VStack(alignment: .leading, spacing: 12) { Text(name) }")]
+    [InlineData("LazyVGrid(columns: columns, spacing: 16) { }")]
+    [InlineData("Grid(horizontalSpacing: 20, verticalSpacing: Leonardo.Space.s) { }")]
+    [InlineData("List { row.listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)) }")]
+    [InlineData("scrollView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)")]
+    [InlineData("ScrollView { }.contentMargins(.horizontal, 24, for: .scrollContent)")]
+    public void LiteralSpacingIsReported(string code) => Check.Reports(Rules.LiteralSpacing, File, code);
+
+    [Theory]
+    [InlineData("Text(name).padding(Leonardo.Space.l)")]
+    [InlineData("Text(name).padding(.horizontal, Leonardo.Space.m)")]
+    [InlineData("Text(name).padding()")]
+    [InlineData("Text(name).padding(.vertical, 2 * Leonardo.Space.xs)")]
+    [InlineData("VStack(alignment: .leading, spacing: 0) { Text(name) }")]
+    [InlineData("HStack(spacing: Leonardo.Space.xs) { Image(systemName: \"doc\"); Text(name) }")]
+    [InlineData("Divider().padding(.leading, 1)")]
+    [InlineData("row.listRowInsets(EdgeInsets(top: 0, leading: Leonardo.Space.xl, bottom: 0, trailing: Leonardo.Space.l))")]
+    [InlineData("// .padding(15) in a comment")]
+    public void TokenZeroAndHairlineSpacingAreClean(string code) => Check.Clean(File, code);
+
+    [Fact]
+    public void SpacingSuggestionNamesTheMatchingToken()
+    {
+        var finding = Assert.Single(Check.Run(File, "Text(name).padding(16)"));
+        Assert.Equal(Rules.LiteralSpacing, finding.Rule);
+        Assert.Contains("Leonardo.Space.m", finding.Suggestion, StringComparison.Ordinal);
+        Assert.Contains("\".padding(16)\"", finding.Message, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void LeonardoSpringIsClean()
         => Check.Clean(File, "withAnimation(.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)) { expanded = true }");
