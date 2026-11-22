@@ -1,0 +1,50 @@
+<Project>
+  <!--
+    NuGet metadata shared by the two Leonardo libraries. Imported at the end of
+    src/UpInBlue.Leonardo.WinUI/UpInBlue.Leonardo.WinUI.csproj and src/UpInBlue.Leonardo.Wpf/UpInBlue.Leonardo.Wpf.csproj.
+
+    Every other project stays non-packable (IsPackable is false in Directory.Build.props).
+
+    Pack:    dotnet pack UpInBlue.Leonardo.slnx -c Release
+    Output:  artifacts/packages/
+    Publish: see docs/publishing.md. Nothing in this repository publishes automatically.
+  -->
+
+  <PropertyGroup Label="Version">
+    <!-- Semantic versioning. Change it together with CHANGELOG.md. -->
+    <VersionPrefix>0.1.0</VersionPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package metadata">
+    <IsPackable>true</IsPackable>
+    <Authors>up in blue</Authors>
+    <Company>up in blue</Company>
+    <Product>Leonardo</Product>
+    <Copyright>Copyright (c) 2026 up in blue</Copyright>
+    <!-- The code is MIT (LICENSE). The names and logos of up in blue are not part of any package (TRADEMARKS.md). -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/upinblue/leonardo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/upinblue/leonardo</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageReleaseNotes>See CHANGELOG.md in the repository.</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\artifacts\packages\</PackageOutputPath>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UpInBlue.Leonardo.WinUI'">
+    <Description>Leonardo, the design language of up in blue, for WinUI 3: token resources, the accent ramp, text styles for the type roles, motion helpers, and the controls PlaceHeader, SummaryLine and StatusDot. Adds to Fluent; restyles nothing.</Description>
+    <PackageTags>leonardo;design-language;design-tokens;winui;winui3;windows-app-sdk;fluent;xaml</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'UpInBlue.Leonardo.Wpf'">
+    <Description>Leonardo, the design language of up in blue, for WPF on .NET 10: token resources for light, dark and contrast themes, text styles for the type roles, the accent override for the built-in Fluent theme, and motion helpers. No custom controls.</Description>
+    <PackageTags>leonardo;design-language;design-tokens;wpf;fluent;xaml</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The package README is the README.md next to the project file. -->
+    <None Update="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

@@ -13,4 +13,6 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
 
+  <Import Project="..\..\build\Packaging.props" />
+
 </Project>
