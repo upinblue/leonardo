@@ -53,7 +53,7 @@ Updates: third-party marketplaces do not update on their own by default. Run `cl
 
 ### For a team repository
 
-Commit this to the repository's `.claude/settings.json`. It registers the marketplace for everyone who trusts the folder and turns the plugin on for the repository. The `permissions` block is `settings-snippet.json`: it lets the skill read the official guidance (Microsoft Learn, Fluent 2, Apple Developer, W3C, MDN, Nielsen Norman Group) without a prompt for every page.
+Commit this to the repository's `.claude/settings.json`. It registers the marketplace for everyone who trusts the folder and turns the plugin on for the repository. The `permissions` block is `settings-snippet.json`: it lets the skill read the official guidance (Microsoft Learn, Fluent 2, the Fluent UI React docs and storybooks, Apple Developer, W3C, MDN, Nielsen Norman Group) without a prompt for every page.
 
 ```json
 {
@@ -112,24 +112,34 @@ Pages/FilesPage.xaml:317: LEO001 literal-color: Background="#F3F7FC" is a litera
     Suggestion: Use a Leonardo color resource such as LeonardoSurfaceBrush or LeonardoSurfaceAltBrush, ...
 ```
 
-The rules (`leonardo-check --rules`): literal colors, font sizes, corner radii, durations, easing curves and spacing; custom glass; removed or restyled focus visuals; bouncing springs; transitions without a reduced-motion rule; clickable `div` elements. Generated files, build output and test code are skipped. A justified exception is a comment `leonardo-check: ignore LEO001 <reason>` on the line or the line above.
+The rules (`leonardo-check --rules`): literal colors, font sizes, corner radii, durations, easing curves and spacing (in Swift `.padding`, `spacing:` and `EdgeInsets`; in CSS and SCSS `margin`, `padding` and `gap`; `0` and 1px hairlines are allowed); custom glass; removed or restyled focus visuals; bouncing springs; transitions without a reduced-motion rule; clickable `div` elements. Generated files, build output and test code (folders such as `tests` or `*Tests`) are skipped. A justified exception is a comment `leonardo-check: ignore LEO001 <reason>` on the line or the line above; the reason is required.
 
 ### Install the tool
 
-The hook needs the .NET 10 SDK and the tool. It looks for, in this order:
+The hook needs the .NET 10 runtime or later and the tool. It looks for, in this order:
 
 1. the environment variable `LEONARDO_CHECK`, set to `UpInBlue.Leonardo.Check.dll` or an executable;
 2. `leonardo-check` on the `PATH`, installed as a .NET tool;
 3. in a clone of upinblue/leonardo, the tool built from `src/UpInBlue.Leonardo.Check` (build the solution once).
 
-Without the tool, the hook does nothing. To install it from a clone of upinblue/leonardo:
+Without the tool, the hook prints one line, "Leonardo check skipped: leonardo-check is not on the PATH …", and lets Claude Code continue; it never blocks an edit.
+
+The tool is the .NET tool package `UpInBlue.Leonardo.Check` on GitHub Packages of the organization `upinblue`. Reading it needs a GitHub personal access token (classic) with `read:packages` and the `upinblue` source with credentials in your NuGet configuration, as the root README shows for the libraries (for a global tool, in your user-level `NuGet.Config`). Then:
 
 ```
-dotnet pack src/UpInBlue.Leonardo.Check -c Release -o artifacts
-dotnet tool install --global --add-source artifacts UpInBlue.Leonardo.Check
+dotnet tool install --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json
 ```
 
-On Windows, Claude Code runs the hook with Git Bash, which comes with Git for Windows.
+Update with `dotnet tool update --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json`. Before the package is published, install it from a clone:
+
+```
+dotnet pack src/UpInBlue.Leonardo.Check -c Release
+dotnet tool install --global --add-source artifacts/packages UpInBlue.Leonardo.Check
+```
+
+### Requirements on Windows
+
+The hook is a Bash script. Claude Code on Windows runs hooks with Git Bash, so the hook assumes Git for Windows is installed (Claude Code itself needs it on Windows). The script uses only `bash`, `grep` and `dotnet`.
 
 ### Run it yourself
 
@@ -139,3 +149,7 @@ leonardo-check Pages/Files.xaml   # check one file
 ```
 
 `/hooks` in Claude Code shows the hook and where it comes from. To turn all hooks off, set `disableAllHooks` in your settings.
+
+## License
+
+The plugin is MIT licensed, like the code of upinblue/leonardo (`license` in `.claude-plugin/plugin.json`), including the copy of the design language in the skill. The names "up in blue" and "uib" and the logos in `brand/` are not covered by it, and nothing from `brand/` is part of the plugin; see `TRADEMARKS.md` in the repository.

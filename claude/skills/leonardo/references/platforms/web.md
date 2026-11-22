@@ -40,17 +40,24 @@ All values come from the generated `leonardo.css` (`generated/web` in upinblue/l
 
 | Kind | Properties |
 | --- | --- |
-| Theme colors | `--leonardo-accent`, `--leonardo-on-accent`, `--leonardo-link`, `--leonardo-selection`, `--leonardo-surface`, `--leonardo-surface-alt`, `--leonardo-text-primary`, `--leonardo-text-secondary`, `--leonardo-text-tertiary`, `--leonardo-stroke-subtle`, `--leonardo-stroke-strong`, `--leonardo-status-critical`, `--leonardo-status-caution`, `--leonardo-status-success` |
-| Blue scale | `--leonardo-palette-depth`, `-near`, `-brand`, `-far`, `-haze`, `-sky`, `-white` (charts and pressed states; text and surfaces use the theme colors) |
+| Theme colors | `--leonardo-accent`, `--leonardo-on-accent`, `--leonardo-link`, `--leonardo-selection`, `--leonardo-surface`, `--leonardo-surface-alt`, `--leonardo-text-primary`, `--leonardo-text-secondary`, `--leonardo-text-tertiary`, `--leonardo-stroke-subtle`, `--leonardo-stroke-strong` |
+| Accent states | `--leonardo-accent-hover`, `--leonardo-accent-pressed`: hover and pressed of accent fills, derived from the accent the way Fluent derives its accent fill states. Only the standalone web has them; other platforms draw these states themselves. |
+| Status | `--leonardo-status-critical`, `--leonardo-status-caution`, `--leonardo-status-success`. They mirror the Windows status colors; only the standalone web (and presentations) use them. |
+| Chart | `--leonardo-chart`: the one blue of a single-series chart |
+| Focus | `--leonardo-focus` with `--leonardo-size-focus-stroke`: the focus outline, only where the browser's ring fails 3:1 |
+| Blue scale | `--leonardo-palette-depth`, `-near`, `-brand`, `-far`, `-haze`, `-sky`, `-white` (charts with several series; text and surfaces use the theme colors, accent states use the accent state properties) |
 | Spacing | `--leonardo-space-xs`, `-s`, `-m`, `-l`, `-xl` |
 | Radii | `--leonardo-radius-s`, `-m`, `-l` |
 | Density | `--leonardo-density-compact`, `-standard`, `-comfortable` (row heights) |
+| Sizes | `--leonardo-size-icon` (icons in rows and next to labels), `--leonardo-size-status-dot`, `--leonardo-size-focus-stroke` |
 | Type roles | `--leonardo-{place-name,view,section,body,meta}-{font-family,font-size,line-height,font-weight}`, and `--leonardo-meta-color` |
 | Motion | `--leonardo-ease-enter`, `-exit`, `-move`, `-fade`; `--leonardo-duration-fade`, `-short`, `-normal`, `-long`; `--leonardo-stagger-step`, `--leonardo-stagger-max-groups`, `--leonardo-distance-enter-min`, `-max`, `--leonardo-arrive-hold`, `--leonardo-parallax-place-name-factor` |
 
-Dark mode is built in: `prefers-color-scheme: dark` switches the theme colors, and `data-theme="dark"` or `data-theme="light"` on `<html>` overrides the system choice. Reduced motion is built in too: under `prefers-reduced-motion: reduce`, `leonardo.css` turns every duration into the short fade and every distance into 0. Motion that uses only these properties follows the user's setting without extra rules.
+Units: type roles are in `rem`, so they follow the user's text size; spacing, radii, densities, sizes and motion distances are in `px`, the unit of the tokens. Font stacks fall back to `sans-serif` where Inter is not available.
 
-Sizes Leonardo does not define (pane widths, a status dot size) become named custom properties of the app, defined from Leonardo values where possible, with a comment (from the web sample's `files.css`):
+Dark mode is built in: `prefers-color-scheme: dark` switches the theme colors, and `data-theme="dark"` or `data-theme="light"` on `<html>` overrides the system choice. Reduced motion is built in too: under `prefers-reduced-motion: reduce`, `leonardo.css` turns every distance and the stagger step into 0, the parallax factor into 1, and every movement duration and curve into the fade duration and curve. Motion that uses only these properties follows the user's setting without extra rules.
+
+Sizes Leonardo does not define (pane widths, breakpoints) become named custom properties of the app, defined from Leonardo values where possible, with a comment (from the web sample's `files.css`):
 
 ```css
 :root {
@@ -61,6 +68,10 @@ Sizes Leonardo does not define (pane widths, a status dot size) become named cus
     --files-row-height: var(--leonardo-density-standard);
 }
 ```
+
+### Page margin and alignment line
+
+The page margin is `--leonardo-space-l`. On pages with list rows that have icons or status dots, the alignment line lies at `--leonardo-space-xl` from the content edge: the place name, headings, column headers and the list text start there, icons and status dots hang to the left of it, and row backplates (hover, selection) may reach out to `--leonardo-space-xs` from the content edge. Pages without such lists use the page margin as their alignment line.
 
 ## Correct and incorrect
 
@@ -90,20 +101,35 @@ Incorrect:
 ```css
 h1 { font-size: 40px; font-weight: 300; color: #0A1A33; }   /* px ignores the user's text size; literal color */
 .button { padding: 5px 15px; border-radius: 6px; background: #1b6ce0; }
+.list { gap: 12px; margin-block-end: 2rem; }                 /* spacing not from --leonardo-space-* */
 ```
+
+`0` and 1px hairlines (also `margin: -1px` in the visually hidden pattern) are not design values; everything else in `margin`, `padding` and `gap` comes from `--leonardo-space-*`, alone or in `calc()`.
+
+### Accent and selection
+
+Correct: one accent fill for the one primary action of a view, with the Leonardo accent states.
+
+```css
+.button-primary { background: var(--leonardo-accent); color: var(--leonardo-on-accent); }
+.button-primary:hover { background: var(--leonardo-accent-hover); }
+.button-primary:active { background: var(--leonardo-accent-pressed); transition: none; }
+```
+
+Checked toggle buttons (`aria-pressed="true"`), such as the active filter phrases of a summary line, are selection, not actions. Several may be checked at once, and the rule of one accent surface does not apply to them. Incorrect: two accent-filled actions in one view; hover and pressed colors mixed by hand or taken from the blue scale.
 
 ### Focus
 
-Correct (web sample): replace the browser ring with a stronger one, never remove it.
+Keep the browser's focus ring. Where it has less than 3:1 contrast against its background (for example Edge's dark ring on the dark surface), replace it on `:focus-visible` with the focus tokens. This is the only place where Leonardo restyles a focus visual.
 
 ```css
 :focus-visible {
-    outline: 2px solid var(--leonardo-text-primary);
+    outline: var(--leonardo-size-focus-stroke) solid var(--leonardo-focus);
     outline-offset: var(--leonardo-space-xs);
 }
 ```
 
-Incorrect: `button:focus { outline: none; }` with nothing in its place.
+In forced colors the browser draws the outline in system colors. Incorrect: `button:focus { outline: none; }` with nothing in its place, or an outline in the accent or a text color instead of `--leonardo-focus`.
 
 ### Motion
 
@@ -127,11 +153,36 @@ Correct (web sample, Dive in and Stagger, Leave): only Leonardo curves and durat
 .button:active { background: var(--leonardo-selection); transition: none; }
 ```
 
-A transition with a literal duration or curve needs its own `@media (prefers-reduced-motion: reduce)` rule; better, use the custom properties. Incorrect: `transition: transform 0.4s ease-in-out;`, `animation: bounce 1s infinite;`.
+Entrances use `--leonardo-duration-normal` or `-long`; `--leonardo-duration-short` is for exits only. Stagger runs when the user navigates to a view (a hash change), never on the first load of the page: the first view appears without it.
+
+Arrive: a new row gets a short accent bar at its start, fully visible for `--leonardo-arrive-hold`, then fading out. The dot shape is reserved for the status dot.
+
+```css
+.row.is-arriving::before {
+    content: "";
+    position: absolute;
+    inset-block: var(--leonardo-space-xs);
+    inset-inline-start: 0;
+    inline-size: var(--leonardo-space-xs);
+    border-radius: var(--leonardo-radius-s);
+    background: var(--leonardo-accent);
+    animation: arrive-fade var(--leonardo-duration-fade) var(--leonardo-ease-fade) var(--leonardo-arrive-hold) both;
+}
+
+@keyframes arrive-fade { from { opacity: 1; } to { opacity: 0; } }
+```
+
+The row itself needs `position: relative`, and the new item is announced in a polite live region.
+
+A transition with a literal duration or curve needs its own `@media (prefers-reduced-motion: reduce)` rule; better, use the custom properties. Incorrect: `transition: transform 0.4s ease-in-out;`, `animation: bounce 1s infinite;`, a staggered entrance on page load, an entrance in `--leonardo-duration-short`.
+
+### Charts
+
+Correct: a single-series chart draws its series in `var(--leonardo-chart)`, and in `forced-colors: active` in `Highlight`. Incorrect: `var(--leonardo-accent)` or a status color for data that is not a status.
 
 ### Status
 
-Correct (web sample): a shape plus text; only the dot carries the status color, from `--leonardo-status-*`.
+Correct (web sample): a shape plus text; only the dot carries the status color, from `--leonardo-status-*`, at `--leonardo-size-status-dot`.
 
 ```html
 <span class="status-dot status-caution" aria-hidden="true"></span>
@@ -161,6 +212,9 @@ Correct (web sample): system colors only, selection with `Highlight` and `Highli
 
 - [ ] Keyboard-only walkthrough of the main task, with a visible focus at every step.
 - [ ] Light and dark, `prefers-reduced-motion: reduce`, `forced-colors: active` (emulate them in the browser's developer tools).
+- [ ] The focus ring has at least 3:1 contrast on every surface in both themes; where the browser's does not, the focus tokens replace it.
+- [ ] Page margin `--leonardo-space-l`; on pages with icon lists, text shares the alignment line at `--leonardo-space-xl`.
+- [ ] One accent fill for actions per view, with `--leonardo-accent-hover` and `-pressed`; no stagger on first load.
 - [ ] Browser zoom at 200 % and a narrow window: nothing clips, no horizontal page scroll.
 - [ ] Every view has its own URL; back and forward work.
 - [ ] No literal colors, font sizes, spacing, radii, durations or curves outside `leonardo.css`.

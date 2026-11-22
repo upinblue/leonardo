@@ -11,7 +11,7 @@ For changing, modernizing or fixing existing UI. Existing users have habits; pro
    1. Accessibility problems
    2. Usability problems by severity
    3. Platform conventions: replace custom controls with platform controls
-   4. Leonardo: literal values → tokens, then Leonardo resources and controls, then layout (alignment line, type roles, density), then motion
+   4. Leonardo: literal values → tokens (status colors → the platform's), then Leonardo resources and controls, then layout (page margin and alignment line, type roles, density), then motion
 5. **Keep behavior stable** unless a change was agreed. Keyboard shortcuts, command names and positions stay where users expect them.
 6. **Check** with the checklist in `build.md`.
 

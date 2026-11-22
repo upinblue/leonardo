@@ -5,6 +5,7 @@
       "WebFetch(domain:learn.microsoft.com)",
       "WebFetch(domain:fluent2.microsoft.design)",
       "WebFetch(domain:react.fluentui.dev)",
+      "WebFetch(domain:storybooks.fluentui.dev)",
       "WebFetch(domain:support.microsoft.com)",
       "WebFetch(domain:developer.apple.com)",
       "WebFetch(domain:support.apple.com)",

@@ -22,13 +22,15 @@ For new screens, features or apps.
 - [ ] No literal design values; all from tokens or Leonardo resources.
 - [ ] Accessibility: names and roles, keyboard, focus, contrast, large text, reduced motion, high contrast.
 - [ ] Text follows the platform's writing guide; buttons use specific verbs.
-- [ ] Motion uses only the seven Leonardo motions with platform means.
+- [ ] Page margin `space.l`; on pages with icon lists, text on the alignment line at `space.xl`.
+- [ ] One accent surface for actions; checked toggles are selection. Status colors from the platform.
+- [ ] Motion uses only the seven Leonardo motions with platform means: entrances never in the short duration, stagger only on navigation, the Arrive marker as a bar.
 
 ## Pull request description
 
 - What the user can do now, in one or two sentences.
 - Sources read (title, URL, date).
 - Decisions where platform and Leonardo met, and why.
-- Leonardo values whose token is marked `"status": "proposal"` and that became visible, so they can be confirmed.
+- Leonardo values whose token is marked `"status": "proposal"` and that became visible, so they can be confirmed. (At the moment no token is a proposal.)
 - States covered, and anything not covered yet.
 - Open questions.

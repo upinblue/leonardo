@@ -77,6 +77,13 @@ internal static class Vocabulary
     }
 
     /// <summary>
+    /// Whether a spacing literal in Swift or CSS is allowed: 0 (no spacing is not a design value), and 1 or -1, the
+    /// hairline, for example to make up for a 1 px border or in the visually hidden pattern of the web
+    /// (<c>margin: -1px</c>). Every other number is literal spacing, also when it equals a token value.
+    /// </summary>
+    public static bool IsAllowedSpacingLiteral(double value) => value == 0 || Math.Abs(value) == 1;
+
+    /// <summary>
     /// The Leonardo spacing resource for a uniform value, for example <c>LeonardoSpaceM</c> for 16, or null.
     /// </summary>
     public static string? SpacingResource(double[] numbers)
