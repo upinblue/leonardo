@@ -162,6 +162,11 @@ public sealed class GeneratorTests
             [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Swift, Css, SkillTokens]
         },
         {
+            "motion.arrive.hold",
+            """{ "value": 3000, "unit": "ms" }""",
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Css, SkillTokens]
+        },
+        {
             "motion.ios.spring.durationMax",
             """{ "value": 450, "unit": "ms" }""",
             [Swift, SkillTokens]

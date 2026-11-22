@@ -175,4 +175,6 @@
     <sys:Double x:Key="LeonardoDistanceEnterMax">40</sys:Double>
     <!-- motion.parallax.placeNameFactor (proposal) -->
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
+    <!-- motion.arrive.hold (proposal) -->
+    <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
 </ResourceDictionary>

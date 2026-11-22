@@ -83,6 +83,7 @@
     --leonardo-distance-enter-min: 24px;
     --leonardo-distance-enter-max: 40px;
     --leonardo-parallax-place-name-factor: 0.7; /* proposal */
+    --leonardo-arrive-hold: 2000ms; /* proposal */
 }
 
 /* Dark theme: follows the system unless the page sets data-theme="light". */
