@@ -1,9 +1,9 @@
 /*
- * Inter and Inter Display, self-hosted. No font is loaded from a third-party server.
+ * Inter and Inter Display, self-hosted from this folder (Inter 4.1, see README.md).
+ * No font is loaded from a third-party server.
  *
- * The browser tries an installed copy first (local()), then the files in this folder.
- * The .woff2 files are not committed yet; see README.md in this folder. Until they are added,
- * the page uses an installed Inter or falls back to the generic sans-serif of leonardo.css.
+ * The files in this folder are the only source, so every machine renders the same release.
+ * An installed Inter may be an older version with other metrics or without Inter Display.
  *
  * The family names match the --leonardo-*-font-family custom properties in leonardo.css.
  * Weights are the ones the type roles use: 300 (place name, view), 400 (body, meta), 600 (section).
@@ -14,8 +14,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local("Inter Regular"), local("Inter-Regular"), local("Inter"),
-         url("Inter-Regular.woff2") format("woff2");
+    src: url("Inter-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -23,8 +22,7 @@
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: local("Inter SemiBold"), local("Inter-SemiBold"),
-         url("Inter-SemiBold.woff2") format("woff2");
+    src: url("Inter-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -32,6 +30,5 @@
     font-style: normal;
     font-weight: 300;
     font-display: swap;
-    src: local("Inter Display Light"), local("InterDisplay-Light"),
-         url("InterDisplay-Light.woff2") format("woff2");
+    src: url("InterDisplay-Light.woff2") format("woff2");
 }
