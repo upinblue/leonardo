@@ -10,15 +10,15 @@ Use these values to build the PowerPoint template. Values marked *proposal* are 
 | --- | --- | --- | --- |
 | `accent` | #1B6CE0 | #7FB2F0 |  |
 | `onAccent` | #FFFFFF | #0A1A33 |  |
-| `link` | #0B4A99 | #A9CCF6 *proposal* | 9.8:1 on surface. |
-| `selection` | #DCEAFB | #1E3A66 *proposal* | Selected rows and items. Text on selection stays textPrimary; the accent is only used as a non-text indicator here (4.0:1). |
-| `surface` | #FAFBFD *proposal* | #1A2030 *proposal* | Opaque content surface, cool neutral. |
-| `surfaceAlt` | #F3F7FC | #141926 *proposal* |  |
-| `textPrimary` | #141B2B *proposal* | #EEF2F8 *proposal* | 16.6:1 on surface. |
-| `textSecondary` | #4A5568 *proposal* | #B3BDCC *proposal* | 7.3:1 on surface. |
-| `textTertiary` | #5E6878 *proposal* | #A3AEC0 *proposal* | Metadata. 5.4:1 on surface, 4.6:1 on selection. |
-| `strokeSubtle` | #DFE5EE *proposal* | #2C3547 *proposal* | Decorative separators only. Not for boundaries that carry meaning. |
-| `strokeStrong` | #78849A *proposal* | #6E7A8F *proposal* | Boundaries of interactive elements. 3.6:1 on surface. |
+| `link` | #0B4A99 | #A9CCF6 | 9.8:1 on surface. |
+| `selection` | #DCEAFB | #1E3A66 | Selected rows and items. Text on selection stays textPrimary; the accent is only used as a non-text indicator here (4.0:1). |
+| `surface` | #FAFBFD | #1A2030 | Opaque content surface, cool neutral. |
+| `surfaceAlt` | #F3F7FC | #141926 |  |
+| `textPrimary` | #141B2B | #EEF2F8 | 16.6:1 on surface. |
+| `textSecondary` | #4A5568 | #B3BDCC | 7.3:1 on surface. |
+| `textTertiary` | #5E6878 | #A3AEC0 | Metadata. 5.4:1 on surface, 4.6:1 on selection. |
+| `strokeSubtle` | #DFE5EE | #2C3547 | Decorative separators only. Not for boundaries that carry meaning. |
+| `strokeStrong` | #78849A | #6E7A8F | Boundaries of interactive elements. 3.6:1 on surface. |
 | `statusCritical` | #C42B1C | #FF99A4 | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
 | `statusCaution` | #9D5D00 | #FCE100 | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
 | `statusSuccess` | #0F7B0F | #6CCB5F | Standalone web only. Mirrors the Windows Fluent status color. Native apps use their platform's status colors. |
@@ -51,8 +51,8 @@ Charts use the blue scale.
 
 | Motion | Duration | Note |
 | --- | --- | --- |
-| `enter` | 0.3 s *proposal* | Smooth end fully applied. |
-| `exit` | 0.2 s *proposal* | Smooth start fully applied, with fade. |
-| `morph` | 0.5 s *proposal* |  |
-| `fade` | 0.1 s *proposal* |  |
+| `enter` | 0.3 s | Smooth end fully applied. |
+| `exit` | 0.2 s | Smooth start fully applied, with fade. |
+| `morph` | 0.5 s |  |
+| `fade` | 0.1 s |  |
 | `staggerStep` | 0.05 s |  |

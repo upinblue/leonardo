@@ -35,7 +35,7 @@ public static class MotionTiming
     /// <summary>The offset between stagger groups, <c>motion.stagger.step</c>.</summary>
     public static TimeSpan StaggerStep => Scale(LeonardoTokens.Motion.StaggerStep);
 
-    /// <summary>How long the Arrive marker stays, <c>motion.arrive.hold</c> (proposal).</summary>
+    /// <summary>How long the Arrive marker stays, <c>motion.arrive.hold</c>.</summary>
     public static TimeSpan ArriveHold => Scale(LeonardoTokens.Motion.ArriveHold);
 
     /// <summary>

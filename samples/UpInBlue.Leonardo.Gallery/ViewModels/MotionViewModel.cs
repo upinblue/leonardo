@@ -148,7 +148,7 @@ public sealed partial class MotionViewModel : ObservableObject, IDisposable
         new("Long", "motion.duration.long", Milliseconds(LeonardoTokens.Motion.DurationLong), "Dive in, long reflows"),
         new("Stagger step", "motion.stagger.step", Milliseconds(LeonardoTokens.Motion.StaggerStep), string.Create(CultureInfo.InvariantCulture, $"Between groups, at most {LeonardoTokens.Motion.StaggerMaxGroups} groups")),
         new("Distance", "motion.distance.*", string.Create(CultureInfo.InvariantCulture, $"{LeonardoTokens.Motion.DistanceEnterMin}–{LeonardoTokens.Motion.DistanceEnterMax} epx"), "How far entering elements travel"),
-        new("Arrive hold", "motion.arrive.hold", Milliseconds(LeonardoTokens.Motion.ArriveHold), "How long the marker stays (proposal)"),
+        new("Arrive hold", "motion.arrive.hold", Milliseconds(LeonardoTokens.Motion.ArriveHold), "How long the marker stays"),
     ];
 
     /// <summary>The folders of the Dive in demo.</summary>

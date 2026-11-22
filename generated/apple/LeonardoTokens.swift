@@ -52,11 +52,11 @@ public enum Leonardo {
 
     /// Corner radii in points. Concentric rule: inner radius = outer radius - padding. Example: a card with radius l and padding s contains elements with radius m.
     public enum Radius {
-        /// Token: `radius.s`. Proposal, not final yet.
+        /// Token: `radius.s`.
         public static let s: CGFloat = 4
-        /// Token: `radius.m`. Proposal, not final yet.
+        /// Token: `radius.m`.
         public static let m: CGFloat = 8
-        /// Token: `radius.l`. Proposal, not final yet.
+        /// Token: `radius.l`.
         public static let l: CGFloat = 16
     }
 

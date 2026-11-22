@@ -17,25 +17,25 @@
             <!-- theme.light.selection -->
             <Color x:Key="LeonardoSelectionColor">#FFDCEAFB</Color>
             <SolidColorBrush x:Key="LeonardoSelectionBrush" Color="#FFDCEAFB" />
-            <!-- theme.light.surface (proposal) -->
+            <!-- theme.light.surface -->
             <Color x:Key="LeonardoSurfaceColor">#FFFAFBFD</Color>
             <SolidColorBrush x:Key="LeonardoSurfaceBrush" Color="#FFFAFBFD" />
             <!-- theme.light.surfaceAlt -->
             <Color x:Key="LeonardoSurfaceAltColor">#FFF3F7FC</Color>
             <SolidColorBrush x:Key="LeonardoSurfaceAltBrush" Color="#FFF3F7FC" />
-            <!-- theme.light.textPrimary (proposal) -->
+            <!-- theme.light.textPrimary -->
             <Color x:Key="LeonardoTextPrimaryColor">#FF141B2B</Color>
             <SolidColorBrush x:Key="LeonardoTextPrimaryBrush" Color="#FF141B2B" />
-            <!-- theme.light.textSecondary (proposal) -->
+            <!-- theme.light.textSecondary -->
             <Color x:Key="LeonardoTextSecondaryColor">#FF4A5568</Color>
             <SolidColorBrush x:Key="LeonardoTextSecondaryBrush" Color="#FF4A5568" />
-            <!-- theme.light.textTertiary (proposal) -->
+            <!-- theme.light.textTertiary -->
             <Color x:Key="LeonardoTextTertiaryColor">#FF5E6878</Color>
             <SolidColorBrush x:Key="LeonardoTextTertiaryBrush" Color="#FF5E6878" />
-            <!-- theme.light.strokeSubtle (proposal) -->
+            <!-- theme.light.strokeSubtle -->
             <Color x:Key="LeonardoStrokeSubtleColor">#FFDFE5EE</Color>
             <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="#FFDFE5EE" />
-            <!-- theme.light.strokeStrong (proposal) -->
+            <!-- theme.light.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF78849A</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF78849A" />
             <!-- theme.light.statusCritical -->
@@ -56,31 +56,31 @@
             <!-- theme.dark.onAccent -->
             <Color x:Key="LeonardoOnAccentColor">#FF0A1A33</Color>
             <SolidColorBrush x:Key="LeonardoOnAccentBrush" Color="#FF0A1A33" />
-            <!-- theme.dark.link (proposal) -->
+            <!-- theme.dark.link -->
             <Color x:Key="LeonardoLinkColor">#FFA9CCF6</Color>
             <SolidColorBrush x:Key="LeonardoLinkBrush" Color="#FFA9CCF6" />
-            <!-- theme.dark.selection (proposal) -->
+            <!-- theme.dark.selection -->
             <Color x:Key="LeonardoSelectionColor">#FF1E3A66</Color>
             <SolidColorBrush x:Key="LeonardoSelectionBrush" Color="#FF1E3A66" />
-            <!-- theme.dark.surface (proposal) -->
+            <!-- theme.dark.surface -->
             <Color x:Key="LeonardoSurfaceColor">#FF1A2030</Color>
             <SolidColorBrush x:Key="LeonardoSurfaceBrush" Color="#FF1A2030" />
-            <!-- theme.dark.surfaceAlt (proposal) -->
+            <!-- theme.dark.surfaceAlt -->
             <Color x:Key="LeonardoSurfaceAltColor">#FF141926</Color>
             <SolidColorBrush x:Key="LeonardoSurfaceAltBrush" Color="#FF141926" />
-            <!-- theme.dark.textPrimary (proposal) -->
+            <!-- theme.dark.textPrimary -->
             <Color x:Key="LeonardoTextPrimaryColor">#FFEEF2F8</Color>
             <SolidColorBrush x:Key="LeonardoTextPrimaryBrush" Color="#FFEEF2F8" />
-            <!-- theme.dark.textSecondary (proposal) -->
+            <!-- theme.dark.textSecondary -->
             <Color x:Key="LeonardoTextSecondaryColor">#FFB3BDCC</Color>
             <SolidColorBrush x:Key="LeonardoTextSecondaryBrush" Color="#FFB3BDCC" />
-            <!-- theme.dark.textTertiary (proposal) -->
+            <!-- theme.dark.textTertiary -->
             <Color x:Key="LeonardoTextTertiaryColor">#FFA3AEC0</Color>
             <SolidColorBrush x:Key="LeonardoTextTertiaryBrush" Color="#FFA3AEC0" />
-            <!-- theme.dark.strokeSubtle (proposal) -->
+            <!-- theme.dark.strokeSubtle -->
             <Color x:Key="LeonardoStrokeSubtleColor">#FF2C3547</Color>
             <SolidColorBrush x:Key="LeonardoStrokeSubtleBrush" Color="#FF2C3547" />
-            <!-- theme.dark.strokeStrong (proposal) -->
+            <!-- theme.dark.strokeStrong -->
             <Color x:Key="LeonardoStrokeStrongColor">#FF6E7A8F</Color>
             <SolidColorBrush x:Key="LeonardoStrokeStrongBrush" Color="#FF6E7A8F" />
             <!-- theme.dark.statusCritical -->
@@ -191,11 +191,11 @@
     <Thickness x:Key="LeonardoSpaceXLVerticalThickness">0,40,0,40</Thickness>
 
     <!-- Corner radii in epx. -->
-    <!-- radius.s (proposal) -->
+    <!-- radius.s -->
     <CornerRadius x:Key="LeonardoRadiusS">4</CornerRadius>
-    <!-- radius.m (proposal) -->
+    <!-- radius.m -->
     <CornerRadius x:Key="LeonardoRadiusM">8</CornerRadius>
-    <!-- radius.l (proposal) -->
+    <!-- radius.l -->
     <CornerRadius x:Key="LeonardoRadiusL">16</CornerRadius>
 
     <!-- List row heights in epx. -->
@@ -253,8 +253,8 @@
     <x:Double x:Key="LeonardoDistanceEnterMin">24</x:Double>
     <!-- motion.distance.enterMax -->
     <x:Double x:Key="LeonardoDistanceEnterMax">40</x:Double>
-    <!-- motion.parallax.placeNameFactor (proposal) -->
+    <!-- motion.parallax.placeNameFactor -->
     <x:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</x:Double>
-    <!-- motion.arrive.hold (proposal) -->
+    <!-- motion.arrive.hold -->
     <x:String x:Key="LeonardoArriveHold">0:0:2</x:String>
 </ResourceDictionary>

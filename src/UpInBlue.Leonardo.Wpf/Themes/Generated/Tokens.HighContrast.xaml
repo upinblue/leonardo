@@ -98,11 +98,11 @@
     <Thickness x:Key="LeonardoSpaceXLVerticalThickness">0,40,0,40</Thickness>
 
     <!-- Corner radii in epx. -->
-    <!-- radius.s (proposal) -->
+    <!-- radius.s -->
     <CornerRadius x:Key="LeonardoRadiusS">4</CornerRadius>
-    <!-- radius.m (proposal) -->
+    <!-- radius.m -->
     <CornerRadius x:Key="LeonardoRadiusM">8</CornerRadius>
-    <!-- radius.l (proposal) -->
+    <!-- radius.l -->
     <CornerRadius x:Key="LeonardoRadiusL">16</CornerRadius>
 
     <!-- List row heights in epx. -->
@@ -170,9 +170,9 @@
     <sys:Double x:Key="LeonardoDistanceEnterMin">24</sys:Double>
     <!-- motion.distance.enterMax -->
     <sys:Double x:Key="LeonardoDistanceEnterMax">40</sys:Double>
-    <!-- motion.parallax.placeNameFactor (proposal) -->
+    <!-- motion.parallax.placeNameFactor -->
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
-    <!-- motion.arrive.hold (proposal) -->
+    <!-- motion.arrive.hold -->
     <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
     <KeyTime x:Key="LeonardoArriveHoldKeyTime">0:0:2</KeyTime>
     <sys:TimeSpan x:Key="LeonardoArriveHoldTimeSpan">0:0:2</sys:TimeSpan>

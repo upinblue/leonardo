@@ -1,5 +1,5 @@
 {
-  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed in the gallery app before they are considered final.",
+  "$description": "Leonardo design tokens. Single source of truth for all values of the Leonardo design language by up in blue, used by Windows (WinUI 3, WPF), iOS and macOS (SwiftUI), standalone web and presentations. Web interfaces inside a Microsoft host use the host's theme instead of these colors and type sizes. Format follows the Design Tokens Community Group conventions ($value, $type, $description). Tokens marked with $extensions.status = \"proposal\" are first values that must be confirmed before they are considered final.",
   "palette": {
     "$description": "The blue scale follows aerial perspective: near is dark and dense, far is light and airy. Blues MUST only come from this scale.",
     "depth": {
@@ -60,10 +60,7 @@
       "surface": {
         "$type": "color",
         "$value": "#FAFBFD",
-        "$description": "Opaque content surface, cool neutral.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Opaque content surface, cool neutral."
       },
       "surfaceAlt": {
         "$type": "color",
@@ -72,42 +69,27 @@
       "textPrimary": {
         "$type": "color",
         "$value": "#141B2B",
-        "$description": "16.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "16.6:1 on surface."
       },
       "textSecondary": {
         "$type": "color",
         "$value": "#4A5568",
-        "$description": "7.3:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "7.3:1 on surface."
       },
       "textTertiary": {
         "$type": "color",
         "$value": "#5E6878",
-        "$description": "Metadata. 5.4:1 on surface, 4.6:1 on selection.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Metadata. 5.4:1 on surface, 4.6:1 on selection."
       },
       "strokeSubtle": {
         "$type": "color",
         "$value": "#DFE5EE",
-        "$description": "Decorative separators only. Not for boundaries that carry meaning.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Decorative separators only. Not for boundaries that carry meaning."
       },
       "strokeStrong": {
         "$type": "color",
         "$value": "#78849A",
-        "$description": "Boundaries of interactive elements. 3.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Boundaries of interactive elements. 3.6:1 on surface."
       },
       "statusCritical": {
         "$type": "color",
@@ -137,70 +119,43 @@
       "link": {
         "$type": "color",
         "$value": "#A9CCF6",
-        "$description": "9.8:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "9.8:1 on surface."
       },
       "selection": {
         "$type": "color",
-        "$value": "#1E3A66",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#1E3A66"
       },
       "surface": {
         "$type": "color",
-        "$value": "#1A2030",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#1A2030"
       },
       "surfaceAlt": {
         "$type": "color",
-        "$value": "#141926",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#141926"
       },
       "textPrimary": {
         "$type": "color",
         "$value": "#EEF2F8",
-        "$description": "14.5:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "14.5:1 on surface."
       },
       "textSecondary": {
         "$type": "color",
         "$value": "#B3BDCC",
-        "$description": "8.6:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "8.6:1 on surface."
       },
       "textTertiary": {
         "$type": "color",
         "$value": "#A3AEC0",
-        "$description": "7.3:1 on surface, 5.1:1 on selection.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "7.2:1 on surface, 5.1:1 on selection."
       },
       "strokeSubtle": {
         "$type": "color",
-        "$value": "#2C3547",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$value": "#2C3547"
       },
       "strokeStrong": {
         "$type": "color",
         "$value": "#6E7A8F",
-        "$description": "3.8:1 on surface.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "3.7:1 on surface."
       },
       "statusCritical": {
         "$type": "color",
@@ -269,9 +224,6 @@
       "$value": {
         "value": 4,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     },
     "m": {
@@ -279,9 +231,6 @@
       "$value": {
         "value": 8,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     },
     "l": {
@@ -289,9 +238,6 @@
       "$value": {
         "value": 16,
         "unit": "px"
-      },
-      "$extensions": {
-        "status": "proposal"
       }
     }
   },
@@ -555,10 +501,7 @@
       "placeNameFactor": {
         "$type": "number",
         "$value": 0.7,
-        "$description": "The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks."
       }
     },
     "arrive": {
@@ -568,10 +511,7 @@
           "value": 2000,
           "unit": "ms"
         },
-        "$description": "How long the accent marker of Arrive stays fully visible before it fades away.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "How long the accent marker of Arrive stays fully visible before it fades away."
       }
     },
     "ios": {
@@ -605,10 +545,7 @@
           "value": 300,
           "unit": "ms"
         },
-        "$description": "Smooth end fully applied.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Smooth end fully applied."
       },
       "exit": {
         "$type": "duration",
@@ -616,19 +553,13 @@
           "value": 200,
           "unit": "ms"
         },
-        "$description": "Smooth start fully applied, with fade.",
-        "$extensions": {
-          "status": "proposal"
-        }
+        "$description": "Smooth start fully applied, with fade."
       },
       "morph": {
         "$type": "duration",
         "$value": {
           "value": 500,
           "unit": "ms"
-        },
-        "$extensions": {
-          "status": "proposal"
         }
       },
       "fade": {
@@ -636,9 +567,6 @@
         "$value": {
           "value": 100,
           "unit": "ms"
-        },
-        "$extensions": {
-          "status": "proposal"
         }
       },
       "staggerStep": {

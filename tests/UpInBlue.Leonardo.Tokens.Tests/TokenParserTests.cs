@@ -147,4 +147,12 @@ public sealed class TokenParserTests
         Assert.Equal(["placeName", "view", "section", "body", "meta"], tokens.TypeRoles.Select(role => role.Name));
         Assert.Null(tokens.TypeRoles.Single(role => role.Name == "view").Presentation);
     }
+
+    [Fact]
+    public void RepositoryTokensAreAllConfirmed()
+    {
+        var tokens = TokenParser.Parse(File.ReadAllText(Repository.PathOf("tokens/leonardo.tokens.json")));
+
+        Assert.Empty(tokens.Tokens.Where(token => token.Status is not null).Select(token => token.Path));
+    }
 }

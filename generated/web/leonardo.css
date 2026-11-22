@@ -18,13 +18,13 @@
     --leonardo-on-accent: #FFFFFF;
     --leonardo-link: #0B4A99;
     --leonardo-selection: #DCEAFB;
-    --leonardo-surface: #FAFBFD; /* proposal */
+    --leonardo-surface: #FAFBFD;
     --leonardo-surface-alt: #F3F7FC;
-    --leonardo-text-primary: #141B2B; /* proposal */
-    --leonardo-text-secondary: #4A5568; /* proposal */
-    --leonardo-text-tertiary: #5E6878; /* proposal */
-    --leonardo-stroke-subtle: #DFE5EE; /* proposal */
-    --leonardo-stroke-strong: #78849A; /* proposal */
+    --leonardo-text-primary: #141B2B;
+    --leonardo-text-secondary: #4A5568;
+    --leonardo-text-tertiary: #5E6878;
+    --leonardo-stroke-subtle: #DFE5EE;
+    --leonardo-stroke-strong: #78849A;
     --leonardo-status-critical: #C42B1C;
     --leonardo-status-caution: #9D5D00;
     --leonardo-status-success: #0F7B0F;
@@ -37,9 +37,9 @@
     --leonardo-space-xl: 40px;
 
     /* Corner radii */
-    --leonardo-radius-s: 4px; /* proposal */
-    --leonardo-radius-m: 8px; /* proposal */
-    --leonardo-radius-l: 16px; /* proposal */
+    --leonardo-radius-s: 4px;
+    --leonardo-radius-m: 8px;
+    --leonardo-radius-l: 16px;
 
     /* List row heights */
     --leonardo-density-compact: 32px;
@@ -82,8 +82,8 @@
     --leonardo-stagger-max-groups: 4;
     --leonardo-distance-enter-min: 24px;
     --leonardo-distance-enter-max: 40px;
-    --leonardo-parallax-place-name-factor: 0.7; /* proposal */
-    --leonardo-arrive-hold: 2000ms; /* proposal */
+    --leonardo-parallax-place-name-factor: 0.7;
+    --leonardo-arrive-hold: 2000ms;
 }
 
 /* Dark theme: follows the system unless the page sets data-theme="light". */
@@ -92,15 +92,15 @@
         color-scheme: dark;
         --leonardo-accent: #7FB2F0;
         --leonardo-on-accent: #0A1A33;
-        --leonardo-link: #A9CCF6; /* proposal */
-        --leonardo-selection: #1E3A66; /* proposal */
-        --leonardo-surface: #1A2030; /* proposal */
-        --leonardo-surface-alt: #141926; /* proposal */
-        --leonardo-text-primary: #EEF2F8; /* proposal */
-        --leonardo-text-secondary: #B3BDCC; /* proposal */
-        --leonardo-text-tertiary: #A3AEC0; /* proposal */
-        --leonardo-stroke-subtle: #2C3547; /* proposal */
-        --leonardo-stroke-strong: #6E7A8F; /* proposal */
+        --leonardo-link: #A9CCF6;
+        --leonardo-selection: #1E3A66;
+        --leonardo-surface: #1A2030;
+        --leonardo-surface-alt: #141926;
+        --leonardo-text-primary: #EEF2F8;
+        --leonardo-text-secondary: #B3BDCC;
+        --leonardo-text-tertiary: #A3AEC0;
+        --leonardo-stroke-subtle: #2C3547;
+        --leonardo-stroke-strong: #6E7A8F;
         --leonardo-status-critical: #FF99A4;
         --leonardo-status-caution: #FCE100;
         --leonardo-status-success: #6CCB5F;
@@ -112,15 +112,15 @@
     color-scheme: dark;
     --leonardo-accent: #7FB2F0;
     --leonardo-on-accent: #0A1A33;
-    --leonardo-link: #A9CCF6; /* proposal */
-    --leonardo-selection: #1E3A66; /* proposal */
-    --leonardo-surface: #1A2030; /* proposal */
-    --leonardo-surface-alt: #141926; /* proposal */
-    --leonardo-text-primary: #EEF2F8; /* proposal */
-    --leonardo-text-secondary: #B3BDCC; /* proposal */
-    --leonardo-text-tertiary: #A3AEC0; /* proposal */
-    --leonardo-stroke-subtle: #2C3547; /* proposal */
-    --leonardo-stroke-strong: #6E7A8F; /* proposal */
+    --leonardo-link: #A9CCF6;
+    --leonardo-selection: #1E3A66;
+    --leonardo-surface: #1A2030;
+    --leonardo-surface-alt: #141926;
+    --leonardo-text-primary: #EEF2F8;
+    --leonardo-text-secondary: #B3BDCC;
+    --leonardo-text-tertiary: #A3AEC0;
+    --leonardo-stroke-subtle: #2C3547;
+    --leonardo-stroke-strong: #6E7A8F;
     --leonardo-status-critical: #FF99A4;
     --leonardo-status-caution: #FCE100;
     --leonardo-status-success: #6CCB5F;

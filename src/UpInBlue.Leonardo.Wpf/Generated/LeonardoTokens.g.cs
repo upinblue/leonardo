@@ -69,7 +69,7 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color Selection = Color.FromArgb(0xFF, 0xDC, 0xEA, 0xFB);
         /// <summary>
-        /// Opaque content surface, cool neutral. Token: <c>theme.light.surface</c>. Proposal, not final yet.
+        /// Opaque content surface, cool neutral. Token: <c>theme.light.surface</c>.
         /// </summary>
         public static readonly Color Surface = Color.FromArgb(0xFF, 0xFA, 0xFB, 0xFD);
         /// <summary>
@@ -77,23 +77,23 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color SurfaceAlt = Color.FromArgb(0xFF, 0xF3, 0xF7, 0xFC);
         /// <summary>
-        /// 16.6:1 on surface. Token: <c>theme.light.textPrimary</c>. Proposal, not final yet.
+        /// 16.6:1 on surface. Token: <c>theme.light.textPrimary</c>.
         /// </summary>
         public static readonly Color TextPrimary = Color.FromArgb(0xFF, 0x14, 0x1B, 0x2B);
         /// <summary>
-        /// 7.3:1 on surface. Token: <c>theme.light.textSecondary</c>. Proposal, not final yet.
+        /// 7.3:1 on surface. Token: <c>theme.light.textSecondary</c>.
         /// </summary>
         public static readonly Color TextSecondary = Color.FromArgb(0xFF, 0x4A, 0x55, 0x68);
         /// <summary>
-        /// Metadata. 5.4:1 on surface, 4.6:1 on selection. Token: <c>theme.light.textTertiary</c>. Proposal, not final yet.
+        /// Metadata. 5.4:1 on surface, 4.6:1 on selection. Token: <c>theme.light.textTertiary</c>.
         /// </summary>
         public static readonly Color TextTertiary = Color.FromArgb(0xFF, 0x5E, 0x68, 0x78);
         /// <summary>
-        /// Decorative separators only. Not for boundaries that carry meaning. Token: <c>theme.light.strokeSubtle</c>. Proposal, not final yet.
+        /// Decorative separators only. Not for boundaries that carry meaning. Token: <c>theme.light.strokeSubtle</c>.
         /// </summary>
         public static readonly Color StrokeSubtle = Color.FromArgb(0xFF, 0xDF, 0xE5, 0xEE);
         /// <summary>
-        /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>. Proposal, not final yet.
+        /// Boundaries of interactive elements. 3.6:1 on surface. Token: <c>theme.light.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Color.FromArgb(0xFF, 0x78, 0x84, 0x9A);
         /// <summary>
@@ -124,39 +124,39 @@ public static class LeonardoTokens
         /// </summary>
         public static readonly Color OnAccent = Color.FromArgb(0xFF, 0x0A, 0x1A, 0x33);
         /// <summary>
-        /// 9.8:1 on surface. Token: <c>theme.dark.link</c>. Proposal, not final yet.
+        /// 9.8:1 on surface. Token: <c>theme.dark.link</c>.
         /// </summary>
         public static readonly Color Link = Color.FromArgb(0xFF, 0xA9, 0xCC, 0xF6);
         /// <summary>
-        /// Token: <c>theme.dark.selection</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.selection</c>.
         /// </summary>
         public static readonly Color Selection = Color.FromArgb(0xFF, 0x1E, 0x3A, 0x66);
         /// <summary>
-        /// Token: <c>theme.dark.surface</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.surface</c>.
         /// </summary>
         public static readonly Color Surface = Color.FromArgb(0xFF, 0x1A, 0x20, 0x30);
         /// <summary>
-        /// Token: <c>theme.dark.surfaceAlt</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.surfaceAlt</c>.
         /// </summary>
         public static readonly Color SurfaceAlt = Color.FromArgb(0xFF, 0x14, 0x19, 0x26);
         /// <summary>
-        /// 14.5:1 on surface. Token: <c>theme.dark.textPrimary</c>. Proposal, not final yet.
+        /// 14.5:1 on surface. Token: <c>theme.dark.textPrimary</c>.
         /// </summary>
         public static readonly Color TextPrimary = Color.FromArgb(0xFF, 0xEE, 0xF2, 0xF8);
         /// <summary>
-        /// 8.6:1 on surface. Token: <c>theme.dark.textSecondary</c>. Proposal, not final yet.
+        /// 8.6:1 on surface. Token: <c>theme.dark.textSecondary</c>.
         /// </summary>
         public static readonly Color TextSecondary = Color.FromArgb(0xFF, 0xB3, 0xBD, 0xCC);
         /// <summary>
-        /// 7.3:1 on surface, 5.1:1 on selection. Token: <c>theme.dark.textTertiary</c>. Proposal, not final yet.
+        /// 7.2:1 on surface, 5.1:1 on selection. Token: <c>theme.dark.textTertiary</c>.
         /// </summary>
         public static readonly Color TextTertiary = Color.FromArgb(0xFF, 0xA3, 0xAE, 0xC0);
         /// <summary>
-        /// Token: <c>theme.dark.strokeSubtle</c>. Proposal, not final yet.
+        /// Token: <c>theme.dark.strokeSubtle</c>.
         /// </summary>
         public static readonly Color StrokeSubtle = Color.FromArgb(0xFF, 0x2C, 0x35, 0x47);
         /// <summary>
-        /// 3.8:1 on surface. Token: <c>theme.dark.strokeStrong</c>. Proposal, not final yet.
+        /// 3.7:1 on surface. Token: <c>theme.dark.strokeStrong</c>.
         /// </summary>
         public static readonly Color StrokeStrong = Color.FromArgb(0xFF, 0x6E, 0x7A, 0x8F);
         /// <summary>
@@ -206,15 +206,15 @@ public static class LeonardoTokens
     public static class Radius
     {
         /// <summary>
-        /// Token: <c>radius.s</c>. Proposal, not final yet.
+        /// Token: <c>radius.s</c>.
         /// </summary>
         public const double S = 4d;
         /// <summary>
-        /// Token: <c>radius.m</c>. Proposal, not final yet.
+        /// Token: <c>radius.m</c>.
         /// </summary>
         public const double M = 8d;
         /// <summary>
-        /// Token: <c>radius.l</c>. Proposal, not final yet.
+        /// Token: <c>radius.l</c>.
         /// </summary>
         public const double L = 16d;
     }
@@ -465,12 +465,12 @@ public static class LeonardoTokens
         public const double DistanceEnterMax = 40d;
 
         /// <summary>
-        /// The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks. Token: <c>motion.parallax.placeNameFactor</c>. Proposal, not final yet.
+        /// The only allowed parallax: the place name scrolls at 70 % of the content speed before it shrinks. Token: <c>motion.parallax.placeNameFactor</c>.
         /// </summary>
         public const double ParallaxPlaceNameFactor = 0.7d;
 
         /// <summary>
-        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: <c>motion.arrive.hold</c>. Proposal, not final yet.
+        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: <c>motion.arrive.hold</c>.
         /// </summary>
         public static readonly TimeSpan ArriveHold = TimeSpan.FromMilliseconds(2000d);
     }
