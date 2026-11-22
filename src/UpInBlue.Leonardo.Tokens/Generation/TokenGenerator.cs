@@ -43,6 +43,8 @@ internal static class TokenGenerator
         var files = new List<GeneratedFile>
         {
             XamlGenerator.WinUI(catalog),
+            WinUIThemeGenerator.AccentColors(catalog),
+            WinUIThemeGenerator.TextStyles(catalog),
             CSharpGenerator.WinUI(catalog),
             XamlGenerator.Wpf(catalog, dark: false),
             XamlGenerator.Wpf(catalog, dark: true),

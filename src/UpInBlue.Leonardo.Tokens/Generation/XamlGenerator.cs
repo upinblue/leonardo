@@ -133,7 +133,15 @@ internal static class XamlGenerator
         var doubleElement = isWpf ? "sys:Double" : "x:Double";
         var intElement = isWpf ? "sys:Int32" : "x:Int32";
 
-        writer.Line("<!-- Spacing in epx. -->");
+        writer.Line("<!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->");
+        foreach (var token in catalog.Palette)
+        {
+            WriteSource(writer, token);
+            writer.Line($"<Color x:Key=\"LeonardoPalette{Text.Pascal(token.Name)}Color\">{token.Color.XamlHex}</Color>");
+        }
+
+        writer.Line();
+        writer.Line("<!-- Spacing in epx: all sides, one side, or both sides of one axis. -->");
         foreach (var token in catalog.Space)
         {
             var key = $"LeonardoSpace{Text.Pascal(token.Name)}";
@@ -141,6 +149,12 @@ internal static class XamlGenerator
             WriteSource(writer, token);
             writer.Line($"<{doubleElement} x:Key=\"{key}\">{value}</{doubleElement}>");
             writer.Line($"<Thickness x:Key=\"{key}Thickness\">{value}</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}LeftThickness\">{value},0,0,0</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}TopThickness\">0,{value},0,0</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}RightThickness\">0,0,{value},0</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}BottomThickness\">0,0,0,{value}</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}HorizontalThickness\">{value},0,{value},0</Thickness>");
+            writer.Line($"<Thickness x:Key=\"{key}VerticalThickness\">0,{value},0,{value}</Thickness>");
         }
 
         writer.Line();

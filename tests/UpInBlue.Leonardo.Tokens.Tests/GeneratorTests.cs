@@ -11,6 +11,7 @@ namespace UpInBlue.Leonardo.Tokens.Tests;
 public sealed class GeneratorTests
 {
     private const string WinUIXaml = "src/UpInBlue.Leonardo.WinUI/Themes/Generated/Tokens.xaml";
+    private const string WinUIAccent = "src/UpInBlue.Leonardo.WinUI/Themes/Generated/AccentColors.xaml";
     private const string WinUICode = "src/UpInBlue.Leonardo.WinUI/Generated/LeonardoTokens.g.cs";
     private const string WpfLight = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Light.xaml";
     private const string WpfDark = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Dark.xaml";
@@ -143,7 +144,12 @@ public sealed class GeneratorTests
         {
             "palette.brand",
             "\"#1A6BDF\"",
-            [WinUIXaml, WinUICode, WpfLight, WpfCode, $"{Catalog}/AccentColor.colorset/Contents.json", $"{Catalog}/Leonardo/Accent.colorset/Contents.json", Css, Presentation, SkillTokens]
+            [WinUIXaml, WinUIAccent, WinUICode, WpfLight, WpfDark, WpfCode, $"{Catalog}/AccentColor.colorset/Contents.json", $"{Catalog}/Leonardo/Accent.colorset/Contents.json", Css, Presentation, SkillTokens]
+        },
+        {
+            "theme.dark.link",
+            "\"#A8CBF5\"",
+            [WinUIXaml, WinUIAccent, WinUICode, WpfDark, WpfCode, $"{Catalog}/Leonardo/Link.colorset/Contents.json", Css, Presentation, SkillTokens]
         },
         {
             "motion.duration.normal",
