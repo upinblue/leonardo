@@ -322,16 +322,18 @@ ul {
     background: var(--leonardo-surface-alt);
 }
 
+/* Transform: the chevron turns into its new state. The transition is set on the state it goes to:
+   collapsing is an exit and may use the short duration, expanding is an entrance and uses normal. */
 .disclosure svg {
     inline-size: var(--leonardo-size-icon);
     block-size: var(--leonardo-size-icon);
     fill: currentColor;
-    /* Transform: the chevron turns into its new state. */
     transition: rotate var(--leonardo-duration-short) var(--leonardo-ease-move);
 }
 
 .disclosure[aria-expanded="true"] svg {
     rotate: 90deg;
+    transition-duration: var(--leonardo-duration-normal);
 }
 
 .folder-link {
@@ -676,7 +678,9 @@ ul {
 
 /* ---------- Motion ---------- */
 
-/* Dive in and Stagger: groups enter in reading order. Opacity is faster than movement. */
+/* Dive in and Stagger: when the user navigates to another folder or view, its groups enter in reading
+   order. files.js never sets is-entering on the first view after the page loads. Entrances use the
+   normal duration; opacity is faster than movement. */
 .is-entering {
     animation:
         files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both,
