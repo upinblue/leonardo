@@ -10,10 +10,10 @@
     <Color x:Key="SystemAccentColorDark2">#FF0B4A99</Color>
     <!-- theme.light.accent -->
     <Color x:Key="SystemAccentColorDark1">#FF1B6CE0</Color>
-    <!-- one third from theme.light.accent to theme.dark.accent -->
-    <Color x:Key="SystemAccentColor">#FF3C83E5</Color>
-    <!-- two thirds from theme.light.accent to theme.dark.accent -->
-    <Color x:Key="SystemAccentColorLight1">#FF5E9BEB</Color>
+    <!-- theme.light.accent: the base carries white text, for example selected text -->
+    <Color x:Key="SystemAccentColor">#FF1B6CE0</Color>
+    <!-- halfway from theme.light.accent to theme.dark.accent -->
+    <Color x:Key="SystemAccentColorLight1">#FF4D8FE8</Color>
     <!-- theme.dark.accent -->
     <Color x:Key="SystemAccentColorLight2">#FF7FB2F0</Color>
     <!-- theme.dark.link -->

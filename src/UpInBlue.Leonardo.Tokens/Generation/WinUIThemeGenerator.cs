@@ -19,7 +19,8 @@ internal static class WinUIThemeGenerator
     /// The WinUI accent ramp from the blue scale. Fluent fills accent surfaces with Dark1 in light theme and with Light2 in
     /// dark theme, and colors accent text with Dark2 and Dark3 (light) or Light3 (dark). The ramp therefore maps:
     /// Dark3 = depth, Dark2 = near (the light link), Dark1 = light accent (brand), Light2 = dark accent (far),
-    /// Light3 = dark link. SystemAccentColor and Light1 lie between brand and far, at one and two thirds.
+    /// Light3 = dark link. SystemAccentColor is brand as well, because Fluent puts white text on it (selected text),
+    /// which needs 4.5:1; Light1 lies halfway between brand and far.
     /// </summary>
     public static GeneratedFile AccentColors(TokenCatalog catalog)
     {
@@ -31,8 +32,8 @@ internal static class WinUIThemeGenerator
             ("SystemAccentColorDark3", tokens["palette.depth"].Color, "palette.depth"),
             ("SystemAccentColorDark2", tokens["palette.near"].Color, "palette.near"),
             ("SystemAccentColorDark1", lightAccent.Color, "theme.light.accent"),
-            ("SystemAccentColor", Mix(lightAccent.Color, darkAccent.Color, 1.0 / 3), "one third from theme.light.accent to theme.dark.accent"),
-            ("SystemAccentColorLight1", Mix(lightAccent.Color, darkAccent.Color, 2.0 / 3), "two thirds from theme.light.accent to theme.dark.accent"),
+            ("SystemAccentColor", lightAccent.Color, "theme.light.accent: the base carries white text, for example selected text"),
+            ("SystemAccentColorLight1", Mix(lightAccent.Color, darkAccent.Color, 0.5), "halfway from theme.light.accent to theme.dark.accent"),
             ("SystemAccentColorLight2", darkAccent.Color, "theme.dark.accent"),
             ("SystemAccentColorLight3", tokens["theme.dark.link"].Color, "theme.dark.link"),
         };
