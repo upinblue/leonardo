@@ -7,10 +7,11 @@ Use these sources for research. Start at the entry page, then search or follow l
 | Topic | Source |
 | --- | --- |
 | Windows app design: layout, navigation, commanding, controls, motion | https://learn.microsoft.com/windows/apps/design/ |
+| Motion in Windows: timing and easing | https://learn.microsoft.com/windows/apps/design/signature-experiences/motion |
 | Fluent 2 design system | https://fluent2.microsoft.design/ |
 | WinUI 3 and the Windows App SDK | https://learn.microsoft.com/windows/apps/winui/ |
 | WPF, including the Fluent theme | https://learn.microsoft.com/dotnet/desktop/wpf/ |
-| Accessibility on Windows | https://learn.microsoft.com/windows/apps/design/accessibility/accessibility |
+| Accessibility on Windows | https://learn.microsoft.com/windows/apps/design/accessibility/accessibility-overview |
 | Writing: Microsoft Writing Style Guide | https://learn.microsoft.com/style-guide/welcome/ |
 
 The WinUI 3 Gallery app (Microsoft Store) shows every control with its recommended use.
@@ -23,6 +24,12 @@ The WinUI 3 Gallery app (Microsoft Store) shows every control with its recommend
 | Designing for iOS | https://developer.apple.com/design/human-interface-guidelines/designing-for-ios |
 | Designing for macOS | https://developer.apple.com/design/human-interface-guidelines/designing-for-macos |
 | Accessibility | https://developer.apple.com/design/human-interface-guidelines/accessibility |
+| Motion | https://developer.apple.com/design/human-interface-guidelines/motion |
+| The menu bar (macOS) | https://developer.apple.com/design/human-interface-guidelines/the-menu-bar |
+| Settings | https://developer.apple.com/design/human-interface-guidelines/settings |
+| Toolbars | https://developer.apple.com/design/human-interface-guidelines/toolbars |
+| Sidebars | https://developer.apple.com/design/human-interface-guidelines/sidebars |
+| Tab bars | https://developer.apple.com/design/human-interface-guidelines/tab-bars |
 | SF Symbols | https://developer.apple.com/design/human-interface-guidelines/sf-symbols |
 | SwiftUI documentation | https://developer.apple.com/documentation/swiftui |
 | Writing: Apple Style Guide | https://support.apple.com/guide/applestyleguide/welcome/web |
@@ -35,7 +42,7 @@ The WinUI 3 Gallery app (Microsoft Store) shows every control with its recommend
 | Accessible widget patterns: ARIA Authoring Practices Guide | https://www.w3.org/WAI/ARIA/apg/ |
 | HTML, CSS and browser behavior | https://developer.mozilla.org/ |
 | Inside Microsoft hosts: Fluent 2 | https://fluent2.microsoft.design/ |
-| Inside Microsoft hosts: Fluent UI React components | https://react.fluentui.dev/ |
+| Inside Microsoft hosts: Fluent UI React components | https://storybooks.fluentui.dev/react/ |
 | SharePoint Framework | https://learn.microsoft.com/sharepoint/dev/spfx/sharepoint-framework-overview |
 | Microsoft Teams app design | https://learn.microsoft.com/microsoftteams/platform/concepts/design/design-teams-app-overview |
 

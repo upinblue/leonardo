@@ -1,0 +1,17 @@
+{
+  "name": "upinblue",
+  "description": "Claude Code plugins of up in blue.",
+  "owner": {
+    "name": "up in blue",
+    "url": "https://github.com/upinblue"
+  },
+  "plugins": [
+    {
+      "name": "leonardo",
+      "source": "./claude",
+      "description": "Designs, revises and reviews the UI of up in blue apps with the Leonardo design language.",
+      "category": "design",
+      "tags": ["design-language", "ui", "usability", "accessibility"]
+    }
+  ]
+}
