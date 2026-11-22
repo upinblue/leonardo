@@ -10,6 +10,7 @@ internal static class XamlGenerator
     public const string WinUIPath = "src/UpInBlue.Leonardo.WinUI/Themes/Generated/Tokens.xaml";
     public const string WpfLightPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Light.xaml";
     public const string WpfDarkPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Dark.xaml";
+    public const string WpfHighContrastPath = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.HighContrast.xaml";
 
     /// <summary>
     /// The Windows system color each theme color becomes in high contrast. High contrast uses system colors only.
@@ -56,11 +57,7 @@ internal static class XamlGenerator
         writer.Line("<!-- High contrast uses system colors only; no token values apply. -->");
         foreach (var name in catalog.ThemeColorNames)
         {
-            if (!HighContrastColors.TryGetValue(name, out var systemColor))
-            {
-                throw new TokenException($"The theme color '{name}' has no high contrast system color. Add it to {nameof(XamlGenerator)}.");
-            }
-
+            var systemColor = HighContrastColor(name);
             writer.Line($"<StaticResource x:Key=\"{ColorKey(name)}\" ResourceKey=\"{systemColor}\" />");
             writer.Line($"<SolidColorBrush x:Key=\"{BrushKey(name)}\" Color=\"{{ThemeResource {systemColor}}}\" />");
         }
@@ -84,6 +81,40 @@ internal static class XamlGenerator
         writer.Line();
         WriteSharedResources(writer, catalog, isWpf: true);
         return End(writer, dark ? WpfDarkPath : WpfLightPath);
+    }
+
+    /// <summary>
+    /// The WPF dictionary for contrast themes: the same keys as Light and Dark, mapped to the system colors of
+    /// <c>System.Windows.SystemColors</c>. Brushes follow the system colors dynamically; colors are read when the dictionary loads.
+    /// </summary>
+    public static GeneratedFile WpfHighContrast(TokenCatalog catalog)
+    {
+        var writer = Begin(isWpf: true);
+        writer.Line("<!-- High contrast uses system colors only; no token values apply. -->");
+        foreach (var name in catalog.ThemeColorNames)
+        {
+            var systemColor = WpfSystemColor(HighContrastColor(name));
+            writer.Line($"<x:Static x:Key=\"{ColorKey(name)}\" Member=\"SystemColors.{systemColor}Color\" />");
+            writer.Line($"<SolidColorBrush x:Key=\"{BrushKey(name)}\" Color=\"{{DynamicResource {{x:Static SystemColors.{systemColor}ColorKey}}}}\" />");
+        }
+
+        writer.Line();
+        WriteSharedResources(writer, catalog, isWpf: true);
+        return End(writer, WpfHighContrastPath);
+    }
+
+    private static string HighContrastColor(string name)
+        => HighContrastColors.TryGetValue(name, out var systemColor)
+            ? systemColor
+            : throw new TokenException($"The theme color '{name}' has no high contrast system color. Add it to {nameof(XamlGenerator)}.");
+
+    /// <summary>
+    /// The WPF name of a WinUI system color: <c>SystemColorHighlightColor</c> → <c>Highlight</c>. WPF calls the hotlight color <c>HotTrack</c>.
+    /// </summary>
+    private static string WpfSystemColor(string winUIColor)
+    {
+        var name = winUIColor["SystemColor".Length..^"Color".Length];
+        return name == "Hotlight" ? "HotTrack" : name;
     }
 
     private static CodeWriter Begin(bool isWpf)
@@ -193,7 +224,7 @@ internal static class XamlGenerator
         // WinUI keeps easing curves and durations as strings, like Fluent's own ControlFastAnimationDuration:
         // a typed Duration resource cannot be assigned to KeyTime or BeginTime, a string converts to all three.
         writer.Line(isWpf
-            ? "<!-- Motion: easing curves as KeySpline, durations, distances in epx and factors. -->"
+            ? "<!-- Motion: easing curves as KeySpline; durations as Duration, as KeyTime for key frames with a KeySpline and as TimeSpan for BeginTime; distances in epx and factors. -->"
             : "<!-- Motion: easing curves and durations as strings, like Fluent's own resources, so they convert to KeySpline, KeyTime, Duration and BeginTime. Distances in epx and factors. -->");
         foreach (var motion in catalog.Motion)
         {
@@ -209,6 +240,12 @@ internal static class XamlGenerator
                 case TokenType.Duration:
                     var durationElement = isWpf ? "Duration" : "x:String";
                     writer.Line($"<{durationElement} x:Key=\"{key}\">{XamlDuration(token)}</{durationElement}>");
+                    if (isWpf)
+                    {
+                        writer.Line($"<KeyTime x:Key=\"{key}KeyTime\">{XamlDuration(token)}</KeyTime>");
+                        writer.Line($"<sys:TimeSpan x:Key=\"{key}TimeSpan\">{XamlDuration(token)}</sys:TimeSpan>");
+                    }
+
                     break;
                 case TokenType.Dimension:
                     writer.Line($"<{doubleElement} x:Key=\"{key}\">{Text.Number(token.Dimension.Value)}</{doubleElement}>");

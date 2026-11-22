@@ -1,0 +1,777 @@
+/*
+ * Files scenario of the Leonardo web sample.
+ *
+ * Every color, spacing, radius, type and motion value comes from the --leonardo-* custom properties
+ * of generated/web/leonardo.css. The few sample properties below (--files-*) only name layout
+ * dimensions that Leonardo does not define, or pick a Leonardo value per theme or setting.
+ *
+ * Literal values that remain are not Leonardo values: 0, 1px hairlines and the 2px focus outline
+ * (Leonardo has no stroke width token), 50% for circles, 100% and 100vh, 1em for the chevron so it
+ * follows the text size, the rotation of the chevron, the visually-hidden technique, and the layout
+ * breakpoints (custom properties cannot be used in media queries). All are listed in the pull request.
+ */
+
+/* ---------- Sample properties ---------- */
+
+:root {
+    /* Layout dimensions of the three areas. Not Leonardo tokens; see the pull request. */
+    --files-nav-width: 16rem;
+    --files-details-width: 20rem;
+
+    /* List density, chosen in Settings. Standard is the default. */
+    --files-row-height: var(--leonardo-density-standard);
+
+    /* Status dot. Leonardo has no size token for it yet; space-s gives the 8 px the gallery uses. */
+    --files-status-dot-size: var(--leonardo-space-s);
+
+    /* Pressed state of the accent button: one step deeper on the blue scale. */
+    --files-accent-pressed: var(--leonardo-palette-near);
+
+    /* Direction of "Dive in": forward comes from the right, back from the left. */
+    --files-enter-from: var(--leonardo-distance-enter-min);
+}
+
+:root[data-density="compact"] {
+    --files-row-height: var(--leonardo-density-compact);
+}
+
+:root[data-density="comfortable"] {
+    --files-row-height: var(--leonardo-density-comfortable);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --files-accent-pressed: var(--leonardo-palette-haze);
+    }
+}
+
+[data-theme="dark"] {
+    --files-accent-pressed: var(--leonardo-palette-haze);
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--leonardo-surface);
+    color: var(--leonardo-text-primary);
+}
+
+body {
+    margin: 0;
+    font-family: var(--leonardo-body-font-family);
+    font-size: var(--leonardo-body-font-size);
+    line-height: var(--leonardo-body-line-height);
+    font-weight: var(--leonardo-body-font-weight);
+    overflow-wrap: anywhere;
+}
+
+/* Running-text links use the link color and stay underlined. */
+a {
+    color: var(--leonardo-link);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+p,
+h1,
+h2,
+dl,
+dd,
+ol,
+ul {
+    margin: 0;
+}
+
+/* Focus: a better replacement for the browser's ring, never a removal. Edge and Chrome draw their
+   default ring in a near-black color in light and dark mode, which stays below 3:1 on the dark surface
+   (WCAG 1.4.11). The primary text color reaches at least 4.5:1 on every Leonardo surface in both themes.
+   In forced colors the browser replaces the color with a system color. */
+:focus-visible {
+    outline: 2px solid var(--leonardo-text-primary);
+    outline-offset: var(--leonardo-space-xs);
+}
+
+.visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Type roles ---------- */
+
+.role-place-name {
+    font-family: var(--leonardo-place-name-font-family);
+    font-size: var(--leonardo-place-name-font-size);
+    line-height: var(--leonardo-place-name-line-height);
+    font-weight: var(--leonardo-place-name-font-weight);
+}
+
+.role-section {
+    font-family: var(--leonardo-section-font-family);
+    font-size: var(--leonardo-section-font-size);
+    line-height: var(--leonardo-section-line-height);
+    font-weight: var(--leonardo-section-font-weight);
+}
+
+.role-body {
+    font-family: var(--leonardo-body-font-family);
+    font-size: var(--leonardo-body-font-size);
+    line-height: var(--leonardo-body-line-height);
+    font-weight: var(--leonardo-body-font-weight);
+}
+
+.role-meta {
+    font-family: var(--leonardo-meta-font-family);
+    font-size: var(--leonardo-meta-font-size);
+    line-height: var(--leonardo-meta-line-height);
+    font-weight: var(--leonardo-meta-font-weight);
+    color: var(--leonardo-meta-color);
+}
+
+/* ---------- Skip link ---------- */
+
+.skip-link {
+    position: absolute;
+    inset-block-start: var(--leonardo-space-s);
+    inset-inline-start: var(--leonardo-space-s);
+    z-index: 1;
+    padding: var(--leonardo-space-s) var(--leonardo-space-m);
+    border-radius: var(--leonardo-radius-s);
+    background: var(--leonardo-surface);
+    color: var(--leonardo-link);
+    translate: 0 -200%;
+}
+
+.skip-link:focus {
+    translate: none;
+}
+
+/* ---------- Banner ---------- */
+
+.banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--leonardo-space-s) var(--leonardo-space-m);
+    padding: var(--leonardo-space-s) var(--leonardo-space-l);
+    background: var(--leonardo-surface-alt);
+}
+
+.banner-title {
+    color: var(--leonardo-text-secondary);
+}
+
+.app-nav ul {
+    display: flex;
+    gap: var(--leonardo-space-xs);
+    padding: 0;
+    list-style: none;
+}
+
+.app-nav a {
+    display: block;
+    padding: var(--leonardo-space-xs) var(--leonardo-space-m);
+    border-radius: var(--leonardo-radius-s);
+    color: var(--leonardo-text-primary);
+    text-decoration: none;
+}
+
+.app-nav a:hover {
+    background: var(--leonardo-surface);
+}
+
+.app-nav a[aria-current] {
+    background: var(--leonardo-selection);
+}
+
+/* ---------- Layout: navigation fixed, content flexible, details fixed ---------- */
+
+.layout {
+    display: grid;
+    grid-template-columns: var(--files-nav-width) minmax(0, 1fr) var(--files-details-width);
+    grid-template-areas: "nav main details";
+    align-items: start;
+    min-block-size: 100vh;
+}
+
+.folders {
+    grid-area: nav;
+    padding: var(--leonardo-space-l) var(--leonardo-space-s);
+}
+
+.main {
+    grid-area: main;
+    padding: var(--leonardo-space-l) var(--leonardo-space-l) var(--leonardo-space-xl);
+}
+
+.details {
+    grid-area: details;
+    align-self: stretch;
+    padding: var(--leonardo-space-l);
+    background: var(--leonardo-surface-alt);
+}
+
+:root[data-view="settings"] .layout,
+:root[data-view="missing"] .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "main";
+}
+
+:root[data-view="settings"] .folders,
+:root[data-view="settings"] .details,
+:root[data-view="missing"] .folders,
+:root[data-view="missing"] .details {
+    display: none;
+}
+
+/* Medium windows: the details move below the file list. */
+@media (max-width: 75rem) {
+    .layout {
+        grid-template-columns: var(--files-nav-width) minmax(0, 1fr);
+        grid-template-areas:
+            "nav main"
+            "nav details";
+    }
+
+    .details {
+        align-self: start;
+        margin: 0 var(--leonardo-space-l) var(--leonardo-space-l);
+        border-radius: var(--leonardo-radius-l);
+    }
+
+    .folders {
+        grid-row: 1 / span 2;
+    }
+}
+
+/* Narrow windows: one column. The breadcrumb and the folder rows in the list navigate instead of the folder tree. */
+@media (max-width: 48rem) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "main"
+            "details";
+    }
+
+    .folders {
+        display: none;
+    }
+}
+
+/* ---------- Folder navigation (APG disclosure navigation) ---------- */
+
+.folders ul {
+    padding: 0;
+    list-style: none;
+}
+
+.folders ul ul {
+    padding-inline-start: var(--leonardo-space-m);
+}
+
+.folder-row {
+    display: flex;
+    align-items: center;
+    gap: var(--leonardo-space-xs);
+    min-block-size: var(--files-row-height);
+}
+
+.disclosure,
+.disclosure-spacer {
+    flex: none;
+    inline-size: calc(1em + 2 * var(--leonardo-space-xs));
+    block-size: calc(1em + 2 * var(--leonardo-space-xs));
+}
+
+.disclosure {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: var(--leonardo-radius-s);
+    background: transparent;
+    color: var(--leonardo-text-secondary);
+    font: inherit;
+    cursor: pointer;
+}
+
+.disclosure:hover {
+    background: var(--leonardo-surface-alt);
+}
+
+.disclosure svg {
+    inline-size: 1em;
+    block-size: 1em;
+    fill: currentColor;
+    /* Transform: the chevron turns into its new state. */
+    transition: rotate var(--leonardo-duration-short) var(--leonardo-ease-move);
+}
+
+.disclosure[aria-expanded="true"] svg {
+    rotate: 90deg;
+}
+
+.folder-link {
+    flex: 1;
+    padding: var(--leonardo-space-xs) var(--leonardo-space-s);
+    border-radius: var(--leonardo-radius-s);
+    color: var(--leonardo-text-primary);
+    text-decoration: none;
+}
+
+.folder-link:hover {
+    background: var(--leonardo-surface-alt);
+}
+
+.folder-link[aria-current="page"] {
+    background: var(--leonardo-selection);
+}
+
+/* ---------- Place: breadcrumb, place name, summary, commands, feedback ---------- */
+
+.place {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--leonardo-space-m);
+}
+
+.breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+}
+
+.breadcrumb li:not(:last-child)::after {
+    content: "/";
+    padding-inline: var(--leonardo-space-s);
+    color: var(--leonardo-text-tertiary);
+}
+
+.breadcrumb a {
+    color: var(--leonardo-text-secondary);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb a[aria-current="page"] {
+    color: var(--leonardo-text-primary);
+}
+
+.summary {
+    margin-block-start: var(--leonardo-space-xs);
+}
+
+.commands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--leonardo-space-s);
+}
+
+.feedback {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--leonardo-space-s) var(--leonardo-space-m);
+}
+
+.feedback.has-message {
+    margin-block-start: var(--leonardo-space-m);
+}
+
+.content {
+    margin-block-start: var(--leonardo-space-xl);
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+    padding: var(--leonardo-space-xs) var(--leonardo-space-m);
+    border: 1px solid var(--leonardo-stroke-strong);
+    border-radius: var(--leonardo-radius-s);
+    background: var(--leonardo-surface);
+    color: var(--leonardo-text-primary);
+    font: inherit;
+    cursor: pointer;
+    transition: background-color var(--leonardo-duration-fade) var(--leonardo-ease-fade);
+}
+
+.button:hover {
+    background: var(--leonardo-surface-alt);
+}
+
+/* Respond: the reaction starts on press, without a transition. */
+.button:active {
+    background: var(--leonardo-selection);
+    transition: none;
+}
+
+.button-accent {
+    border-color: var(--leonardo-accent);
+    background: var(--leonardo-accent);
+    color: var(--leonardo-on-accent);
+}
+
+.button-accent:hover {
+    background: var(--leonardo-accent);
+}
+
+.button-accent:active {
+    border-color: var(--files-accent-pressed);
+    background: var(--files-accent-pressed);
+}
+
+/* ---------- File list ---------- */
+
+.file-table {
+    /* The table reaches into the gutter by space-m so that the text of the first column sits on the
+       alignment line of the place name, and status dots and selection backgrounds hang to the left of it. */
+    inline-size: calc(100% + 2 * var(--leonardo-space-m));
+    margin-inline: calc(-1 * var(--leonardo-space-m));
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.file-table th {
+    padding: var(--leonardo-space-xs) var(--leonardo-space-m);
+    text-align: start;
+    vertical-align: bottom;
+}
+
+.file-table td {
+    padding: var(--leonardo-space-xs) var(--leonardo-space-m);
+    vertical-align: middle;
+}
+
+.file-table tbody tr {
+    position: relative;
+    block-size: var(--files-row-height);
+}
+
+.file-table tbody tr:hover td {
+    background: var(--leonardo-surface-alt);
+}
+
+.file-table tbody tr.is-current td {
+    background: var(--leonardo-selection);
+}
+
+.file-table tbody td:first-child {
+    border-start-start-radius: var(--leonardo-radius-s);
+    border-end-start-radius: var(--leonardo-radius-s);
+}
+
+.file-table tbody td:last-child {
+    border-start-end-radius: var(--leonardo-radius-s);
+    border-end-end-radius: var(--leonardo-radius-s);
+}
+
+.file-table .col-kind,
+.file-table .col-modified,
+.file-table .col-by,
+.file-table .col-size {
+    white-space: nowrap;
+}
+
+.file-table .col-modified,
+.file-table .col-size {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Less important columns give way first in narrower windows. */
+@media (max-width: 90rem) {
+    .file-table .col-kind {
+        display: none;
+    }
+}
+
+@media (max-width: 40rem) {
+    .file-table .col-by {
+        display: none;
+    }
+}
+
+.file-table .col-size {
+    text-align: end;
+}
+
+.row-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* The whole row is the target of the name link; there is still exactly one link per row. */
+.row-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.row-link:hover {
+    text-decoration: underline;
+}
+
+.row-status {
+    display: block;
+}
+
+/* Status: circle plus text. The dot hangs to the left of the alignment line. */
+.status-dot {
+    display: inline-block;
+    flex: none;
+    inline-size: var(--files-status-dot-size);
+    block-size: var(--files-status-dot-size);
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.file-table .status-dot {
+    margin-inline: calc(-1 * (var(--files-status-dot-size) + var(--leonardo-space-xs))) var(--leonardo-space-xs);
+    vertical-align: middle;
+}
+
+.status-caution {
+    color: var(--leonardo-status-caution);
+}
+
+.status-critical {
+    color: var(--leonardo-status-critical);
+}
+
+.status-success {
+    color: var(--leonardo-status-success);
+}
+
+/* The status text itself stays in a text color; only the dot carries the status color. */
+.status-text {
+    color: var(--leonardo-text-secondary);
+}
+
+/* Empty folder */
+.empty {
+    display: grid;
+    justify-items: start;
+    gap: var(--leonardo-space-s);
+}
+
+/* ---------- Details ---------- */
+
+.details-body {
+    display: grid;
+    gap: var(--leonardo-space-m);
+}
+
+.details-hint {
+    color: var(--leonardo-text-secondary);
+}
+
+.details h2:focus {
+    outline-offset: var(--leonardo-space-xs);
+}
+
+.details-status {
+    display: flex;
+    align-items: center;
+    gap: var(--leonardo-space-s);
+}
+
+.details dl {
+    display: grid;
+    gap: var(--leonardo-space-m);
+}
+
+.details dl div {
+    display: grid;
+}
+
+.details dt {
+    font-size: var(--leonardo-meta-font-size);
+    line-height: var(--leonardo-meta-line-height);
+    color: var(--leonardo-meta-color);
+}
+
+.details dd {
+    font-variant-numeric: tabular-nums;
+}
+
+.details-actions {
+    margin-block-start: var(--leonardo-space-s);
+}
+
+/* ---------- Settings ---------- */
+
+.settings {
+    display: grid;
+    gap: var(--leonardo-space-l);
+    margin-block-start: var(--leonardo-space-xl);
+}
+
+.settings fieldset {
+    display: grid;
+    justify-items: start;
+    gap: var(--leonardo-space-s);
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.settings legend {
+    padding: 0;
+    margin-block-end: var(--leonardo-space-s);
+}
+
+.settings label {
+    display: flex;
+    align-items: center;
+    gap: var(--leonardo-space-s);
+    cursor: pointer;
+}
+
+.settings input {
+    margin: 0;
+    accent-color: var(--leonardo-accent);
+}
+
+.missing {
+    display: grid;
+    gap: var(--leonardo-space-s);
+    margin-block-start: var(--leonardo-space-xl);
+}
+
+/* ---------- Motion ---------- */
+
+/* Dive in and Stagger: groups enter in reading order. Opacity is faster than movement. */
+.is-entering {
+    animation:
+        files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both,
+        files-slide-in var(--leonardo-duration-normal) var(--leonardo-ease-enter) both;
+    animation-delay: calc(var(--leonardo-stagger-step) * var(--files-group, 0));
+}
+
+.is-entering.is-back {
+    --files-enter-from: calc(-1 * var(--leonardo-distance-enter-min));
+}
+
+/* Arrive: new and restored rows appear in place with a short accent marker. */
+.file-table tbody tr.is-new {
+    animation: files-fade-in var(--leonardo-duration-fade) var(--leonardo-ease-fade) both;
+}
+
+.file-table tbody tr.is-new td:first-child {
+    box-shadow: inset var(--leonardo-space-xs) 0 0 var(--leonardo-accent);
+}
+
+/* Leave: the row accelerates out and fades while doing so. */
+.file-table tbody tr.is-leaving {
+    animation:
+        files-fade-out var(--leonardo-duration-short) var(--leonardo-ease-fade) both,
+        files-slide-out var(--leonardo-duration-short) var(--leonardo-ease-exit) both;
+}
+
+@keyframes files-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes files-slide-in {
+    from {
+        translate: var(--files-enter-from) 0;
+    }
+}
+
+@keyframes files-fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes files-slide-out {
+    to {
+        translate: calc(-1 * var(--leonardo-distance-enter-min)) 0;
+    }
+}
+
+/* Reduced motion: leonardo.css already turns durations into a short crossfade and distances into 0.
+   The chevron only changes its state, without turning. */
+@media (prefers-reduced-motion: reduce) {
+    .disclosure svg {
+        transition: none;
+    }
+}
+
+/* ---------- More contrast ---------- */
+
+@media (prefers-contrast: more) {
+    .role-meta,
+    .details dt,
+    .banner-title,
+    .breadcrumb a,
+    .details-hint,
+    .status-text {
+        color: var(--leonardo-text-primary);
+    }
+
+    .button {
+        border-color: var(--leonardo-text-primary);
+    }
+}
+
+/* ---------- Forced colors: system colors only ---------- */
+
+@media (forced-colors: active) {
+    .banner {
+        border-block-end: 1px solid CanvasText;
+    }
+
+    .details {
+        border: 1px solid CanvasText;
+    }
+
+    .app-nav a[aria-current],
+    .folder-link[aria-current="page"],
+    .file-table tbody tr.is-current td {
+        forced-color-adjust: none;
+        background: Highlight;
+        color: HighlightText;
+    }
+
+    .file-table tbody tr.is-current .row-link,
+    .file-table tbody tr.is-current .status-text,
+    .file-table tbody tr.is-current .role-meta {
+        color: HighlightText;
+    }
+
+    .status-dot {
+        forced-color-adjust: none;
+        background: CanvasText;
+    }
+
+    .file-table tbody tr.is-current .status-dot {
+        background: HighlightText;
+    }
+
+    .file-table tbody tr.is-new td:first-child {
+        border-inline-start: var(--leonardo-space-xs) solid Highlight;
+    }
+}
