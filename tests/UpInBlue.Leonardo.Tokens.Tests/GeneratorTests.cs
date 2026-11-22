@@ -157,6 +157,14 @@ public sealed class GeneratorTests
     }
 
     [Fact]
+    public void SwiftHasTheArriveHold()
+    {
+        var swift = Encoding.UTF8.GetString(GenerateFromRepository().Single(file => file.Path == Swift).Content);
+
+        Assert.Contains("public static let arriveHold: TimeInterval = 2", swift, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void ChartIsTheHighlightColorInContrastThemes()
     {
         var files = GenerateFromRepository().ToDictionary(file => file.Path, file => Encoding.UTF8.GetString(file.Content));
@@ -227,7 +235,7 @@ public sealed class GeneratorTests
         {
             "motion.arrive.hold",
             """{ "value": 3000, "unit": "ms" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Swift, Css, SkillTokens]
         },
         {
             "theme.light.chart",

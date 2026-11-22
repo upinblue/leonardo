@@ -54,7 +54,7 @@ internal static class AppleGenerator
             .Line("# Leonardo for iOS and macOS")
             .Line()
             .Line("- `Leonardo.xcassets`: one color set per theme color in the folder `Leonardo` (for example `Leonardo/Accent`), with light and dark appearance, plus `AccentColor`. Add the catalog to the app target. JSON files cannot carry the generated-file header; this note stands for them.")
-            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, spring parameters and the type roles as SwiftUI text styles.")
+            .Line("- `LeonardoTokens.swift`: the namespace enum `Leonardo` with colors, spacing, radii, densities, spring parameters, stagger and arrive timing, and the type roles as SwiftUI text styles.")
             .ToString();
 
     private static string Contents(bool providesNamespace)
@@ -146,7 +146,7 @@ internal static class AppleGenerator
         PointEnum(writer, "Density", "List row heights in points. " + catalog.Tokens.GroupDescription("density"), catalog.Density);
         writer.Line();
 
-        writer.Line("/// Motion on iOS and macOS: springs without bounce.");
+        writer.Line("/// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.");
         writer.Line("public enum Motion {").Indent();
         writer.Line("/// Spring parameters, for example `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`.");
         writer.Line("public enum Spring {").Indent();
@@ -162,10 +162,10 @@ internal static class AppleGenerator
         }
 
         writer.Outdent().Line("}");
-        foreach (var motion in catalog.Motion.Where(motion => motion.Group == "stagger"))
+        foreach (var motion in catalog.Motion.Where(motion => motion.Group is "stagger" or "arrive"))
         {
             var token = motion.Token;
-            var name = "stagger" + Text.Pascal(token.Name);
+            var name = motion.Group + Text.Pascal(token.Name);
             writer.Line();
             Comment(writer, token.Description, token.Path, token.IsProposal);
             writer.Line(token.Type switch

@@ -66,7 +66,7 @@ public enum Leonardo {
         public static let comfortable: CGFloat = 48
     }
 
-    /// Motion on iOS and macOS: springs without bounce.
+    /// Motion on iOS and macOS: springs without bounce, the stagger offset and how long the Arrive marker holds.
     public enum Motion {
         /// Spring parameters, for example `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`.
         public enum Spring {
@@ -83,6 +83,9 @@ public enum Leonardo {
 
         /// Token: `motion.stagger.maxGroups`.
         public static let staggerMaxGroups: Int = 4
+
+        /// How long the accent marker of Arrive stays fully visible before it fades away. Token: `motion.arrive.hold`.
+        public static let arriveHold: TimeInterval = 2
     }
 
     /// The type roles as system text styles. The system decides the size, so roles follow Dynamic Type.
