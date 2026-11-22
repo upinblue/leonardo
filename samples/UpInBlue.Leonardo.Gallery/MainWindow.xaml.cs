@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using UpInBlue.Leonardo.Gallery.Services;
+using UpInBlue.Leonardo.WinUI.Motion;
 using Windows.Graphics;
 
 namespace UpInBlue.Leonardo.Gallery;
@@ -38,6 +39,11 @@ public sealed partial class MainWindow : Window
         }
 
         App.SystemSettings = new SystemState(AppWindow.Id);
+
+        // Leonardo motion: listen to the Windows setting, and let any click or key press end running motion.
+        MotionSettings.Initialize();
+        MotionSettings.AnimationsOverride = options.Animations;
+        MotionInterruption.Attach(Root);
         ApplyTheme();
         App.Settings.PropertyChanged += OnSettingsChanged;
         Closed += (_, _) => App.Settings.PropertyChanged -= OnSettingsChanged;

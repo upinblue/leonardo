@@ -22,6 +22,7 @@ public static class GalleryPages
         new("color", typeof(ColorPage)),
         new("typography", typeof(TypographyPage)),
         new("geometry", typeof(GeometryPage)),
+        new("motion", typeof(MotionPage)),
         new("fallbacks", typeof(FallbacksPage)),
         new("files", typeof(FilesPage)),
         new("customers", typeof(CustomersPage)),

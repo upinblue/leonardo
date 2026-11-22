@@ -7,14 +7,17 @@
 
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
-            <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
-                AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
-                Text="Activity" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                <TextBlock
+                    AutomationProperties.HeadingLevel="Level1"
+                    Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                    Text="Activity" />
+                <!-- In a real app, events arrive from the server. The sample simulates one. -->
+                <Button Click="OnSimulateEventClicked" Content="Simulate a new event" />
+            </StackPanel>
 
             <!-- A timeline without lines: days are headings, events hang their icon left of the alignment line. -->
-            <ItemsControl ItemsSource="{x:Bind ViewModel.Days}">
+            <ItemsControl x:Name="DayList" ItemsSource="{x:Bind ViewModel.Days}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="{StaticResource LeonardoSpaceL}" />
@@ -28,25 +31,44 @@
                                 AutomationProperties.HeadingLevel="Level2"
                                 Style="{StaticResource LeonardoSectionTextStyle}"
                                 Text="{x:Bind Day}" />
-                            <ItemsControl Margin="{StaticResource LeonardoSpaceXSLeftThickness}" ItemsSource="{x:Bind Events}">
+                            <ItemsControl
+                                x:Name="EventList"
+                                Margin="{StaticResource LeonardoSpaceXSLeftThickness}"
+                                ItemsSource="{x:Bind Events}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="vm:ActivityEvent">
+                                        <!-- The marker column (space.s) and the icon hang left of the alignment line: 4 + 4 + 8 + 4 + 16 + 4 = 40. -->
                                         <Grid
                                             MaxWidth="{StaticResource GallerySettingsWidth}"
-                                            Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                                            Padding="{StaticResource LeonardoSpaceXSHorizontalThickness}"
                                             HorizontalAlignment="Left"
                                             AutomationProperties.Name="{x:Bind AccessibleName}"
                                             ColumnSpacing="{StaticResource LeonardoSpaceXS}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Width="{StaticResource LeonardoSpaceS}"
+                                                Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                                VerticalAlignment="Top">
+                                                <Ellipse
+                                                    x:Name="ArriveMarker"
+                                                    Width="{StaticResource GalleryMarkerSize}"
+                                                    Height="{StaticResource GalleryMarkerSize}"
+                                                    Margin="{StaticResource LeonardoSpaceXSTopThickness}"
+                                                    AutomationProperties.AccessibilityView="Raw"
+                                                    Fill="{ThemeResource LeonardoAccentBrush}"
+                                                    Opacity="0" />
+                                            </Grid>
                                             <FontIcon
+                                                Grid.Column="1"
                                                 Margin="{StaticResource LeonardoSpaceXSTopThickness}"
                                                 VerticalAlignment="Top"
                                                 FontSize="{StaticResource GalleryIconSize}"
                                                 Glyph="{x:Bind Glyph}" />
-                                            <StackPanel Grid.Column="1" Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
+                                            <StackPanel Grid.Column="2" Padding="{StaticResource LeonardoSpaceXSVerticalThickness}">
                                                 <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Text}" />
                                                 <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Meta}" />
                                             </StackPanel>

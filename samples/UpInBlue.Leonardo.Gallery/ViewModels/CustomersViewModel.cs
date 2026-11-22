@@ -40,6 +40,9 @@ public sealed partial class CustomerItem : ObservableObject
         }
     }
 
+    /// <summary>The date the relationship started as saved, for sorting.</summary>
+    public DateTimeOffset SavedSince => _saved.Since;
+
     /// <summary>The city, shown in the list.</summary>
     public string City { get; }
 
@@ -167,6 +170,21 @@ public sealed partial class CustomerItem : ObservableObject
 }
 
 /// <summary>
+/// How the customer list is sorted.
+/// </summary>
+public enum CustomerSortOrder
+{
+    /// <summary>By company name, A to Z.</summary>
+    Name,
+
+    /// <summary>By city, A to Z.</summary>
+    City,
+
+    /// <summary>By the date the relationship started, newest first.</summary>
+    Newest,
+}
+
+/// <summary>
 /// The Customers scenario: a list of customers and a form to edit the selected one.
 /// </summary>
 public sealed partial class CustomersViewModel : ObservableObject
@@ -200,6 +218,35 @@ public sealed partial class CustomersViewModel : ObservableObject
     /// <summary>What just happened, for example "Changes saved."; empty if nothing.</summary>
     [ObservableProperty]
     public partial string Feedback { get; set; } = string.Empty;
+
+    /// <summary>The current sort order. The sample data starts in no particular order.</summary>
+    [ObservableProperty]
+    public partial CustomerSortOrder? SortOrder { get; private set; }
+
+    /// <summary>
+    /// Sorts the list with moves, so that every customer keeps its identity and its row can glide to its new place.
+    /// </summary>
+    public void Sort(CustomerSortOrder order)
+    {
+        var comparer = StringComparer.CurrentCulture;
+        var sorted = order switch
+        {
+            CustomerSortOrder.City => Customers.OrderBy(customer => customer.City, comparer).ThenBy(customer => customer.SavedName, comparer),
+            CustomerSortOrder.Newest => Customers.OrderByDescending(customer => customer.SavedSince),
+            _ => Customers.OrderBy(customer => customer.SavedName, comparer),
+        };
+        var list = sorted.ToList();
+        for (var index = 0; index < list.Count; index++)
+        {
+            var current = Customers.IndexOf(list[index]);
+            if (current != index)
+            {
+                Customers.Move(current, index);
+            }
+        }
+
+        SortOrder = order;
+    }
 
     /// <summary>Raised when saving failed, so the view can move focus to the first invalid field.</summary>
     public event EventHandler? ValidationFailed;

@@ -3,7 +3,8 @@ using Microsoft.UI.Xaml;
 namespace UpInBlue.Leonardo.Gallery.Helpers;
 
 /// <summary>
-/// Visibility helpers for x:Bind function bindings.
+/// Visibility helpers for x:Bind function bindings. They take bools and strings only: x:Bind does not call a function
+/// again when an object argument changes to null, so a check for null belongs in a bool property of the view model.
 /// </summary>
 public static class Show
 {
@@ -15,12 +16,6 @@ public static class Show
 
     /// <summary>Visible when the text is not empty.</summary>
     public static Visibility WhenText(string? value) => string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
-
-    /// <summary>Visible when the object exists.</summary>
-    public static Visibility WhenSet(object? value) => value is null ? Visibility.Collapsed : Visibility.Visible;
-
-    /// <summary>Visible when the object does not exist.</summary>
-    public static Visibility UnlessSet(object? value) => value is null ? Visibility.Visible : Visibility.Collapsed;
 
     /// <summary>"On" or "Off".</summary>
     public static string OnOff(bool value) => value ? "On" : "Off";

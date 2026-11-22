@@ -4,21 +4,32 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace UpInBlue.Leonardo.Gallery.Models;
 
 /// <summary>
-/// A file in a folder. Invented sample content.
+/// A row of the file list: a file, or a subfolder that can be opened. Invented sample content.
 /// </summary>
 public sealed record FileItem(string Name, string Kind, string Glyph, DateTimeOffset Modified, string ModifiedBy, long Size, string Location)
 {
-    /// <summary>The modification date for the list.</summary>
-    public string ModifiedText => Formats.Date(Modified);
+    /// <summary>The glyph of a folder.</summary>
+    public const string FolderGlyph = "";
+
+    /// <summary>The subfolder this row stands for, or null for a file.</summary>
+    public FolderNode? Folder { get; init; }
+
+    /// <summary>Whether the row is a folder that can be opened.</summary>
+    public bool IsFolder => Folder is not null;
+
+    /// <summary>The modification date for the list, or a dash if nothing was modified yet.</summary>
+    public string ModifiedText => Modified == default ? Formats.Size(null) : Formats.Date(Modified);
 
     /// <summary>The modification date and time for the details pane.</summary>
-    public string ModifiedLongText => Formats.DateTime(Modified);
+    public string ModifiedLongText => Modified == default ? Formats.Size(null) : Formats.DateTime(Modified);
 
-    /// <summary>The size for display.</summary>
-    public string SizeText => Formats.Size(Size);
+    /// <summary>The size for display; a dash for folders.</summary>
+    public string SizeText => Formats.Size(IsFolder ? null : Size);
 
     /// <summary>The text a screen reader reads for the row.</summary>
-    public string AccessibleName => $"{Name}, {Kind}, modified {ModifiedText} by {ModifiedBy}, {SizeText}";
+    public string AccessibleName => IsFolder
+        ? $"{Name}, folder, {Kind}"
+        : $"{Name}, {Kind}, modified {ModifiedText} by {ModifiedBy}, {SizeText}";
 }
 
 /// <summary>
@@ -73,6 +84,29 @@ public sealed partial class FolderNode : ObservableObject
 
     /// <summary>The files directly in this folder.</summary>
     public ObservableCollection<FileItem> Files { get; }
+
+    /// <summary>
+    /// The path of this folder from the top-level folder, for example "Hofmann Logistics/Contracts".
+    /// Used as the navigation parameter of the Files page.
+    /// </summary>
+    public string Key => string.Join('/', Trail.Select(folder => folder.Name));
+
+    /// <summary>
+    /// The row that stands for this folder in the file list of its parent. Its date is the newest change inside.
+    /// </summary>
+    public FileItem AsEntry()
+    {
+        var newest = AllFiles().MaxBy(file => file.Modified);
+        var count = Children.Count + Files.Count;
+        var kind = count == 1 ? "1 item" : $"{count} items";
+        return new FileItem(Name, kind, FileItem.FolderGlyph, newest?.Modified ?? default, newest?.ModifiedBy ?? string.Empty, 0, Path)
+        {
+            Folder = this,
+        };
+    }
+
+    /// <summary>The files in this folder and all its subfolders.</summary>
+    public IEnumerable<FileItem> AllFiles() => Files.Concat(Children.SelectMany(child => child.AllFiles()));
 
     /// <summary>Whether the folder is expanded in the tree.</summary>
     [ObservableProperty]
