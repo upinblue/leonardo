@@ -15,6 +15,8 @@ public sealed class GeneratorTests
     private const string WinUICode = "src/UpInBlue.Leonardo.WinUI/Generated/LeonardoTokens.g.cs";
     private const string WpfLight = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Light.xaml";
     private const string WpfDark = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.Dark.xaml";
+    private const string WpfHighContrast = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/Tokens.HighContrast.xaml";
+    private const string WpfAccent = "src/UpInBlue.Leonardo.Wpf/Themes/Generated/AccentColors.xaml";
     private const string WpfCode = "src/UpInBlue.Leonardo.Wpf/Generated/LeonardoTokens.g.cs";
     private const string Swift = "generated/apple/LeonardoTokens.swift";
     private const string Catalog = "generated/apple/Leonardo.xcassets";
@@ -118,6 +120,7 @@ public sealed class GeneratorTests
         foreach (var token in tokens.Children("theme.light").Concat(tokens.Children("theme.dark")))
         {
             Assert.Contains(token.Color.XamlHex, files[WinUIXaml], StringComparison.Ordinal);
+            Assert.Contains(token.Color.XamlHex, files[token.Path.StartsWith("theme.dark.", StringComparison.Ordinal) ? WpfDark : WpfLight], StringComparison.Ordinal);
             Assert.Contains(token.Color.Hex, files[Css], StringComparison.Ordinal);
             Assert.Contains(token.Color.Hex, files[Presentation], StringComparison.Ordinal);
             Assert.True(files.ContainsKey($"{Catalog}/Leonardo/{Text.Pascal(token.Name)}.colorset/Contents.json"));
@@ -129,7 +132,7 @@ public sealed class GeneratorTests
         {
             "space.m",
             """{ "value": 20, "unit": "px" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Swift, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Swift, Css, SkillTokens]
         },
         {
             "theme.light.textTertiary",
@@ -144,27 +147,27 @@ public sealed class GeneratorTests
         {
             "palette.brand",
             "\"#1A6BDF\"",
-            [WinUIXaml, WinUIAccent, WinUICode, WpfLight, WpfDark, WpfCode, $"{Catalog}/AccentColor.colorset/Contents.json", $"{Catalog}/Leonardo/Accent.colorset/Contents.json", Css, Presentation, SkillTokens]
+            [WinUIXaml, WinUIAccent, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfAccent, WpfCode, $"{Catalog}/AccentColor.colorset/Contents.json", $"{Catalog}/Leonardo/Accent.colorset/Contents.json", Css, Presentation, SkillTokens]
         },
         {
             "theme.dark.link",
             "\"#A8CBF5\"",
-            [WinUIXaml, WinUIAccent, WinUICode, WpfDark, WpfCode, $"{Catalog}/Leonardo/Link.colorset/Contents.json", Css, Presentation, SkillTokens]
+            [WinUIXaml, WinUIAccent, WinUICode, WpfDark, WpfAccent, WpfCode, $"{Catalog}/Leonardo/Link.colorset/Contents.json", Css, Presentation, SkillTokens]
         },
         {
             "motion.duration.normal",
             """{ "value": 300, "unit": "ms" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
         },
         {
             "motion.stagger.step",
             """{ "value": 60, "unit": "ms" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Swift, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Swift, Css, SkillTokens]
         },
         {
             "motion.arrive.hold",
             """{ "value": 3000, "unit": "ms" }""",
-            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfCode, Css, SkillTokens]
+            [WinUIXaml, WinUICode, WpfLight, WpfDark, WpfHighContrast, WpfCode, Css, SkillTokens]
         },
         {
             "motion.ios.spring.durationMax",

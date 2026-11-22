@@ -1,0 +1,17 @@
+{
+  "description": "Leonardo check: after Claude Code writes or edits a .xaml, .cs, .swift, .css, .scss, .html or .tsx file, report literal design values and common accessibility mistakes to Claude.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/leonardo-check.sh",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -7,13 +7,16 @@
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples/UpInBlue.Leonardo.Gallery/UpInBlue.Leonardo.Gallery.csproj" />
+    <Project Path="samples/UpInBlue.Leonardo.Gallery.Wpf/UpInBlue.Leonardo.Gallery.Wpf.csproj" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/UpInBlue.Leonardo.Check/UpInBlue.Leonardo.Check.csproj" />
     <Project Path="src/UpInBlue.Leonardo.Tokens/UpInBlue.Leonardo.Tokens.csproj" />
     <Project Path="src/UpInBlue.Leonardo.WinUI/UpInBlue.Leonardo.WinUI.csproj" />
     <Project Path="src/UpInBlue.Leonardo.Wpf/UpInBlue.Leonardo.Wpf.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/UpInBlue.Leonardo.Check.Tests/UpInBlue.Leonardo.Check.Tests.csproj" />
     <Project Path="tests/UpInBlue.Leonardo.Tokens.Tests/UpInBlue.Leonardo.Tokens.Tests.csproj" />
     <Project Path="tests/UpInBlue.Leonardo.WinUI.Tests/UpInBlue.Leonardo.WinUI.Tests.csproj" />
   </Folder>
