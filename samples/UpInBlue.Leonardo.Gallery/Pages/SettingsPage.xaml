@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- A typical settings page from standard controls. Changes apply at once; there is no save button. -->
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="{StaticResource GallerySettingsWidth}"
+            Padding="{StaticResource LeonardoSpaceLVerticalThickness}"
+            HorizontalAlignment="Left"
+            Spacing="{StaticResource LeonardoSpaceXL}">
+            <TextBlock
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Text="Settings" />
+
+            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Appearance" />
+                    <ComboBox
+                        x:Name="ThemeBox"
+                        Header="App theme"
+                        SelectedIndex="{x:Bind ThemeIndex, Mode=TwoWay}">
+                        <x:String>Light</x:String>
+                        <x:String>Dark</x:String>
+                        <x:String>Use system setting</x:String>
+                    </ComboBox>
+                    <HyperlinkButton Content="Windows color settings" NavigateUri="ms-settings:colors" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Lists" />
+                    <RadioButtons Header="Row height" SelectedIndex="{x:Bind DensityIndex, Mode=TwoWay}">
+                        <x:String>Compact</x:String>
+                        <x:String>Standard</x:String>
+                        <x:String>Comfortable</x:String>
+                    </RadioButtons>
+                    <TextBlock
+                        MaxWidth="{StaticResource GalleryReadingWidth}"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Text="Applies to the lists in Files, Customers and Approvals. Your choice is saved for your Windows account." />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="About" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Leonardo Gallery" />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Version}" />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Leonardo is the design language of up in blue." />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

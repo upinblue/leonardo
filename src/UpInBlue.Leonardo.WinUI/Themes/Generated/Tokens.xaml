@@ -127,22 +127,68 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <!-- Spacing in epx. -->
+    <!-- Blue scale. The same in every theme: use it only where a theme color does not fit, such as charts, and never in high contrast. -->
+    <!-- palette.depth -->
+    <Color x:Key="LeonardoPaletteDepthColor">#FF0A1A33</Color>
+    <!-- palette.near -->
+    <Color x:Key="LeonardoPaletteNearColor">#FF0B4A99</Color>
+    <!-- palette.brand -->
+    <Color x:Key="LeonardoPaletteBrandColor">#FF1B6CE0</Color>
+    <!-- palette.far -->
+    <Color x:Key="LeonardoPaletteFarColor">#FF7FB2F0</Color>
+    <!-- palette.haze -->
+    <Color x:Key="LeonardoPaletteHazeColor">#FFDCEAFB</Color>
+    <!-- palette.sky -->
+    <Color x:Key="LeonardoPaletteSkyColor">#FFF3F7FC</Color>
+    <!-- palette.white -->
+    <Color x:Key="LeonardoPaletteWhiteColor">#FFFFFFFF</Color>
+
+    <!-- Spacing in epx: all sides, one side, or both sides of one axis. -->
     <!-- space.xs -->
     <x:Double x:Key="LeonardoSpaceXS">4</x:Double>
     <Thickness x:Key="LeonardoSpaceXSThickness">4</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSLeftThickness">4,0,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSTopThickness">0,4,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSRightThickness">0,0,4,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSBottomThickness">0,0,0,4</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSHorizontalThickness">4,0,4,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXSVerticalThickness">0,4,0,4</Thickness>
     <!-- space.s -->
     <x:Double x:Key="LeonardoSpaceS">8</x:Double>
     <Thickness x:Key="LeonardoSpaceSThickness">8</Thickness>
+    <Thickness x:Key="LeonardoSpaceSLeftThickness">8,0,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceSTopThickness">0,8,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceSRightThickness">0,0,8,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceSBottomThickness">0,0,0,8</Thickness>
+    <Thickness x:Key="LeonardoSpaceSHorizontalThickness">8,0,8,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceSVerticalThickness">0,8,0,8</Thickness>
     <!-- space.m -->
     <x:Double x:Key="LeonardoSpaceM">16</x:Double>
     <Thickness x:Key="LeonardoSpaceMThickness">16</Thickness>
+    <Thickness x:Key="LeonardoSpaceMLeftThickness">16,0,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceMTopThickness">0,16,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceMRightThickness">0,0,16,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceMBottomThickness">0,0,0,16</Thickness>
+    <Thickness x:Key="LeonardoSpaceMHorizontalThickness">16,0,16,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceMVerticalThickness">0,16,0,16</Thickness>
     <!-- space.l -->
     <x:Double x:Key="LeonardoSpaceL">24</x:Double>
     <Thickness x:Key="LeonardoSpaceLThickness">24</Thickness>
+    <Thickness x:Key="LeonardoSpaceLLeftThickness">24,0,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceLTopThickness">0,24,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceLRightThickness">0,0,24,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceLBottomThickness">0,0,0,24</Thickness>
+    <Thickness x:Key="LeonardoSpaceLHorizontalThickness">24,0,24,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceLVerticalThickness">0,24,0,24</Thickness>
     <!-- space.xl -->
     <x:Double x:Key="LeonardoSpaceXL">40</x:Double>
     <Thickness x:Key="LeonardoSpaceXLThickness">40</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLLeftThickness">40,0,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLTopThickness">0,40,0,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLRightThickness">0,0,40,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLBottomThickness">0,0,0,40</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLHorizontalThickness">40,0,40,0</Thickness>
+    <Thickness x:Key="LeonardoSpaceXLVerticalThickness">0,40,0,40</Thickness>
 
     <!-- Corner radii in epx. -->
     <!-- radius.s (proposal) -->

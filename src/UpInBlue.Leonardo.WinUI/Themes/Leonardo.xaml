@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Leonardo for WinUI 3. Merge this dictionary after XamlControlsResources in App.xaml:
+
+    <ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Leonardo.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    It adds the token resources (Leonardo…), the accent ramp (SystemAccentColor…) and the text styles of the type roles.
+    It does not change any other Fluent resource.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/Tokens.xaml" />
+        <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/AccentColors.xaml" />
+        <ResourceDictionary Source="ms-appx:///UpInBlue.Leonardo.WinUI/Themes/Generated/TextStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

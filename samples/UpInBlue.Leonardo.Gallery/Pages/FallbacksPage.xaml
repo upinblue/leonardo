@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.FallbacksPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
+    xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers">
+
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
+            <TextBlock
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Text="Fallbacks" />
+
+            <StackPanel
+                MaxWidth="{StaticResource GalleryReadingWidth}"
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                HorizontalAlignment="Left"
+                Spacing="{StaticResource LeonardoSpaceL}">
+                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="The fallback isn't an emergency but the second half of the design. Every view works without transparency, without animations, in a contrast theme and with larger text. The state below updates while you change the settings." />
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Transparency effects" />
+                    <TextBlock AutomationProperties.LiveSetting="Polite" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind helpers:Show.OnOff(gallery:App.SystemSettings.TransparencyEnabled), Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="When transparency is off, Mica becomes an opaque surface in the colors of its layer. Layers stay recognizable through brightness and a fine edge." />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="To change it, go to Settings &gt; Accessibility &gt; Visual effects &gt; Transparency effects." />
+                    <HyperlinkButton Content="Open visual effects settings" NavigateUri="ms-settings:easeofaccess-visualeffects" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Animation effects" />
+                    <TextBlock AutomationProperties.LiveSetting="Polite" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind helpers:Show.OnOff(gallery:App.SystemSettings.AnimationsEnabled), Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="When animations are off, every motion becomes a short crossfade. The meaning stays, the distance goes." />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="To change it, go to Settings &gt; Accessibility &gt; Visual effects &gt; Animation effects." />
+                    <HyperlinkButton Content="Open visual effects settings" NavigateUri="ms-settings:easeofaccess-visualeffects" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Contrast themes" />
+                    <TextBlock AutomationProperties.LiveSetting="Polite" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind ContrastState, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="In a contrast theme, only system colors are used. Mica becomes an opaque surface with a border, and status always comes with a symbol and text." />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="To change it, go to Settings &gt; Accessibility &gt; Contrast themes." />
+                    <HyperlinkButton Content="Open contrast themes settings" NavigateUri="ms-settings:easeofaccess-highcontrast" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Text size" />
+                    <TextBlock AutomationProperties.LiveSetting="Polite" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind TextSizeState, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="With larger text, layouts wrap instead of clipping. The place name doesn't grow beyond its role." />
+                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="To change it, go to Settings &gt; Accessibility &gt; Text size." />
+                    <HyperlinkButton Content="Open text size settings" NavigateUri="ms-settings:easeofaccess-display" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="UpInBlue.Leonardo.Gallery.Pages.FilesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:gallery="using:UpInBlue.Leonardo.Gallery"
+    xmlns:helpers="using:UpInBlue.Leonardo.Gallery.Helpers"
+    xmlns:models="using:UpInBlue.Leonardo.Gallery.Models"
+    xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
+
+    <!-- Asymmetric balance: folder tree fixed, file list flexible, details fixed. -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="TreeColumn" Width="{StaticResource GalleryTreePaneWidth}" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition x:Name="DetailsColumn" Width="{StaticResource GalleryDetailsPaneWidth}" />
+        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource GalleryDetailsPaneWindowWidth}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Medium">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource GalleryTreePaneWindowWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsColumn.Width" Value="0" />
+                        <Setter Target="DetailsPane.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailsColumn.Width" Value="0" />
+                        <Setter Target="DetailsPane.Visibility" Value="Collapsed" />
+                        <Setter Target="TreeColumn.Width" Value="0" />
+                        <Setter Target="FolderTree.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!-- Folder tree -->
+        <TreeView
+            x:Name="FolderTree"
+            Padding="{StaticResource LeonardoSpaceLTopThickness}"
+            AutomationProperties.Name="Folders"
+            ItemInvoked="OnFolderInvoked"
+            ItemsSource="{x:Bind ViewModel.Folders}"
+            SelectionMode="Single">
+            <TreeView.ItemTemplate>
+                <DataTemplate x:DataType="models:FolderNode">
+                    <TreeViewItem
+                        AutomationProperties.Name="{x:Bind Name}"
+                        IsExpanded="{x:Bind IsExpanded, Mode=TwoWay}"
+                        ItemsSource="{x:Bind Children}">
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                            <FontIcon FontSize="{StaticResource GalleryIconSize}" Glyph="&#xE8B7;" />
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                        </StackPanel>
+                    </TreeViewItem>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <!-- File list -->
+        <Grid Grid.Column="1" Padding="{StaticResource LeonardoSpaceLTopThickness}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Commands of the view, always visible at the top. -->
+            <CommandBar
+                Margin="{StaticResource LeonardoSpaceSRightThickness}"
+                HorizontalAlignment="Right"
+                DefaultLabelPosition="Right"
+                IsDynamicOverflowEnabled="True">
+                <AppBarButton Command="{x:Bind ViewModel.SampleOnlyCommand}" CommandParameter="Upload" Label="Upload">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE898;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Command="{x:Bind ViewModel.SampleOnlyCommand}" CommandParameter="Sharing" Label="Share">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE72D;" />
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Command="{x:Bind ViewModel.DeleteCommand}" Label="Delete">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE74D;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Delete" />
+                    </AppBarButton.KeyboardAccelerators>
+                </AppBarButton>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Command="{x:Bind ViewModel.SampleOnlyCommand}" CommandParameter="New folder" Label="New folder">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE8F4;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
+
+            <!-- Where am I: the path above the place name. -->
+            <BreadcrumbBar
+                Grid.Row="1"
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                AutomationProperties.Name="Folder path"
+                ItemClicked="OnBreadcrumbClicked"
+                ItemsSource="{x:Bind ViewModel.SelectedFolder.Trail, Mode=OneWay}" />
+
+            <TextBlock
+                Grid.Row="2"
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                AutomationProperties.HeadingLevel="Level1"
+                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Text="{x:Bind ViewModel.SelectedFolder.Name, Mode=OneWay}" />
+
+            <!-- What just happened: shown where it happened, with undo. -->
+            <StackPanel
+                Grid.Row="3"
+                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Padding="{StaticResource LeonardoSpaceSTopThickness}"
+                Orientation="Horizontal"
+                Spacing="{StaticResource LeonardoSpaceS}"
+                Visibility="{x:Bind helpers:Show.WhenText(ViewModel.Feedback), Mode=OneWay}">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    AutomationProperties.LiveSetting="Polite"
+                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Text="{x:Bind ViewModel.Feedback, Mode=OneWay}" />
+                <HyperlinkButton
+                    Command="{x:Bind ViewModel.UndoCommand}"
+                    Content="Undo"
+                    Visibility="{x:Bind helpers:Show.When(ViewModel.CanUndo), Mode=OneWay}" />
+            </StackPanel>
+
+            <ListView
+                x:Name="FileList"
+                Grid.Row="4"
+                Margin="{StaticResource LeonardoSpaceXLTopThickness}"
+                Padding="{StaticResource LeonardoSpaceXSLeftThickness}"
+                AutomationProperties.Name="Files"
+                ItemContainerStyle="{StaticResource GalleryTableItemStyle}"
+                ItemsSource="{x:Bind ViewModel.SelectedFolder.Files, Mode=OneWay}"
+                SelectionChanged="OnFileSelectionChanged"
+                SizeChanged="OnFileListSizeChanged"
+                SelectionMode="Single">
+                <ListView.Header>
+                    <Grid
+                        Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                        AutomationProperties.AccessibilityView="Raw"
+                        ColumnSpacing="{StaticResource LeonardoSpaceM}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.DateWidth, Mode=OneWay}" />
+                            <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.PersonWidth, Mode=OneWay}" />
+                            <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceXS}">
+                            <Border Width="{StaticResource GalleryIconSize}" />
+                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Name" />
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Visibility="{x:Bind vm:TableColumns.Files.DateVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified" />
+                        <TextBlock Grid.Column="2" Visibility="{x:Bind vm:TableColumns.Files.PersonVisibility, Mode=OneWay}" Style="{StaticResource LeonardoMetaTextStyle}" Text="Modified by" />
+                        <TextBlock
+                            Grid.Column="3"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Text="Size" />
+                    </Grid>
+                </ListView.Header>
+                <ListView.Footer>
+                    <!-- Empty folder: explain what appears here and offer the first action. -->
+                    <StackPanel
+                        Padding="{StaticResource LeonardoSpaceMHorizontalThickness}"
+                        Orientation="Horizontal"
+                        Spacing="{StaticResource LeonardoSpaceXS}"
+                        Visibility="{x:Bind helpers:Show.When(ViewModel.IsFolderEmpty), Mode=OneWay}">
+                        <Border Width="{StaticResource GalleryIconSize}" />
+                        <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceS}">
+                            <TextBlock Style="{StaticResource LeonardoSectionTextStyle}" Text="This folder is empty" />
+                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Files you upload to this folder appear here." />
+                            <Button
+                                Command="{x:Bind ViewModel.SampleOnlyCommand}"
+                                CommandParameter="Upload"
+                                Content="Upload files"
+                                Style="{StaticResource AccentButtonStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+                </ListView.Footer>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:FileItem">
+                        <Grid
+                            MinHeight="{x:Bind gallery:App.Settings.RowHeight, Mode=OneWay}"
+                            AutomationProperties.Name="{x:Bind AccessibleName}"
+                            ColumnSpacing="{StaticResource LeonardoSpaceM}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.DateWidth, Mode=OneWay}" />
+                                <ColumnDefinition Width="{x:Bind vm:TableColumns.Files.PersonWidth, Mode=OneWay}" />
+                                <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Click="OnShareClicked" Text="Share">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE72D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Click="OnDeleteClicked" Text="Delete">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE74D;" />
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
+                            <Grid VerticalAlignment="Center" ColumnSpacing="{StaticResource LeonardoSpaceXS}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    VerticalAlignment="Top"
+                                    FontSize="{StaticResource GalleryIconSize}"
+                                    Glyph="{x:Bind Glyph}" />
+                                <TextBlock Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Name}" />
+                            </Grid>
+                            <TextBlock
+                                Grid.Column="1"
+                                Visibility="{x:Bind vm:TableColumns.Files.DateVisibility, Mode=OneWay}"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                                Text="{x:Bind ModifiedText}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Visibility="{x:Bind vm:TableColumns.Files.PersonVisibility, Mode=OneWay}"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource LeonardoBodyTextStyle}"
+                                Text="{x:Bind ModifiedBy}" />
+                            <TextBlock
+                                Grid.Column="3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource LeonardoBodyTabularTextStyle}"
+                                Text="{x:Bind SizeText}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+        <!-- Details of the selected file -->
+        <ScrollViewer
+            x:Name="DetailsPane"
+            Grid.Column="2"
+            AutomationProperties.Name="Details"
+            Background="{ThemeResource LeonardoSurfaceAltBrush}">
+            <StackPanel Padding="{StaticResource LeonardoSpaceLThickness}" Spacing="{StaticResource LeonardoSpaceM}">
+                <TextBlock
+                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Text="Select a file to see its details."
+                    Visibility="{x:Bind helpers:Show.UnlessSet(ViewModel.SelectedFile), Mode=OneWay}" />
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceM}" Visibility="{x:Bind helpers:Show.WhenSet(ViewModel.SelectedFile), Mode=OneWay}">
+                    <FontIcon
+                        HorizontalAlignment="Left"
+                        FontSize="{StaticResource GalleryLargeIconSize}"
+                        Glyph="{x:Bind ViewModel.SelectedFile.Glyph, Mode=OneWay, FallbackValue=''}" />
+                    <StackPanel>
+                        <TextBlock
+                            AutomationProperties.HeadingLevel="Level2"
+                            Style="{StaticResource LeonardoSectionTextStyle}"
+                            Text="{x:Bind ViewModel.SelectedFile.Name, Mode=OneWay, FallbackValue=''}" />
+                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SelectedFile.Kind, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Modified" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.ModifiedLongText, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Modified by" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.ModifiedBy, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Size" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.SizeText, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource GalleryFieldLabelStyle}" Text="Location" />
+                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind ViewModel.SelectedFile.Location, Mode=OneWay, FallbackValue=''}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
