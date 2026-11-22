@@ -89,13 +89,14 @@ public sealed partial class FilesPage : Page
         {
             Stagger.Enter([Breadcrumb, PlaceHeader, FileList], direction);
         }
-        else if (_arrival == NavigationMode.New)
+        else if (_arrival == NavigationMode.New && Frame.BackStackDepth > 0)
         {
-            // Forward: completes a prepared dive; without one (the first visit), nothing moves.
+            // Forward: completes a prepared dive; without one, for example from the navigation pane, the page staggers in.
             DiveIn.Start(PlaceHeader.TitleElement ?? PlaceHeader, [Breadcrumb, FileList]);
         }
         else
         {
+            // The first view at app launch, or back without a folder to return into: nothing moves.
             DiveIn.Cancel();
         }
     }
@@ -172,8 +173,7 @@ public sealed partial class FilesPage : Page
     /// </summary>
     private void OnFileListSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var resources = Application.Current.Resources;
-        var rowChrome = LeonardoTokens.Space.XS + (2 * LeonardoTokens.Space.XS) + (double)resources["LeonardoStatusDotSize"] + (double)resources["GalleryIconSize"] + LeonardoTokens.Space.XS;
+        var rowChrome = LeonardoTokens.Space.XS + (2 * LeonardoTokens.Space.XS) + LeonardoTokens.Size.StatusDot + LeonardoTokens.Size.Icon + LeonardoTokens.Space.XS;
         TableColumns.Files.Fit(e.NewSize.Width - rowChrome, LeonardoTokens.Space.M);
     }
 
