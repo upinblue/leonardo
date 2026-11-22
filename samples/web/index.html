@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Files – Leonardo web sample</title>
+    <!-- Leonardo values, generated from tokens/leonardo.tokens.json. Never copy values out of this file. -->
+    <link rel="stylesheet" href="../../generated/web/leonardo.css">
+    <link rel="stylesheet" href="fonts/inter.css">
+    <link rel="stylesheet" href="files.css">
+    <!-- Applies the stored appearance and density before the first paint, so the page does not flash. -->
+    <script>
+        try {
+            const theme = localStorage.getItem("leonardo-sample-theme");
+            const density = localStorage.getItem("leonardo-sample-density");
+            if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+            if (density === "compact" || density === "comfortable") document.documentElement.dataset.density = density;
+        } catch {
+            // Storage is unavailable, for example in a private window with strict settings. Defaults apply.
+        }
+    </script>
+    <script src="files.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main" data-skip-link>Skip to content</a>
+
+    <header class="banner">
+        <p class="banner-title">Leonardo web sample</p>
+        <nav class="app-nav" aria-label="App">
+            <ul>
+                <li><a href="#/files" data-section="files">Files</a></li>
+                <li><a href="#/settings" data-section="settings">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="layout">
+        <nav class="folders" aria-label="Folders" data-folders>
+            <!-- Filled by files.js: nested lists of links with disclosure buttons (APG disclosure navigation). -->
+        </nav>
+
+        <main id="main" class="main">
+            <div class="place">
+                <div class="place-text">
+                    <nav class="breadcrumb" aria-label="Breadcrumb" data-breadcrumb hidden>
+                        <ol data-breadcrumb-list></ol>
+                    </nav>
+                    <h1 class="role-place-name" tabindex="-1" data-place-name>Files</h1>
+                    <p class="role-meta summary" data-summary></p>
+                </div>
+                <div class="commands" data-commands hidden>
+                    <button type="button" class="button" data-action="upload">Upload files</button>
+                </div>
+            </div>
+
+            <div class="feedback" data-feedback>
+                <p class="role-body" role="status" data-feedback-text></p>
+                <button type="button" class="button" data-undo hidden>Undo</button>
+            </div>
+
+            <div class="content" data-files-content></div>
+
+            <form class="settings" data-settings hidden>
+                <fieldset>
+                    <legend class="role-section">Appearance</legend>
+                    <label><input type="radio" name="theme" value="system" checked> Use system setting</label>
+                    <label><input type="radio" name="theme" value="light"> Light</label>
+                    <label><input type="radio" name="theme" value="dark"> Dark</label>
+                </fieldset>
+                <fieldset>
+                    <legend class="role-section">List density</legend>
+                    <p class="role-meta hint" id="density-hint">Applies to the file list and the folders.</p>
+                    <label><input type="radio" name="density" value="compact" aria-describedby="density-hint"> Compact</label>
+                    <label><input type="radio" name="density" value="standard" aria-describedby="density-hint" checked> Standard</label>
+                    <label><input type="radio" name="density" value="comfortable" aria-describedby="density-hint"> Comfortable</label>
+                </fieldset>
+                <p class="role-meta hint">Changes apply right away and are stored in this browser only.</p>
+            </form>
+
+            <div class="missing" data-missing hidden>
+                <p class="role-body" data-missing-text></p>
+                <p class="role-body"><a href="#/files">Go to Customers</a></p>
+            </div>
+        </main>
+
+        <aside class="details" aria-label="Details" data-details></aside>
+    </div>
+
+    <input type="file" multiple hidden data-file-input>
+    <p class="visually-hidden" role="status" data-announcer></p>
+</body>
+</html>
