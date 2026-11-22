@@ -6,7 +6,7 @@ For changing, modernizing or fixing existing UI. Existing users have habits; pro
 
 1. **Look before you change.** Do a short review of the affected area (see `review.md`), at least the top problems with their severity. Share it before large changes.
 2. **Research** the platform guidance for the patterns involved.
-3. **Agree on the scope.** Large changes, such as moving commands, renaming things or changing navigation, need the user's confirmation, because they change what people have learned.
+3. **Agree on the scope.** Large changes, such as moving commands, renaming things or changing navigation, need the user's confirmation, because they change what people have learned. If the request already sets the scope, say which changes it covers, record the short review in the pull request, and go on.
 4. **Change in this order, in separate commits:**
    1. Accessibility problems
    2. Usability problems by severity

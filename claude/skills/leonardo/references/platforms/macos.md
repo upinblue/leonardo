@@ -4,28 +4,102 @@ A Mac app is a Mac app, not a large iOS app. Mac users work with keyboard and po
 
 ## Research first
 
-Read "Designing for macOS" in the Human Interface Guidelines, then the pages for every component and pattern you use, typically: the menu bar, menus, windows, toolbars, sidebars, split views, settings, keyboards, pointing devices, drag and drop, materials, typography, accessibility, and the Apple Style Guide for text. Read the current version; it changes with each macOS release.
+Read "Designing for macOS" in the Human Interface Guidelines, then the pages for every component and pattern you use, typically: the menu bar, menus, windows, toolbars, sidebars, split views, settings, keyboards, pointing devices, drag and drop, materials, typography, accessibility, and the Apple Style Guide for text. Read the current version and note the page's change-log date; it changes with each macOS release.
 
 ## Platform conventions to respect
 
-- **Menu bar:** every command of the app is in the menu bar, in the standard menus (app menu, File, Edit, View, Window, Help) where it belongs, with its keyboard shortcut. Implement it with SwiftUI `Commands`.
-- **Settings:** a separate Settings window, opened with Command-comma, implemented with the `Settings` scene.
-- **Windows:** resizable windows, multiple windows where documents or items can be opened side by side, state restoration, sensible minimum sizes.
-- **Structure:** `NavigationSplitView` with a sidebar for top-level areas and sources; content and detail columns for lists and items.
-- **Toolbar:** standard toolbar for the most frequent commands of the window; customizable where the app is used heavily.
-- **Pointer and keyboard:** hover feedback, tooltips (`.help`), context menus on right click, multiple selection with Command and Shift, drag and drop between windows and apps, full keyboard access.
+- **Menu bar:** every command of the app is in the menu bar, in the standard menus (app menu, File, Edit, Format, View, app-specific menus, Window, Help) where it belongs, with its keyboard shortcut. Every toolbar item is also a menu command. Unavailable items are disabled, not hidden. Implement it with SwiftUI `Commands` (`CommandGroup`, `CommandMenu`, and the built-in `SidebarCommands`, `ToolbarCommands`, `TextEditingCommands`).
+- **Settings:** a separate Settings window from the `Settings` scene, opened from the app menu and with Command-comma. Panes in a `TabView`; the window title names the pane. No settings button in the main window's toolbar.
+- **Windows:** resizable windows, multiple windows where documents or items can be opened side by side, full screen, state restoration, sensible minimum sizes.
+- **Structure:** `NavigationSplitView` with a sidebar for top-level areas and sources; content and detail columns for lists and items. The sidebar can be shown and hidden from the View menu.
+- **Toolbar:** standard toolbar for the most frequent commands of the window; customizable where the app is used heavily. Short window titles; never the app name as title.
+- **Pointer and keyboard:** hover feedback, tooltips (`.help`), context menus on right click (`.contextMenu`), multiple selection with Command and Shift, drag and drop between windows and apps, full keyboard access.
 - **Sheets and dialogs:** attached to the window they belong to.
-- **Undo:** Edit menu with undo and redo for every change the user makes.
-- **Writing:** follow the Apple Style Guide and the HIG's guidance on menus and labels, including capitalization, which differs from Windows.
+- **Undo:** Edit menu with undo and redo for every change the user makes (`UndoManager`).
+- **Text:** macOS has no Dynamic Type. Use the system text styles at their Mac sizes; the default body size is 13 pt. Do not copy iOS sizes.
+- **Writing:** follow the Apple Style Guide and the HIG's guidance on menus and labels, including title-style capitalization in menus and an ellipsis on commands that open another window.
 
 ## Leonardo on macOS
 
-- **Place name:** the window title in the toolbar. No second large title inside the content.
-- **Colors:** from the generated asset catalog in `generated/apple`; the accent color is brand blue.
-- **Type roles:** map to system text styles: view → Title 2, section → Headline, body → Body, meta → Caption. Mac text is smaller than iOS text; do not copy iOS sizes.
-- **Density:** Mac lists are dense. Use the compact or standard density.
-- **Spacing, radii and the alignment line:** as everywhere, from the generated Swift values.
-- **Motion:** shorter and rarer than on iOS. Windows, sidebars and toolbars animate the way the system animates them. With Reduce Motion, crossfade.
+Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the Mac app target (not to a Swift package module: the generated colors look in the main bundle). `LeonardoTokens.swift` already contains the Mac differences under `#if os(macOS)`.
+
+| Leonardo | macOS |
+| --- | --- |
+| Place name | The window title in the toolbar (`.navigationTitle`). No second large title inside the content; `Leonardo.TextStyle` has no `placeName` on macOS for this reason. |
+| Type roles | view → `.title2`, section → `.headline`, body → `.body`, meta → `.caption` (iOS uses `.footnote`). Emphasis is `.body` with `.fontWeight(.semibold)`. |
+| Colors | `Leonardo.Colors.…` from the asset catalog, as on iOS. Respect the user's system accent color where the system uses it (sidebar icons, selection); the app's `AccentColor` is brand blue in light and far in dark. |
+| Status | System colors, as the design language requires: `.red`, `.yellow`, `.green`, always with shape and text. |
+| Density | Mac lists are dense: `Leonardo.Density.compact` or `.standard`. |
+| Spacing, radii, alignment line | `Leonardo.Space`, `Leonardo.Radius`, as everywhere. |
+| Motion | Shorter and rarer than on iOS. Windows, sidebars, toolbars and sheets animate the way the system animates them. Content motion: `.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)`; with Reduce Motion, `.opacity` only. |
+
+### Examples
+
+These examples are written against the generated `LeonardoTokens.swift` and Apple's documentation. There is no Apple sample in upinblue/leonardo yet, so they are not taken from a running app.
+
+One app, two platforms: the scene declares what only the Mac has.
+
+```swift
+@main
+struct FilesApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+        #if os(macOS)
+        .commands {
+            SidebarCommands()
+            ToolbarCommands()
+            CommandMenu("File Actions") {
+                Button("Upload Files…") { upload() }
+                    .keyboardShortcut("u", modifiers: [.command, .shift])
+            }
+        }
+        #endif
+
+        #if os(macOS)
+        Settings {
+            SettingsView()   // TabView with one tab per pane
+        }
+        #endif
+    }
+}
+```
+
+The content of a Mac window: sidebar, list and details; the window title is the place name.
+
+```swift
+NavigationSplitView {
+    List(folders, selection: $selectedFolder) { folder in
+        Label(folder.name, systemImage: "folder")
+    }
+} content: {
+    Table(files, selection: $selectedFiles) { … }   // multiple selection with Command and Shift
+        .contextMenu(forSelectionType: File.ID.self) { ids in … }
+        .navigationTitle(selectedFolder?.name ?? "Files")
+} detail: {
+    FileDetails(files: selectedFiles)
+        .padding(Leonardo.Space.l)
+}
+```
+
+Incorrect on the Mac:
+
+```swift
+TabView { … }                                        // a tab bar for the top-level areas instead of a sidebar in a NavigationSplitView
+Text("Contracts").font(.largeTitle)                  // a second large title below the window title
+.toolbar { Button("Settings") { showSettings = true } }   // settings in the main window instead of the Settings scene
+Button("Delete") { delete() }                        // a command that exists only in the content, not in the menu bar
+```
+
+## Before the pull request (macOS)
+
+- [ ] Every command is in the menu bar with its shortcut; if the app has settings, Command-comma opens the Settings window.
+- [ ] Full keyboard access works for the main task; tooltips on toolbar items.
+- [ ] Light and dark, Increase Contrast, Reduce Transparency, Reduce Motion.
+- [ ] Undo and redo for every user change.
+- [ ] No iOS patterns (bottom tab bar, swipe-only actions, full-screen modal flows).
+- [ ] No literal colors, font sizes, spacing, radii or animation durations; springs have no bounce.
 
 ## Never on macOS
 

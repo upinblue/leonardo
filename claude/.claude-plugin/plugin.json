@@ -1,0 +1,14 @@
+{
+  "name": "leonardo",
+  "displayName": "Leonardo",
+  "version": "0.1.0",
+  "description": "Designs, revises and reviews the UI of up in blue apps on Windows, iOS, macOS, the web and in PowerPoint: platform guidelines first, then the Leonardo design language.",
+  "author": {
+    "name": "up in blue",
+    "url": "https://github.com/upinblue"
+  },
+  "homepage": "https://github.com/upinblue/leonardo/tree/main/claude",
+  "repository": "https://github.com/upinblue/leonardo",
+  "license": "MIT",
+  "keywords": ["design-language", "ui", "usability", "accessibility", "winui", "wpf", "swiftui", "web"]
+}

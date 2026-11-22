@@ -11,7 +11,7 @@ For new screens, features or apps.
 5. **Apply Leonardo to the content layer.** Type roles, alignment line, grid, density, color semantics, status shapes, motion vocabulary; all values from tokens.
 6. **Design every state** in the state matrix of `usability.md`.
 7. **Write the text** following the platform's writing guide.
-8. **Look at the result** in light and dark mode, with large text and keyboard only, where the environment allows.
+8. **Look at the result** in light and dark mode, with large text and keyboard only, where the environment allows. If you cannot build or run it (no toolchain, no simulator, no display), say so in the pull request and list what is unverified, for example APIs you are unsure of.
 
 ## Checklist before the pull request
 
@@ -29,5 +29,6 @@ For new screens, features or apps.
 - What the user can do now, in one or two sentences.
 - Sources read (title, URL, date).
 - Decisions where platform and Leonardo met, and why.
+- Leonardo values whose token is marked `"status": "proposal"` and that became visible, so they can be confirmed.
 - States covered, and anything not covered yet.
 - Open questions.

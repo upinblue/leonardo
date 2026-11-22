@@ -8,7 +8,7 @@ Leonardo never replaces the platform: every app is first a good Windows, iOS, ma
 
 - Design language: `docs/design-language.md` (visual version: `docs/leonardo-design-language.pdf`)
 - Tokens: `tokens/leonardo.tokens.json`
-- Claude Code skill: `claude/skills/leonardo`
+- Claude Code plugin with the skill `leonardo`: [claude/README.md](claude/README.md)
 - Working with Claude Code in this repository: `CLAUDE.md`
 
 License: MIT for the code. The name and logos of up in blue are excluded; see `TRADEMARKS.md`.
