@@ -18,11 +18,21 @@
     --files-nav-width: 16rem;
     --files-details-width: 20rem;
 
+    /* Alignment line: where text starts, measured from the content edge of the main area.
+       Pages without list rows use the page margin space-l; the file list uses space-xl (see below). */
+    --files-alignment-line: var(--leonardo-space-l);
+
     /* List density, chosen in Settings. Standard is the default. */
     --files-row-height: var(--leonardo-density-standard);
 
     /* Direction of "Dive in": forward comes from the right, back from the left. */
     --files-enter-from: var(--leonardo-distance-enter-min);
+}
+
+/* The file list has status dots and, later, file icons that hang to the left of the text, so the
+   folder view puts its alignment line at space-xl. */
+:root[data-view="files"] {
+    --files-alignment-line: var(--leonardo-space-xl);
 }
 
 :root[data-density="compact"] {
@@ -209,9 +219,12 @@ ul {
     padding: var(--leonardo-space-l) var(--leonardo-space-s);
 }
 
+/* Page margin space-l on every side. Text starts on the alignment line, which is the page margin
+   on pages without list rows and space-xl in the folder view. */
 .main {
     grid-area: main;
-    padding: var(--leonardo-space-l) var(--leonardo-space-l) var(--leonardo-space-xl);
+    padding-block: var(--leonardo-space-l) var(--leonardo-space-xl);
+    padding-inline: var(--files-alignment-line) var(--leonardo-space-l);
 }
 
 .details {
@@ -439,11 +452,14 @@ ul {
 
 /* ---------- File list ---------- */
 
+/* The row backplates (hover, selection) reach to space-xs from both content edges. The first column
+   starts its text on the alignment line (space-xl), where the place name starts; status dots and the
+   Arrive bar hang to the left of it. The last column ends on the page margin (space-l). */
 .file-table {
-    /* The table reaches into the gutter by space-m so that the text of the first column sits on the
-       alignment line of the place name, and status dots and selection backgrounds hang to the left of it. */
-    inline-size: calc(100% + 2 * var(--leonardo-space-m));
-    margin-inline: calc(-1 * var(--leonardo-space-m));
+    --files-table-reach-start: calc(var(--files-alignment-line) - var(--leonardo-space-xs));
+    --files-table-reach-end: calc(var(--leonardo-space-l) - var(--leonardo-space-xs));
+    inline-size: calc(100% + var(--files-table-reach-start) + var(--files-table-reach-end));
+    margin-inline: calc(-1 * var(--files-table-reach-start)) calc(-1 * var(--files-table-reach-end));
     border-collapse: separate;
     border-spacing: 0;
 }
@@ -457,6 +473,14 @@ ul {
 .file-table td {
     padding: var(--leonardo-space-xs) var(--leonardo-space-m);
     vertical-align: middle;
+}
+
+.file-table :is(th, td):first-child {
+    padding-inline-start: var(--files-table-reach-start);
+}
+
+.file-table :is(th, td):last-child {
+    padding-inline-end: var(--files-table-reach-end);
 }
 
 .file-table tbody tr {
