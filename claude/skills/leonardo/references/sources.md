@@ -32,7 +32,10 @@ The WinUI 3 Gallery app (Microsoft Store) shows every control with its recommend
 | Tab bars | https://developer.apple.com/design/human-interface-guidelines/tab-bars |
 | SF Symbols | https://developer.apple.com/design/human-interface-guidelines/sf-symbols |
 | SwiftUI documentation | https://developer.apple.com/documentation/swiftui |
-| Writing: Apple Style Guide | https://support.apple.com/guide/applestyleguide/welcome/web |
+| Writing (HIG) | https://developer.apple.com/design/human-interface-guidelines/writing |
+| Writing: Apple Style Guide (look up single terms, for example capitalization) | https://support.apple.com/guide/applestyleguide/welcome/web |
+
+The pages on developer.apple.com are rendered with JavaScript, so a web fetch often returns only the title. Fetch the same page as JSON instead: `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json` for the HIG (for example `…/human-interface-guidelines/toolbars.json`) and `https://developer.apple.com/tutorials/data/documentation/swiftui/<symbol>.json` for SwiftUI (for example `…/documentation/swiftui/settings.json`). Cite the normal page URL in your sources.
 
 ## Web
 

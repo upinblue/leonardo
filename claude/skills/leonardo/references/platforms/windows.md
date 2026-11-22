@@ -64,7 +64,8 @@ All keys start with `Leonardo`. Colors are theme resources (Light, Dark, and Hig
 
 | Kind | Keys | Use with |
 | --- | --- | --- |
-| Theme colors | `LeonardoAccentBrush`, `LeonardoOnAccentBrush`, `LeonardoLinkBrush`, `LeonardoSelectionBrush`, `LeonardoSurfaceBrush`, `LeonardoSurfaceAltBrush`, `LeonardoTextPrimaryBrush`, `LeonardoTextSecondaryBrush`, `LeonardoTextTertiaryBrush`, `LeonardoStrokeSubtleBrush`, `LeonardoStrokeStrongBrush`, `LeonardoStatusCriticalBrush`, `LeonardoStatusCautionBrush`, `LeonardoStatusSuccessBrush`; each also as `…Color` | `{ThemeResource …}` |
+| Theme colors | `LeonardoAccentBrush`, `LeonardoOnAccentBrush`, `LeonardoLinkBrush`, `LeonardoSelectionBrush`, `LeonardoSurfaceBrush`, `LeonardoSurfaceAltBrush`, `LeonardoTextPrimaryBrush`, `LeonardoTextSecondaryBrush`, `LeonardoTextTertiaryBrush`, `LeonardoStrokeSubtleBrush`, `LeonardoStrokeStrongBrush`; each also as `…Color` | `{ThemeResource …}` |
+| Status colors | Fluent's own: `SystemFillColorCriticalBrush`, `SystemFillColorCautionBrush`, `SystemFillColorSuccessBrush` (as `StatusDot` and `InfoBar` use them). The `LeonardoStatus…Brush` resources mirror them for the standalone web; do not use them on Windows. | `{ThemeResource …}` |
 | Blue scale | `LeonardoPaletteDepthColor`, `…NearColor`, `…BrandColor`, `…FarColor`, `…HazeColor`, `…SkyColor`, `…WhiteColor` | `{StaticResource …}`, only inside your own theme dictionaries (charts), never directly on an element |
 | Spacing (`x:Double`) | `LeonardoSpaceXS` 4, `LeonardoSpaceS` 8, `LeonardoSpaceM` 16, `LeonardoSpaceL` 24, `LeonardoSpaceXL` 40 | `Spacing`, `ColumnSpacing`, `RowSpacing` |
 | Spacing (`Thickness`) | `LeonardoSpace{XS,S,M,L,XL}Thickness`, and `…LeftThickness`, `…TopThickness`, `…RightThickness`, `…BottomThickness`, `…HorizontalThickness`, `…VerticalThickness` | `Margin`, `Padding` |
@@ -74,6 +75,8 @@ All keys start with `Leonardo`. Colors are theme resources (Light, Dark, and Hig
 | Type values | `Leonardo{PlaceName,View,Section,Body,Meta}{FontFamily,FontSize,LineHeight}` | Only where a text style cannot be used |
 | Motion | `LeonardoEaseEnter`, `LeonardoEaseExit`, `LeonardoEaseMove`, `LeonardoEaseFade` (KeySpline strings); `LeonardoDurationFade`, `…Short`, `…Normal`, `…Long`; `LeonardoArriveHold`; `LeonardoStaggerStep`, `LeonardoStaggerMaxGroups`; `LeonardoDistanceEnterMin`, `…Max`; `LeonardoParallaxPlaceNameFactor` | Storyboards that the motion helpers do not cover |
 | Controls | `LeonardoStatusDotSize` (12) | The status column of a row |
+
+Known issue: the Leonardo text styles set `Foreground`. In a contrast theme, text in a selected or hovered `ListView` row then keeps the window text color instead of switching to the highlight text color (Microsoft, "Contrast themes", list items with colored text). Check selected rows in a contrast theme, and until the library changes, use a row text style without `Foreground` where this happens. Say so in the pull request.
 
 In code, the same values are in the generated static class `UpInBlue.Leonardo.WinUI.LeonardoTokens` (`LeonardoTokens.Space.M`, `LeonardoTokens.Motion.DurationNormal`, `LeonardoTokens.Light.Accent` …). Use it only where XAML resources are not reachable; in high contrast, colors come from the system, not from `LeonardoTokens`.
 
@@ -176,7 +179,7 @@ What just happened, as one sentence: "Since your last visit: 2 new · 1 checked 
 
 ### StatusDot
 
-`Kind` New (accent dot), CheckedOut (ring in the system caution color) or Conflict (circle with exclamation mark in the system critical color). `Description` is required: it is the tooltip and the accessible name. In rows the dot hangs left of the alignment line, between icon and name, in a column of `LeonardoStatusDotSize`. Correct (gallery, Files page row):
+`Kind` New (accent dot), CheckedOut (ring in the system caution color) or Conflict (circle with exclamation mark in the system critical color). The shapes carry the meaning, so they fit other domains too: CheckedOut stands for "attention, not blocked" (for example a contract that expires soon), Conflict for "something is broken or overdue". `Description` is required: it is the tooltip and the accessible name, and it says the specific state ("Expires on 3 March"). In rows the dot hangs left of the alignment line, between icon and name, in a column of `LeonardoStatusDotSize`; the alignment line works out when the `ListView` has a left padding of `LeonardoSpaceXS` and its items a horizontal padding of `LeonardoSpaceXS` (4 + 4 + icon 16 + dot 12 + 4 = 40). Correct (gallery, Files page row):
 
 ```xml
 <Grid Grid.Column="1" Width="{StaticResource LeonardoStatusDotSize}"
@@ -275,6 +278,7 @@ Incorrect: `BorderBrush="{StaticResource LeonardoStrokeSubtleBrush}"` (stays in 
 
 ## Before the pull request (Windows)
 
+- [ ] `App.xaml` merges `Leonardo.xaml` after `XamlControlsResources`; the window uses `MicaBackdrop` and calls `MotionSettings.Initialize()` and `MotionInterruption.Attach(…)`. Check this in an existing app shell too, not only in new pages.
 - [ ] Light, Dark and a contrast theme (Settings › Accessibility › Contrast themes).
 - [ ] Animation effects off (Settings › Accessibility › Visual effects): every motion is a crossfade.
 - [ ] Transparency effects off: Mica becomes opaque, the layout stays readable.

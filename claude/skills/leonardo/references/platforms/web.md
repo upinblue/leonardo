@@ -21,7 +21,7 @@ The browser is the platform. Users expect links, URLs, the back button and their
 - **Input:** labels on every field; native validation messages or equivalent inline messages; never block paste.
 - **Keyboard:** a visible focus indicator (`:focus-visible`), a logical tab order, a skip link on content-heavy pages. After a view changes, move focus to the new place name or announce the change.
 - **User preferences:** respect `prefers-color-scheme`, `prefers-reduced-motion`, `prefers-contrast` and `forced-colors`. Never remove the focus outline without a better replacement.
-- **Responsive:** relative units (`rem`), layouts that reflow from phone to wide desktop, no horizontal scrolling of the page.
+- **Responsive:** relative units (`rem`) for type and layout sizes, so they follow the user's text size; `px` only for hairlines and focus outlines, which should not grow with text. Layouts reflow from phone to wide desktop, with no horizontal scrolling of the page.
 - **Typeface:** Inter, titles in Inter Display, self-hosted. Do not load fonts from third-party servers; this keeps visitors' data with us.
 
 ## Leonardo on the standalone web

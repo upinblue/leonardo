@@ -16,12 +16,12 @@ Read "Designing for iOS" in the Human Interface Guidelines, then the pages for e
 - **Color and materials:** system colors for status; system materials and Liquid Glass come with the system bars and sheets. Never put glass into the content layer, and never draw custom bars.
 - **Touch targets:** at least 44 × 44 pt.
 - **Icons:** SF Symbols.
-- **iPad:** the tab bar can become a sidebar (`.tabViewStyle(.sidebarAdaptable)`); support pointer, keyboard shortcuts (`.keyboardShortcut`) and multitasking.
+- **iPad:** the tab bar can become a sidebar (`.tabViewStyle(.sidebarAdaptable)`); support pointer, keyboard shortcuts (`.keyboardShortcut`) and multitasking. iPadOS has a menu bar: the app's SwiftUI `Commands` appear there, so give frequent commands a menu item and a shortcut (see "The menu bar" in the HIG).
 - **Writing:** follow the Apple Style Guide and the HIG's guidance on text, including title-style capitalization for button and menu labels where Apple uses it.
 
 ## Leonardo on iOS
 
-Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the app target. Never type a Leonardo value by hand.
+Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the app target. Never type a Leonardo value by hand. The generated colors look up the catalog in the main bundle (`Color("Leonardo/Accent")`), so the catalog must be compiled into the app itself; inside a Swift package module the colors are not found, and the package's `AccentColor` does not tint the app.
 
 | Leonardo | iOS |
 | --- | --- |
@@ -31,7 +31,8 @@ Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leon
 | Status | System colors, as the design language requires: `.red` broken, `.yellow` attention, `.green` briefly confirmed. Always with a shape and text. |
 | Spacing | `Leonardo.Space.xs` 4, `.s` 8, `.m` 16, `.l` 24, `.xl` 40 |
 | Radii | `Leonardo.Radius.s`, `.m`, `.l` (concentric: inner = outer − padding) |
-| Density | `Leonardo.Density.compact`, `.standard`, `.comfortable` as minimum row heights where a list offers densities; otherwise system row heights |
+| Density | System row heights by default. Touch targets stay at least 44 pt, so `Leonardo.Density.compact` (32) and `.standard` (40) are not row heights on iOS; offer only roomier rows where a list has a density setting. |
+| Alignment line | Inside system lists the system insets win; the alignment line applies to content you lay out yourself. |
 | Motion | `.spring(duration: Leonardo.Motion.Spring.durationMin … durationMax, bounce: Leonardo.Motion.Spring.bounce)`; stagger with `Leonardo.Motion.staggerStep`, at most `Leonardo.Motion.staggerMaxGroups` groups. With Reduce Motion, `.opacity` transitions only. |
 
 ### Examples

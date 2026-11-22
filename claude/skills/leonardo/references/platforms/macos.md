@@ -21,7 +21,7 @@ Read "Designing for macOS" in the Human Interface Guidelines, then the pages for
 
 ## Leonardo on macOS
 
-Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the Mac target. `LeonardoTokens.swift` already contains the Mac differences under `#if os(macOS)`.
+Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the Mac app target (not to a Swift package module: the generated colors look in the main bundle). `LeonardoTokens.swift` already contains the Mac differences under `#if os(macOS)`.
 
 | Leonardo | macOS |
 | --- | --- |
@@ -86,7 +86,7 @@ NavigationSplitView {
 Incorrect on the Mac:
 
 ```swift
-TabView { … }                                        // top-level areas as tabs, the iOS structure, instead of a sidebar
+TabView { … }                                        // a tab bar for the top-level areas instead of a sidebar in a NavigationSplitView
 Text("Contracts").font(.largeTitle)                  // a second large title below the window title
 .toolbar { Button("Settings") { showSettings = true } }   // settings in the main window instead of the Settings scene
 Button("Delete") { delete() }                        // a command that exists only in the content, not in the menu bar
@@ -94,7 +94,7 @@ Button("Delete") { delete() }                        // a command that exists on
 
 ## Before the pull request (macOS)
 
-- [ ] Every command is in the menu bar with its shortcut; Command-comma opens Settings.
+- [ ] Every command is in the menu bar with its shortcut; if the app has settings, Command-comma opens the Settings window.
 - [ ] Full keyboard access works for the main task; tooltips on toolbar items.
 - [ ] Light and dark, Increase Contrast, Reduce Transparency, Reduce Motion.
 - [ ] Undo and redo for every user change.
