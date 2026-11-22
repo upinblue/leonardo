@@ -1,22 +1,31 @@
 # Fonts
 
-The web sample uses Inter for text and Inter Display for titles, self-hosted from this folder. `inter.css` declares them.
+The web sample uses Inter for text and Inter Display for titles, self-hosted from this folder. `inter.css` declares them. No font is loaded from a third-party server.
 
-## Missing files
+## Source
 
-The font files are not committed yet. They could not be added in stage 6 because Inter was not installed on the machine that built the sample, and nothing was downloaded without approval.
+| | |
+| --- | --- |
+| Release | Inter 4.1 (tag `v4.1`, published 2024-11-16) |
+| Archive | https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip |
+| Release page | https://github.com/rsms/inter/releases/tag/v4.1 |
+| License | SIL Open Font License 1.1, see `LICENSE.txt` |
 
-Add these files from the official Inter release (Inter 4.x, https://rsms.me/inter/, SIL Open Font License 1.1):
+The files are copied unchanged from the archive. The web fonts come from its `web/` folder, the license from its root.
 
-| File | Family | Weight | Used by |
-| --- | --- | --- | --- |
-| `Inter-Regular.woff2` | Inter | 400 | body, meta |
-| `Inter-SemiBold.woff2` | Inter | 600 | section |
-| `InterDisplay-Light.woff2` | Inter Display | 300 | place name, view |
-| `LICENSE.txt` | – | – | the SIL Open Font License text from the release |
+| File | Path in the archive | Family | Weight | Used by |
+| --- | --- | --- | --- | --- |
+| `Inter-Regular.woff2` | `web/Inter-Regular.woff2` | Inter | 400 | body, meta |
+| `Inter-SemiBold.woff2` | `web/Inter-SemiBold.woff2` | Inter | 600 | section |
+| `InterDisplay-Light.woff2` | `web/InterDisplay-Light.woff2` | Inter Display | 300 | place name, view |
+| `LICENSE.txt` | `LICENSE.txt` | – | – | the license of the fonts |
 
-The release archive contains web fonts under these or similar names; this was not checked, because nothing was downloaded. Keep the file names above, or update the `url()` entries in `inter.css`.
+Only the three weights the type roles use are shipped. If a role ever needs another weight, take it from the same release, add an `@font-face` rule to `inter.css` and a row to the table above.
 
-## Until then
+## Updating
 
-`inter.css` lists `local()` sources first. On a machine with Inter installed (as on all up in blue PCs and Macs), the browser uses the installed fonts. Elsewhere it falls back to the generic `sans-serif` of `leonardo.css`, which is Arial on Windows. The layout does not depend on the typeface.
+Download the archive of a newer stable release from https://github.com/rsms/inter/releases, copy the same files from its `web/` folder and its `LICENSE.txt`, and update the release and archive rows above. Check that the file names in `inter.css` still match.
+
+## Fallback
+
+The fonts are always loaded from this folder, never from an installed copy, so every machine renders the same release. If a file cannot be loaded, the browser falls back to the generic `sans-serif` of `leonardo.css`. The layout does not depend on the typeface.

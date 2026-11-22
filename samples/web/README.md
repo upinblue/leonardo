@@ -16,7 +16,8 @@ To serve it, serve the repository root, so that the relative link to `generated/
 | `files.css` | Layout and styles of the sample. Every design value comes from a `--leonardo-*` custom property |
 | `files.js` | Sample data, hash routing, rendering, delete and undo, upload, settings |
 | `fonts/inter.css` | `@font-face` rules for Inter and Inter Display, self-hosted |
-| `fonts/README.md` | Which font files belong in `fonts/` and why they are missing |
+| `fonts/README.md` | Which Inter release the font files come from, and how to update them |
+| `fonts/*.woff2`, `fonts/LICENSE.txt` | Inter 4.1 and Inter Display 4.1 in the three weights the type roles use, with the SIL Open Font License |
 
 ## Leonardo values stay in sync
 
