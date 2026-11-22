@@ -32,6 +32,9 @@ Until these packages exist in a repository, use the token values from `leonardo.
 
 - The platform is WPF with its built-in Fluent theme (`ThemeMode`).
 - Leonardo comes from `UpInBlue.Leonardo.Wpf`: colors, spacing, type roles and motion values as resources. There are no Leonardo controls for WPF; build with standard WPF controls.
+- Call `LeonardoTheme.Apply(app, ThemeMode.System)` (or `Light`, `Dark`) in `App.OnStartup` instead of setting `ThemeMode` yourself. It merges `Themes/Leonardo.Light.xaml`, `Leonardo.Dark.xaml` or `Leonardo.HighContrast.xaml`, gives the Fluent controls the Leonardo accent, and follows theme and contrast changes.
+- Reference Leonardo colors with `DynamicResource`, so they follow the theme. The text styles have the same names as in WinUI, for example `LeonardoBodyTextStyle`.
+- Motion: `LeonardoMotion.Stagger` for the entrance of a view; it respects the system animation setting. Build other motions from the `Leonardo…` easing (`KeySpline`) and duration (`Duration`, `KeyTime`, `TimeSpan`) resources, and check `LeonardoMotion.AnimationsEnabled` first.
 - The same conventions as above apply where WPF offers the equivalent.
 
 ## Never on Windows
