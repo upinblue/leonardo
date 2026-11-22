@@ -21,19 +21,23 @@ Read "Designing for iOS" in the Human Interface Guidelines, then the pages for e
 
 ## Leonardo on iOS
 
-Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the app target. Never type a Leonardo value by hand. The generated colors look up the catalog in the main bundle (`Color("Leonardo/Accent")`), so the catalog must be compiled into the app itself; inside a Swift package module the colors are not found, and the package's `AccentColor` does not tint the app.
+Leonardo values come only from `generated/apple` in upinblue/leonardo: add `Leonardo.xcassets` and `LeonardoTokens.swift` to the app target. Never type a Leonardo value by hand.
+
+**App target only.** The generated colors are `Color("Leonardo/Accent")` and so on, without a `bundle:` argument, so SwiftUI looks them up in the main bundle. The catalog must be compiled into the app itself; inside a Swift package module the colors are not found, and the package's `AccentColor` does not tint the app.
 
 | Leonardo | iOS |
 | --- | --- |
 | Place name | The navigation title in large title style (`.navigationTitle` with `.navigationBarTitleDisplayMode(.large)`). The system shrinks it on scroll. |
 | Type roles | `Leonardo.TextStyle`: placeName → `.largeTitle` (used by the navigation bar), view → `.title2`, section → `.headline`, body → `.body`, meta → `.footnote`. Emphasis is `.body` with `.fontWeight(.semibold)`. |
-| Colors | `Leonardo.Colors.textPrimary`, `.textSecondary`, `.textTertiary`, `.surface`, `.surfaceAlt`, `.selection`, `.link`, `.strokeSubtle`, `.strokeStrong`, `.accent`, `.onAccent` (asset catalog `Leonardo/…`, light and dark). The catalog's `AccentColor` makes the app's tint brand blue in light and far in dark. Most text can simply use the system's primary and secondary styles. |
-| Status | System colors, as the design language requires: `.red` broken, `.yellow` attention, `.green` briefly confirmed. Always with a shape and text. |
+| Colors | `Leonardo.Colors.textPrimary`, `.textSecondary`, `.textTertiary`, `.surface`, `.surfaceAlt`, `.selection`, `.link`, `.strokeSubtle`, `.strokeStrong`, `.accent`, `.onAccent`, `.chart` (asset catalog `Leonardo/…`, light and dark). The catalog's `AccentColor` makes the app's tint brand blue in light and far in dark. Most text can simply use the system's primary and secondary styles. |
+| Charts | A single series in `Leonardo.Colors.chart` (Swift Charts: `.foregroundStyle(Leonardo.Colors.chart)`). |
+| Status | System colors, as the design language requires: `.red` broken or overdue, `.yellow` attention, `.green` briefly confirmed. The asset catalog has no Leonardo status colors. Always with a shape and text. |
 | Spacing | `Leonardo.Space.xs` 4, `.s` 8, `.m` 16, `.l` 24, `.xl` 40 |
 | Radii | `Leonardo.Radius.s`, `.m`, `.l` (concentric: inner = outer − padding) |
-| Density | System row heights by default. Touch targets stay at least 44 pt, so `Leonardo.Density.compact` (32) and `.standard` (40) are not row heights on iOS; offer only roomier rows where a list has a density setting. |
-| Alignment line | Inside system lists the system insets win; the alignment line applies to content you lay out yourself. |
-| Motion | `.spring(duration: Leonardo.Motion.Spring.durationMin … durationMax, bounce: Leonardo.Motion.Spring.bounce)`; stagger with `Leonardo.Motion.staggerStep`, at most `Leonardo.Motion.staggerMaxGroups` groups. With Reduce Motion, `.opacity` transitions only. |
+| Sizes | `Leonardo.Size.icon` 16 and `Leonardo.Size.statusDot` 12, as base values of `@ScaledMetric(relativeTo: .body)`, so icons and dots grow with Dynamic Type. |
+| Density | System row heights, at least 44 pt. The Leonardo densities do not apply on iOS: no density setting, no fixed row heights. |
+| Page margin, alignment line | Inside system lists and forms the system insets win. For content you lay out yourself, the page margin is `Leonardo.Space.l`; next to lists with icons, text starts at `Leonardo.Space.xl`. |
+| Motion | Springs without bounce: entrances `.spring(duration: Leonardo.Motion.Spring.durationMax, bounce: Leonardo.Motion.Spring.bounce)`, exits `durationMin`, so leaving stays shorter than arriving. Stagger with `Leonardo.Motion.staggerStep`, at most `Leonardo.Motion.staggerMaxGroups` groups, only when the user navigates to a view, never at launch. Arrive: a short accent bar at the start of the row, visible for `Leonardo.Motion.arriveHold`, then fading; never a dot, which is the status shape. With Reduce Motion, `.opacity` transitions only. |
 
 ### Examples
 
@@ -58,29 +62,38 @@ Incorrect:
 Text(file.name).font(.system(size: 20, weight: .semibold))           // fixed size ignores Dynamic Type
 Text(file.modifiedBy).foregroundColor(Color(red: 0.4, green: 0.45, blue: 0.5))   // literal color
 VStack(spacing: 12) { … }                                             // spacing not from Leonardo.Space
+Text(file.name).padding(15)                                           // literal padding
+List { … }.environment(\.defaultMinListRowHeight, Leonardo.Density.compact)   // densities do not apply on iOS
 ```
 
-Motion that respects Reduce Motion: keep the spring, and with Reduce Motion take the distance away (`.opacity` instead of `.move`), not the meaning.
+`0` and a 1 pt hairline are not design values; every other number in `.padding`, `spacing:` and `EdgeInsets` comes from `Leonardo.Space`.
+
+Motion that respects Reduce Motion: keep the spring, and with Reduce Motion take the distance away (`.opacity` instead of `.move`), not the meaning. Entrances take longer than exits.
 
 ```swift
 @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-let arrive = Animation.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)
+let arrive = Animation.spring(duration: Leonardo.Motion.Spring.durationMax, bounce: Leonardo.Motion.Spring.bounce)
+let leave = Animation.spring(duration: Leonardo.Motion.Spring.durationMin, bounce: Leonardo.Motion.Spring.bounce)
 
 var arriveTransition: AnyTransition {
     reduceMotion ? .opacity : .move(edge: .trailing).combined(with: .opacity)
 }
 ```
 
-Incorrect: `.easeInOut(duration: 0.4)` (literal duration), `.spring(response: 0.6, dampingFraction: 0.5)` (bounce), `.interpolatingSpring(stiffness:damping:)` with overshoot, `.animation(.linear(duration: 1).repeatForever())` outside real progress.
+Incorrect: `.easeInOut(duration: 0.4)` (literal duration), `.spring(response: 0.6, dampingFraction: 0.5)` (bounce), `.interpolatingSpring(stiffness:damping:)` with overshoot, `.animation(.linear(duration: 1).repeatForever())` outside real progress, a staggered entrance of the first screen at launch.
 
-Status, shape plus text plus label:
+Status, shape plus text plus label. Choose the shape by meaning: a filled dot in the accent color for new, a ring in `.yellow` for attention (checked out, expires soon), a filled circle with exclamation mark in `.red` for broken or overdue.
 
 ```swift
+@ScaledMetric(relativeTo: .body) private var dotSize = Leonardo.Size.statusDot
+
 Label {
     Text("Checked out by Anna Berg")
 } icon: {
-    Image(systemName: "circle")          // ring = checked out; "circle.fill" = new; "exclamationmark.circle.fill" = conflict
+    Image(systemName: "circle")          // ring = attention; "circle.fill" = new; "exclamationmark.circle.fill" = broken or overdue
+        .resizable()
+        .frame(width: dotSize, height: dotSize)
         .foregroundStyle(.yellow)
 }
 .accessibilityElement(children: .combine)
@@ -93,6 +106,7 @@ Label {
 - [ ] VoiceOver on the main task: every element has a label; status is read as text.
 - [ ] Every swipe action is also reachable without swiping.
 - [ ] No literal colors, font sizes, spacing, radii or animation durations; springs have no bounce.
+- [ ] Lists keep the system row heights; status in system colors with shape and text; no stagger at launch.
 
 ## Never on iOS
 
