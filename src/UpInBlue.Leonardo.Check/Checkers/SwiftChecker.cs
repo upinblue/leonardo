@@ -33,7 +33,9 @@ internal sealed partial class SwiftChecker : IChecker
 
         foreach (Match match in SpacingRegex().Matches(text))
         {
-            AddSpacing(match.Groups["value"], match.Index, findings, $"\"{Vocabulary.Excerpt(match.Value)}\"");
+            var end = match.Index + match.Length;
+            var closed = match.Value.Contains('(') && text.AsSpan(end).TrimStart().StartsWith(")") ? match.Value + ")" : match.Value;
+            AddSpacing(match.Groups["value"], match.Index, findings, $"\"{Vocabulary.Excerpt(closed)}\"");
         }
 
         foreach (Match match in InsetsRegex().Matches(text))

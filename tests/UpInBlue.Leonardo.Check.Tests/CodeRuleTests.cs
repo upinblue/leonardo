@@ -142,6 +142,7 @@ public sealed class SwiftRuleTests
         var finding = Assert.Single(Check.Run(File, "Text(name).padding(16)"));
         Assert.Equal(Rules.LiteralSpacing, finding.Rule);
         Assert.Contains("Leonardo.Space.m", finding.Suggestion, StringComparison.Ordinal);
+        Assert.Contains("\".padding(16)\"", finding.Message, StringComparison.Ordinal);
     }
 
     [Fact]
