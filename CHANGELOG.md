@@ -4,7 +4,8 @@ All notable changes to Leonardo are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). The version applies to the NuGet packages
-`UpInBlue.Leonardo.WinUI` and `UpInBlue.Leonardo.Wpf` and to the generated files in `generated/`.
+`UpInBlue.Leonardo.WinUI`, `UpInBlue.Leonardo.Wpf` and `UpInBlue.Leonardo.Check` and to the generated files in
+`generated/`.
 
 While the major version is 0, any minor version may change resource keys, APIs or token values.
 
@@ -31,16 +32,42 @@ The first version of Leonardo as tools.
 - A WPF sample window with colors, typography, a density switch and a staggered entrance.
 - A standalone web sample with the Files scenario: semantic HTML, keyboard support, light and dark, reduced motion and
   forced colors.
-- The Claude Code plugin with the skill `leonardo`, which designs, revises and reviews UI on every platform.
-- NuGet packaging for both libraries, the publishing guide `docs/publishing.md` and the checklist
+- The Claude Code plugin with the skill `leonardo`, which designs, revises and reviews UI on every platform, in the
+  marketplace `upinblue`.
+- The check tool `leonardo-check`, packed as the .NET tool `UpInBlue.Leonardo.Check`. It finds literal colors, font
+  sizes, spacing, radii, durations and easing curves, custom glass, removed focus visuals, bouncing springs, missing
+  reduced-motion rules and clickable `div` elements in XAML, C#, Swift, CSS, SCSS, HTML and TSX. The plugin runs it as
+  a `PostToolUse` hook, which prints a one-line warning and never blocks when the tool is not installed.
+- Tokens: `theme.*.chart` for single-series charts on every platform (`LeonardoChartBrush`, `Leonardo.Colors.chart`,
+  `--leonardo-chart`); `size.icon` and `size.statusDot` (`LeonardoSizeIcon`, `LeonardoSizeStatusDot`,
+  `Leonardo.Size`, `--leonardo-size-*`); for the standalone web only, `theme.*.focus`, `size.focusStroke`,
+  `theme.*.accentHover` and `theme.*.accentPressed`. Swift also has `Leonardo.Motion.arriveHold`.
+- Tokens can be limited to some outputs with `$extensions.platforms`.
+- NuGet packaging for both libraries and the check tool, the publishing guide `docs/publishing.md` and the checklist
   `docs/going-public.md`.
+
+### Changed
+
+Decisions made before the first release (stage 10), compared with the previews on the stage branches:
+
+- All token proposals are confirmed; no token is a proposal any more.
+- The status colors (`theme.*.status*`) exist only for the standalone web and presentations. WinUI, WPF, C#, Swift and
+  the asset catalog no longer contain them: Windows uses Fluent's status brushes, iOS and macOS use system colors.
+- In WinUI, `LeonardoStatusDotSize` is replaced by `LeonardoSizeStatusDot`, and the Arrive marker is a short accent bar.
+- Design language:
+  - the page margin is `space.l`; on pages with icon lists the alignment line lies at `space.xl`;
+  - `motion.duration.short` (167 ms) is for exits only; entrances start at `motion.duration.normal`;
+  - stagger happens on navigation to a view, never at app launch;
+  - checked toggle buttons count as selection, not as the one accent surface for actions;
+  - the Arrive marker is a short accent bar; the dot shape is reserved for the status dot;
+  - on the standalone web, a browser focus ring with less than 3:1 contrast is replaced by the focus tokens;
+  - Inter is described neutrally: used where it is installed or shipped, otherwise the system font;
+  - Apple density: iOS keeps the system row heights; on macOS, compact is the system's table row.
 
 ### Notes
 
-- Some token values are proposals and may change before 1.0: the corner radii, the surface, text and stroke colors of
-  both themes, the link and selection colors of the dark theme, `motion.parallax.placeNameFactor` and
-  `motion.arrive.hold`. They are marked `"status": "proposal"`
-  in the tokens and `/* proposal */` in `leonardo.css`.
-- There is no Apple sample app yet. SwiftUI apps use the files in `generated/apple`.
+- There is no Apple sample app yet; it is stage 6b and needs a Mac. SwiftUI apps use the files in `generated/apple`,
+  added to the app target (the generated colors are looked up in the main bundle).
+- The release date stays "Unreleased" until Bastian Wirth packs the release (see `docs/publishing.md`).
 
 [0.1.0]: https://github.com/upinblue/leonardo/releases/tag/v0.1.0
