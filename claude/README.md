@@ -20,6 +20,8 @@ claude/
   skills/leonardo/SKILL.md       The skill: workflow, order of priority, when to ask
   skills/leonardo/references/    Modes, platforms, usability, official sources, and copies of the
                                  design language and the tokens
+  hooks/hooks.json               PostToolUse hook: runs the Leonardo check after Claude edits UI code
+  hooks/leonardo-check.sh        Finds and runs the check tool
   settings-snippet.json          Web access to the official design guidance, for a repository's settings
 ```
 
@@ -99,3 +101,41 @@ This loads the plugin for one session. Check it with `claude plugin validate ./c
 - Values come from the Leonardo resources of the platform: `UpInBlue.Leonardo.WinUI` and `UpInBlue.Leonardo.Wpf` on Windows, `generated/apple` on iOS and macOS, `generated/web/leonardo.css` on the web. If a repository has none yet, the skill adds them from upinblue/leonardo and notes the version.
 - Reviews are written as Markdown reports in the format of `skills/leonardo/references/modes/review.md`, by default to `docs/reviews/`.
 - When the platform and Leonardo conflict and the order of priority does not settle it, the skill asks instead of deciding.
+
+## Check tool and hook
+
+The plugin has a `PostToolUse` hook. After Claude Code writes or edits a `.xaml`, `.cs`, `.swift`, `.css`, `.scss`, `.html` or `.tsx` file, the hook runs the check tool `leonardo-check` on it. Findings in the lines Claude just changed go back to Claude, which then fixes them:
+
+```
+Leonardo check: 1 problem in Pages/FilesPage.xaml where you just changed it.
+Pages/FilesPage.xaml:317: LEO001 literal-color: Background="#F3F7FC" is a literal color.
+    Suggestion: Use a Leonardo color resource such as LeonardoSurfaceBrush or LeonardoSurfaceAltBrush, ...
+```
+
+The rules (`leonardo-check --rules`): literal colors, font sizes, corner radii, durations, easing curves and spacing; custom glass; removed or restyled focus visuals; bouncing springs; transitions without a reduced-motion rule; clickable `div` elements. Generated files, build output and test code are skipped. A justified exception is a comment `leonardo-check: ignore LEO001 <reason>` on the line or the line above.
+
+### Install the tool
+
+The hook needs the .NET 10 SDK and the tool. It looks for, in this order:
+
+1. the environment variable `LEONARDO_CHECK`, set to `UpInBlue.Leonardo.Check.dll` or an executable;
+2. `leonardo-check` on the `PATH`, installed as a .NET tool;
+3. in a clone of upinblue/leonardo, the tool built from `src/UpInBlue.Leonardo.Check` (build the solution once).
+
+Without the tool, the hook does nothing. To install it from a clone of upinblue/leonardo:
+
+```
+dotnet pack src/UpInBlue.Leonardo.Check -c Release -o artifacts
+dotnet tool install --global --add-source artifacts UpInBlue.Leonardo.Check
+```
+
+On Windows, Claude Code runs the hook with Git Bash, which comes with Git for Windows.
+
+### Run it yourself
+
+```
+leonardo-check src samples        # check folders; exit code 1 if there are findings
+leonardo-check Pages/Files.xaml   # check one file
+```
+
+`/hooks` in Claude Code shows the hook and where it comes from. To turn all hooks off, set `disableAllHooks` in your settings.
