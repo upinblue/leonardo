@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>UpInBlue.Leonardo.Gallery.Wpf</RootNamespace>
+    <AssemblyName>UpInBlue.Leonardo.Gallery.Wpf</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <!-- ThemeMode, the switch for the WPF Fluent theme, is still marked experimental (WPF0001) in .NET 10. Leonardo builds on it. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\UpInBlue.Leonardo.Wpf\UpInBlue.Leonardo.Wpf.csproj" />
+  </ItemGroup>
+
+</Project>
