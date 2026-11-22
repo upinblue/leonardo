@@ -24,11 +24,11 @@ public partial class MainWindow : Window
         DataContext = viewModel;
         ApplyRowHeight();
         viewModel.PropertyChanged += OnViewModelChanged;
-        Loaded += (_, _) => PlayEntrance();
     }
 
     /// <summary>
-    /// Stagger: the four groups of the window enter in reading order.
+    /// Stagger: the four groups of the window enter in reading order. Only on request: the window appears without an
+    /// entrance when the app starts, because Leonardo staggers on navigation, never at launch.
     /// </summary>
     private void PlayEntrance() => LeonardoMotion.Stagger([HeaderGroup, ColorGroup, TypographyGroup, DensityGroup]);
 

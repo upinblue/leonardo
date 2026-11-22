@@ -16,7 +16,8 @@
 
     <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
         <Border Padding="{StaticResource LeonardoSpaceLVerticalThickness}">
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}">
+            <!-- The page margin is space.l: the window has no list with icons, so text aligns on the page margin. -->
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}">
 
                 <!-- Group 1: where am I, and how this window looks and moves. -->
                 <Grid x:Name="HeaderGroup">
@@ -32,14 +33,14 @@
                     <TextBlock
                         VerticalAlignment="Bottom"
                         AutomationProperties.HeadingLevel="Level1"
-                        Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                        Style="{DynamicResource LeonardoPlaceNameTextStyle}"
                         Text="Foundations" />
 
                     <StackPanel Grid.Column="1" Margin="{StaticResource LeonardoSpaceMLeftThickness}" VerticalAlignment="Bottom">
                         <TextBlock
                             x:Name="ThemeLabel"
                             Margin="{StaticResource LeonardoSpaceXSBottomThickness}"
-                            Style="{StaticResource LeonardoBodyTextStyle}"
+                            Style="{DynamicResource LeonardoBodyTextStyle}"
                             Text="App theme" />
                         <ComboBox
                             Width="{StaticResource GalleryThemeBoxWidth}"
@@ -59,7 +60,7 @@
                             MaxWidth="{StaticResource GalleryReadingWidth}"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Style="{StaticResource LeonardoMetaTextStyle}"
+                            Style="{DynamicResource LeonardoMetaTextStyle}"
                             Text="{Binding MotionStatus}" />
                         <Button
                             Grid.Column="1"
@@ -71,27 +72,27 @@
 
                 <!-- Group 2: color. -->
                 <StackPanel x:Name="ColorGroup" Margin="{StaticResource LeonardoSpaceXLTopThickness}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Color" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{DynamicResource LeonardoSectionTextStyle}" Text="Color" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         Margin="{StaticResource LeonardoSpaceSTopThickness}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{DynamicResource LeonardoBodyTextStyle}"
                         Text="Every color means exactly one thing. The surface is cool-neutral; blue comes only from the blue scale, and only where it carries meaning." />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         Margin="{StaticResource LeonardoSpaceSTopThickness}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoBodyStrongTextStyle}"
+                        Style="{DynamicResource LeonardoBodyStrongTextStyle}"
                         Text="A contrast theme is on. Apps use the colors of the contrast theme instead of Leonardo colors, so the values below are shown as text only."
                         Visibility="{Binding IsContrastTheme, Converter={StaticResource BooleanToVisibility}}" />
 
                     <TextBlock
                         Margin="{StaticResource LeonardoSpaceMTopThickness}"
                         AutomationProperties.HeadingLevel="Level3"
-                        Style="{StaticResource LeonardoBodyStrongTextStyle}"
+                        Style="{DynamicResource LeonardoBodyStrongTextStyle}"
                         Text="Theme colors" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="The colors of the active theme, read from the Leonardo resources." />
+                    <TextBlock Style="{DynamicResource LeonardoMetaTextStyle}" Text="The colors of the active theme, read from the Leonardo resources." />
                     <ItemsControl Focusable="False" ItemsSource="{Binding ThemeColors}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:ThemeColorItem}">
@@ -112,13 +113,13 @@
                                         CornerRadius="{StaticResource LeonardoRadiusS}"
                                         Visibility="{Binding DataContext.ShowsSwatches, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibility}}" />
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{Binding Name}" />
-                                        <TextBlock Style="{StaticResource LeonardoMetaTabularTextStyle}" Text="{Binding Background, ElementName=Swatch, Converter={StaticResource BrushToHex}}" />
+                                        <TextBlock Style="{DynamicResource LeonardoBodyStrongTextStyle}" Text="{Binding Name}" />
+                                        <TextBlock Style="{DynamicResource LeonardoMetaTabularTextStyle}" Text="{Binding Background, ElementName=Swatch, Converter={StaticResource BrushToHex}}" />
                                     </StackPanel>
                                     <TextBlock
                                         Grid.Column="2"
                                         VerticalAlignment="Center"
-                                        Style="{StaticResource LeonardoBodyTextStyle}"
+                                        Style="{DynamicResource LeonardoBodyTextStyle}"
                                         Text="{Binding Use}" />
                                 </Grid>
                             </DataTemplate>
@@ -128,12 +129,12 @@
                     <TextBlock
                         Margin="{StaticResource LeonardoSpaceMTopThickness}"
                         AutomationProperties.HeadingLevel="Level3"
-                        Style="{StaticResource LeonardoBodyStrongTextStyle}"
+                        Style="{DynamicResource LeonardoBodyStrongTextStyle}"
                         Text="Accent on Fluent controls" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{DynamicResource LeonardoMetaTextStyle}"
                         Text="Standard WPF controls with the Fluent theme. Leonardo replaces only the accent: brand in light theme, far in dark theme." />
                     <WrapPanel Margin="{StaticResource LeonardoSpaceSTopThickness}">
                         <Button
@@ -145,7 +146,7 @@
                             VerticalAlignment="Center"
                             Content="Remind me before renewal"
                             IsChecked="True" />
-                        <TextBlock Margin="{StaticResource LeonardoSpaceMRightThickness}" VerticalAlignment="Center" Style="{StaticResource LeonardoBodyTextStyle}">
+                        <TextBlock Margin="{StaticResource LeonardoSpaceMRightThickness}" VerticalAlignment="Center" Style="{DynamicResource LeonardoBodyTextStyle}">
                             <Hyperlink Click="OnHyperlinkClick">Open the contract</Hyperlink>
                         </TextBlock>
                     </WrapPanel>
@@ -153,18 +154,18 @@
 
                 <!-- Group 3: typography. -->
                 <StackPanel x:Name="TypographyGroup" Margin="{StaticResource LeonardoSpaceXLTopThickness}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Typography" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{DynamicResource LeonardoSectionTextStyle}" Text="Typography" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         Margin="{StaticResource LeonardoSpaceSTopThickness}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{DynamicResource LeonardoBodyTextStyle}"
                         Text="Type replaces frames. Hierarchy comes from size, weight and white space. Only these roles exist; emphasis is the body role in semibold." />
                     <ItemsControl Focusable="False" ItemsSource="{Binding TypeRoles}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:TypeRoleItem}">
                                 <StackPanel Margin="{StaticResource LeonardoSpaceMTopThickness}">
-                                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{Binding Spec}" />
+                                    <TextBlock Style="{DynamicResource LeonardoMetaTextStyle}" Text="{Binding Spec}" />
                                     <TextBlock
                                         MaxWidth="{StaticResource GalleryReadingWidth}"
                                         HorizontalAlignment="Left"
@@ -178,18 +179,18 @@
 
                 <!-- Group 4: density. -->
                 <StackPanel x:Name="DensityGroup" Margin="{StaticResource LeonardoSpaceXLTopThickness}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Density" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{DynamicResource LeonardoSectionTextStyle}" Text="Density" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         Margin="{StaticResource LeonardoSpaceSTopThickness}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{DynamicResource LeonardoBodyTextStyle}"
                         Text="Lists offer three row heights. Standard is the default; your choice is saved for your Windows account." />
 
                     <TextBlock
                         x:Name="RowHeightLabel"
                         Margin="{StaticResource LeonardoSpaceMTopThickness}"
-                        Style="{StaticResource LeonardoBodyTextStyle}"
+                        Style="{DynamicResource LeonardoBodyTextStyle}"
                         Text="Row height" />
                     <StackPanel
                         Margin="{StaticResource LeonardoSpaceXSTopThickness}"
@@ -216,6 +217,7 @@
                         ItemsSource="{Binding Contracts}"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <!-- Fluent's own row style, with its small gap between rows; only the height follows the density. -->
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Static GridView.GridViewItemContainerStyleKey}}">
                                 <Setter Property="Height" Value="{DynamicResource GalleryRowHeight}" />
@@ -230,21 +232,21 @@
                                 <GridViewColumn Width="{StaticResource GalleryNameColumnWidth}" Header="Customer">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type vm:ContractRow}">
-                                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{Binding Customer}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Style="{DynamicResource LeonardoBodyTextStyle}" Text="{Binding Customer}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Width="{StaticResource GalleryNameColumnWidth}" Header="Contract">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type vm:ContractRow}">
-                                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{Binding Contract}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Style="{DynamicResource LeonardoBodyTextStyle}" Text="{Binding Contract}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Width="{StaticResource GalleryPersonColumnWidth}" Header="Owner">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type vm:ContractRow}">
-                                            <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="{Binding Owner}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Style="{DynamicResource LeonardoBodyTextStyle}" Text="{Binding Owner}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -254,14 +256,14 @@
                                     </GridViewColumn.Header>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type vm:ContractRow}">
-                                            <TextBlock HorizontalAlignment="Right" Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{Binding AnnualValue}" TextWrapping="NoWrap" />
+                                            <TextBlock HorizontalAlignment="Right" Style="{DynamicResource LeonardoBodyTabularTextStyle}" Text="{Binding AnnualValue}" TextWrapping="NoWrap" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Width="{StaticResource GalleryDateColumnWidth}" Header="Renewal">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate DataType="{x:Type vm:ContractRow}">
-                                            <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{Binding Renewal}" TextWrapping="NoWrap" />
+                                            <TextBlock Style="{DynamicResource LeonardoBodyTabularTextStyle}" Text="{Binding Renewal}" TextWrapping="NoWrap" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

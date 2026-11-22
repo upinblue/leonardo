@@ -114,10 +114,10 @@ public sealed partial class MainViewModel : ObservableObject
     /// <summary>Gets a sentence that says how this view enters.</summary>
     public string MotionStatus => (LeonardoMotion.AnimationsOverride, LeonardoMotion.AnimationsEnabled) switch
     {
-        (null, true) => "Animation effects are on in Windows, so the groups of this view enter staggered, in reading order.",
-        (null, false) => "Animation effects are off in Windows, so the groups of this view crossfade instead of moving.",
-        (_, true) => "Animations are turned on for this session, so the groups of this view enter staggered, in reading order.",
-        (_, false) => "Animations are turned off for this session, so the groups of this view crossfade instead of moving.",
+        (null, true) => "Animation effects are on in Windows. When you navigate to a view, its groups enter staggered, in reading order; at app launch, nothing moves. Replay the entrance to see it.",
+        (null, false) => "Animation effects are off in Windows, so the groups of a view crossfade instead of moving.",
+        (_, true) => "Animations are turned on for this session. When you navigate to a view, its groups enter staggered, in reading order; at app launch, nothing moves. Replay the entrance to see it.",
+        (_, false) => "Animations are turned off for this session, so the groups of a view crossfade instead of moving.",
     };
 
     /// <summary>Gets the theme colors.</summary>
@@ -134,6 +134,7 @@ public sealed partial class MainViewModel : ObservableObject
         new("textTertiary", "Meta text", "LeonardoTextTertiaryBrush"),
         new("strokeSubtle", "Dividers", "LeonardoStrokeSubtleBrush"),
         new("strokeStrong", "Boundaries of controls", "LeonardoStrokeStrongBrush"),
+        new("chart", "The one blue of a single-series chart", "LeonardoChartBrush"),
     ];
 
     /// <summary>Gets the type roles, with the same sample text as the WinUI gallery.</summary>
