@@ -129,6 +129,8 @@ internal sealed class CompositionMotion
     /// </summary>
     public static void Reset(UIElement element)
     {
+        // "Translation" exists on the visual only once translation is enabled for the element.
+        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
         var visual = ElementCompositionPreview.GetElementVisual(element);
         visual.StopAnimation("Opacity");
         visual.StopAnimation("Translation");
