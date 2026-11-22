@@ -7,12 +7,12 @@
 
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}">
-                <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="Key figures" />
-                <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="November 2026" />
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}">
+                <TextBlock AutomationProperties.HeadingLevel="Level1" Style="{ThemeResource LeonardoPlaceNameTextStyle}" Text="Key figures" />
+                <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="November 2026" />
             </StackPanel>
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
                 <!-- Numbers carry the hierarchy; no cards, no frames. -->
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Figures}">
                     <ItemsRepeater.Layout>
@@ -25,16 +25,16 @@
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="vm:KeyFigure">
                             <StackPanel AutomationProperties.Name="{x:Bind AccessibleName}">
-                                <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Label}" />
-                                <TextBlock Style="{StaticResource LeonardoViewTextStyle}" Text="{x:Bind Value}" />
-                                <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Context}" />
+                                <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Label}" />
+                                <TextBlock Style="{ThemeResource LeonardoViewTextStyle}" Text="{x:Bind Value}" />
+                                <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Context}" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Files shared per month" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Files shared per month" />
                     <ItemsControl AutomationProperties.Name="{x:Bind ViewModel.ChartSummary}" ItemsSource="{x:Bind ViewModel.Bars}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -47,19 +47,19 @@
                                     <!-- Values on one line above the bars, read like a table row. -->
                                     <TextBlock
                                         HorizontalAlignment="Center"
-                                        Style="{StaticResource LeonardoMetaTabularTextStyle}"
+                                        Style="{ThemeResource LeonardoMetaTabularTextStyle}"
                                         Text="{x:Bind ValueText}" />
                                     <Grid Height="{StaticResource GalleryChartHeight}">
                                         <Border
                                             Width="{StaticResource GalleryChartBarWidth}"
                                             Height="{x:Bind Height}"
                                             VerticalAlignment="Bottom"
-                                            Background="{ThemeResource GalleryChartBrush}"
+                                            Background="{ThemeResource LeonardoChartBrush}"
                                             CornerRadius="{StaticResource LeonardoRadiusS}" />
                                     </Grid>
                                     <TextBlock
                                         HorizontalAlignment="Center"
-                                        Style="{StaticResource LeonardoMetaTextStyle}"
+                                        Style="{ThemeResource LeonardoMetaTextStyle}"
                                         Text="{x:Bind Month}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -68,7 +68,7 @@
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="{x:Bind ViewModel.ChartSummary}" />
                 </StackPanel>
             </StackPanel>

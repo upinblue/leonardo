@@ -59,6 +59,7 @@ public sealed class ColorViewModel
         Row("textTertiary", "Metadata", L => L.TextTertiary, D => D.TextTertiary, OnSurface),
         Row("strokeSubtle", "Decorative separators only", L => L.StrokeSubtle, D => D.StrokeSubtle, OnSurface),
         Row("strokeStrong", "Boundaries of interactive elements", L => L.StrokeStrong, D => D.StrokeStrong, OnSurface),
+        Row("chart", "The one blue of a single-series chart", L => L.Chart, D => D.Chart, OnSurface),
     ];
 
     private static PaletteSwatch Swatch(string name, Color color, string use) => new(name, Hex(color), new SolidColorBrush(color), use);
@@ -125,7 +126,8 @@ public sealed class ColorViewModel
         Color TextSecondary,
         Color TextTertiary,
         Color StrokeSubtle,
-        Color StrokeStrong)
+        Color StrokeStrong,
+        Color Chart)
     {
         public static Theme Light { get; } = new(
             LeonardoTokens.Light.Accent,
@@ -138,7 +140,8 @@ public sealed class ColorViewModel
             LeonardoTokens.Light.TextSecondary,
             LeonardoTokens.Light.TextTertiary,
             LeonardoTokens.Light.StrokeSubtle,
-            LeonardoTokens.Light.StrokeStrong);
+            LeonardoTokens.Light.StrokeStrong,
+            LeonardoTokens.Light.Chart);
 
         public static Theme Dark { get; } = new(
             LeonardoTokens.Dark.Accent,
@@ -151,6 +154,7 @@ public sealed class ColorViewModel
             LeonardoTokens.Dark.TextSecondary,
             LeonardoTokens.Dark.TextTertiary,
             LeonardoTokens.Dark.StrokeSubtle,
-            LeonardoTokens.Dark.StrokeStrong);
+            LeonardoTokens.Dark.StrokeStrong,
+            LeonardoTokens.Dark.Chart);
     }
 }

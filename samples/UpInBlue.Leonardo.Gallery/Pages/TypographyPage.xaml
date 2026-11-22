@@ -7,82 +7,82 @@
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Typography" />
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
                 <TextBlock
                     MaxWidth="{StaticResource GalleryReadingWidth}"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="Type replaces frames. Hierarchy comes from size, weight and white space. Only these roles exist; emphasis is the body role in semibold." />
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Roles" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Roles" />
 
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.PlaceNameSpec}" />
-                        <TextBlock Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="Place name: Hofmann Logistics" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.PlaceNameSpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoPlaceNameTextStyle}" Text="Place name: Hofmann Logistics" />
                     </StackPanel>
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.ViewSpec}" />
-                        <TextBlock Style="{StaticResource LeonardoViewTextStyle}" Text="View: Contracts" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.ViewSpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoViewTextStyle}" Text="View: Contracts" />
                     </StackPanel>
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SectionSpec}" />
-                        <TextBlock Style="{StaticResource LeonardoSectionTextStyle}" Text="Section: Recently changed" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.SectionSpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoSectionTextStyle}" Text="Section: Recently changed" />
                     </StackPanel>
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.BodySpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.BodySpec}" />
                         <TextBlock
                             MaxWidth="{StaticResource GalleryReadingWidth}"
                             HorizontalAlignment="Left"
-                            Style="{StaticResource LeonardoBodyTextStyle}"
+                            Style="{ThemeResource LeonardoBodyTextStyle}"
                             Text="Body: The framework agreement with Hofmann Logistics runs until the end of the year. Lea Schmid prepares the renewal." />
                     </StackPanel>
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.BodyStrongSpec}" />
-                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Emphasis: Renewal due in 14 days" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.BodyStrongSpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Emphasis: Renewal due in 14 days" />
                     </StackPanel>
                     <StackPanel Padding="{StaticResource LeonardoSpaceSVerticalThickness}">
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.MetaSpec}" />
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Meta: Modified by Anna Berg · 2 hours ago" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind ViewModel.MetaSpec}" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Meta: Modified by Anna Berg · 2 hours ago" />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Long words wrap" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Long words wrap" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="German compound words in a narrow column. Text wraps instead of being clipped, even inside a single word." />
                     <StackPanel
                         Width="{StaticResource GalleryWrapSampleWidth}"
                         HorizontalAlignment="Left"
                         Spacing="{StaticResource LeonardoSpaceS}">
-                        <TextBlock Style="{StaticResource LeonardoPlaceNameTextStyle}" Text="Rahmenvertragsverlängerung" />
-                        <TextBlock Style="{StaticResource LeonardoViewTextStyle}" Text="Kundenzufriedenheitsbefragungsergebnisse" />
-                        <TextBlock Style="{StaticResource LeonardoSectionTextStyle}" Text="Projektabschlussdokumentationsvorlagen" />
-                        <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Die Rechnungsprüfungsverfahrensbeschreibung liegt im Ordner Qualitätssicherungsmaßnahmen." />
+                        <TextBlock Style="{ThemeResource LeonardoPlaceNameTextStyle}" Text="Rahmenvertragsverlängerung" />
+                        <TextBlock Style="{ThemeResource LeonardoViewTextStyle}" Text="Kundenzufriedenheitsbefragungsergebnisse" />
+                        <TextBlock Style="{ThemeResource LeonardoSectionTextStyle}" Text="Projektabschlussdokumentationsvorlagen" />
+                        <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Die Rechnungsprüfungsverfahrensbeschreibung liegt im Ordner Qualitätssicherungsmaßnahmen." />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Numbers in columns" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Numbers in columns" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="Numbers in columns use tabular figures so they align vertically. Segoe UI Variable uses tabular figures by default; LeonardoBodyTabularTextStyle and LeonardoMetaTabularTextStyle also request them explicitly." />
                     <StackPanel HorizontalAlignment="Left">
-                        <TextBlock HorizontalAlignment="Right" Style="{StaticResource LeonardoMetaTextStyle}" Text="Amount (EUR)" />
+                        <TextBlock HorizontalAlignment="Right" Style="{ThemeResource LeonardoMetaTextStyle}" Text="Amount (EUR)" />
                         <ItemsControl ItemsSource="{x:Bind ViewModel.Amounts}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="x:String">
-                                    <TextBlock HorizontalAlignment="Right" Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind}" />
+                                    <TextBlock HorizontalAlignment="Right" Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="{x:Bind}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

@@ -10,12 +10,12 @@
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Color" />
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
                 <InfoBar
                     Title="A contrast theme is on"
                     IsClosable="False"
@@ -27,12 +27,12 @@
                 <TextBlock
                     MaxWidth="{StaticResource GalleryReadingWidth}"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="Every color means exactly one thing. The surface is cool-neutral; blue comes only from the blue scale, and only where it carries meaning." />
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Blue scale" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="From near to far: near is dark and dense, far is light and airy." />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Blue scale" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="From near to far: near is dark and dense, far is light and airy." />
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Palette}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:PaletteSwatch">
@@ -51,13 +51,13 @@
                                         CornerRadius="{StaticResource LeonardoRadiusS}"
                                         Visibility="{x:Bind helpers:Show.Unless(gallery:App.SystemSettings.HighContrast), Mode=OneWay}" />
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                        <TextBlock Style="{StaticResource LeonardoMetaTabularTextStyle}" Text="{x:Bind Hex}" />
+                                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                        <TextBlock Style="{ThemeResource LeonardoMetaTabularTextStyle}" Text="{x:Bind Hex}" />
                                     </StackPanel>
                                     <TextBlock
                                         Grid.Column="2"
                                         VerticalAlignment="Center"
-                                        Style="{StaticResource LeonardoBodyTextStyle}"
+                                        Style="{ThemeResource LeonardoBodyTextStyle}"
                                         Text="{x:Bind Use}" />
                                 </Grid>
                             </DataTemplate>
@@ -67,11 +67,11 @@
 
                 <!-- Swatches are hidden in a contrast theme, where only system colors may appear. -->
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Theme colors" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Theme colors" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="Text needs 4.5:1 and boundaries 3:1 (WCAG 2.2). Contrast is measured against the color each one is used with." />
 
                     <Grid Padding="{StaticResource LeonardoSpaceSVerticalThickness}" ColumnSpacing="{StaticResource LeonardoSpaceM}">
@@ -80,9 +80,9 @@
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Color" />
-                        <TextBlock Grid.Column="1" Style="{StaticResource LeonardoMetaTextStyle}" Text="Light" />
-                        <TextBlock Grid.Column="2" Style="{StaticResource LeonardoMetaTextStyle}" Text="Dark" />
+                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Color" />
+                        <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoMetaTextStyle}" Text="Light" />
+                        <TextBlock Grid.Column="2" Style="{ThemeResource LeonardoMetaTextStyle}" Text="Dark" />
                     </Grid>
 
                     <ItemsControl ItemsSource="{x:Bind ViewModel.ThemeColors}">
@@ -98,8 +98,8 @@
                                         <ColumnDefinition Width="3*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel>
-                                        <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                        <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Use}" />
+                                        <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                        <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Use}" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
                                         <Border
@@ -112,8 +112,8 @@
                                             CornerRadius="{StaticResource LeonardoRadiusS}"
                                             Visibility="{x:Bind helpers:Show.Unless(gallery:App.SystemSettings.HighContrast), Mode=OneWay}" />
                                         <StackPanel>
-                                            <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind LightHex}" />
-                                            <TextBlock Style="{StaticResource LeonardoMetaTabularTextStyle}" Text="{x:Bind LightContrast}" />
+                                            <TextBlock Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="{x:Bind LightHex}" />
+                                            <TextBlock Style="{ThemeResource LeonardoMetaTabularTextStyle}" Text="{x:Bind LightContrast}" />
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="{StaticResource LeonardoSpaceS}">
@@ -127,8 +127,8 @@
                                             CornerRadius="{StaticResource LeonardoRadiusS}"
                                             Visibility="{x:Bind helpers:Show.Unless(gallery:App.SystemSettings.HighContrast), Mode=OneWay}" />
                                         <StackPanel>
-                                            <TextBlock Style="{StaticResource LeonardoBodyTabularTextStyle}" Text="{x:Bind DarkHex}" />
-                                            <TextBlock Style="{StaticResource LeonardoMetaTabularTextStyle}" Text="{x:Bind DarkContrast}" />
+                                            <TextBlock Style="{ThemeResource LeonardoBodyTabularTextStyle}" Text="{x:Bind DarkHex}" />
+                                            <TextBlock Style="{ThemeResource LeonardoMetaTabularTextStyle}" Text="{x:Bind DarkContrast}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

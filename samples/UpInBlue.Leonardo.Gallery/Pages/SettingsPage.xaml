@@ -12,14 +12,14 @@
             HorizontalAlignment="Left"
             Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Settings" />
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Appearance" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Appearance" />
                     <ComboBox
                         x:Name="ThemeBox"
                         Header="App theme"
@@ -32,7 +32,7 @@
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="Lists" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="Lists" />
                     <RadioButtons Header="Row height" SelectedIndex="{x:Bind DensityIndex, Mode=TwoWay}">
                         <x:String>Compact</x:String>
                         <x:String>Standard</x:String>
@@ -41,15 +41,15 @@
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="Applies to the lists in Files, Customers and Approvals. Your choice is saved for your Windows account." />
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="About" />
-                    <TextBlock Style="{StaticResource LeonardoBodyTextStyle}" Text="Leonardo Gallery" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="{x:Bind Version}" />
-                    <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="Leonardo is the design language of up in blue." />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="About" />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Leonardo Gallery" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="{x:Bind Version}" />
+                    <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="Leonardo is the design language of up in blue." />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

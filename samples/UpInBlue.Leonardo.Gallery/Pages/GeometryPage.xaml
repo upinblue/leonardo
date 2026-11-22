@@ -5,62 +5,68 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vm="using:UpInBlue.Leonardo.Gallery.ViewModels">
 
+    <Page.Resources>
+        <!-- A value with a bar of its size and its use. -->
+        <DataTemplate x:Key="ValueTemplate" x:DataType="vm:GeometrySample">
+            <Grid
+                Padding="{StaticResource LeonardoSpaceXSVerticalThickness}"
+                AutomationProperties.Name="{x:Bind AccessibleName}"
+                ColumnSpacing="{StaticResource LeonardoSpaceM}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource GalleryLabelColumnWidth}" />
+                    <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
+                    <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Style="{ThemeResource LeonardoBodyTabularTextStyle}"
+                    Text="{x:Bind ValueText}" />
+                <Border
+                    Grid.Column="2"
+                    Width="{x:Bind Value}"
+                    Height="{StaticResource LeonardoSpaceM}"
+                    HorizontalAlignment="Left"
+                    Background="{ThemeResource LeonardoStrokeStrongBrush}" />
+                <TextBlock Grid.Column="3" Style="{ThemeResource LeonardoBodyTextStyle}" Text="{x:Bind Use}" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
     <ScrollViewer>
         <StackPanel Padding="{StaticResource LeonardoSpaceLVerticalThickness}" Spacing="{StaticResource LeonardoSpaceXL}">
             <TextBlock
-                Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}"
+                Margin="{StaticResource LeonardoSpaceLHorizontalThickness}"
                 AutomationProperties.HeadingLevel="Level1"
-                Style="{StaticResource LeonardoPlaceNameTextStyle}"
+                Style="{ThemeResource LeonardoPlaceNameTextStyle}"
                 Text="Grid and geometry" />
 
-            <StackPanel Margin="{StaticResource LeonardoSpaceXLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
+            <StackPanel Margin="{StaticResource LeonardoSpaceLHorizontalThickness}" Spacing="{StaticResource LeonardoSpaceL}">
                 <TextBlock
                     MaxWidth="{StaticResource GalleryReadingWidth}"
                     HorizontalAlignment="Left"
-                    Style="{StaticResource LeonardoBodyTextStyle}"
+                    Style="{ThemeResource LeonardoBodyTextStyle}"
                     Text="Everything sits on a base grid of 4; layout spacing jumps in steps of 8. On Windows the values are effective pixels and match the Fluent grid." />
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Spacing" />
-                    <ItemsControl ItemsSource="{x:Bind ViewModel.Spacing}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="vm:GeometrySample">
-                                <Grid
-                                    Padding="{StaticResource LeonardoSpaceXSVerticalThickness}"
-                                    AutomationProperties.Name="{x:Bind AccessibleName}"
-                                    ColumnSpacing="{StaticResource LeonardoSpaceM}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{StaticResource GalleryLabelColumnWidth}" />
-                                        <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
-                                        <ColumnDefinition Width="{StaticResource GalleryNumberColumnWidth}" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource LeonardoBodyTabularTextStyle}"
-                                        Text="{x:Bind ValueText}" />
-                                    <Border
-                                        Grid.Column="2"
-                                        Width="{x:Bind Value}"
-                                        Height="{StaticResource LeonardoSpaceM}"
-                                        HorizontalAlignment="Left"
-                                        Background="{ThemeResource LeonardoStrokeStrongBrush}" />
-                                    <TextBlock Grid.Column="3" Style="{StaticResource LeonardoBodyTextStyle}" Text="{x:Bind Use}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Spacing" />
+                    <ItemsControl ItemTemplate="{StaticResource ValueTemplate}" ItemsSource="{x:Bind ViewModel.Spacing}" />
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Alignment line" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Sizes" />
+                    <ItemsControl ItemTemplate="{StaticResource ValueTemplate}" ItemsSource="{x:Bind ViewModel.Sizes}" />
+                </StackPanel>
+
+                <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Alignment line" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
-                        Text="Place name, column headers and the first text column start on the same left edge. Icons and status dots hang to the left of it." />
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
+                        Text="The page margin is space.l, the distance from the content edge to the content. The alignment line is the left edge on which text starts: on pages with icon lists it lies at space.xl, and place name, headings, column headers and list text start on it while icons and status dots hang to the left of it. Other pages, like this one, use the page margin as their alignment line." />
                     <Grid
                         HorizontalAlignment="Left"
                         AutomationProperties.Name="Example: a title, a column header and two files share one left edge; the file icons hang to the left of it."
@@ -81,25 +87,25 @@
                             Width="{StaticResource GalleryGuideLineWidth}"
                             HorizontalAlignment="Left"
                             Fill="{ThemeResource LeonardoStrokeStrongBrush}" />
-                        <TextBlock Grid.Column="1" Style="{StaticResource LeonardoViewTextStyle}" Text="Contracts" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource LeonardoMetaTextStyle}" Text="Name" />
+                        <TextBlock Grid.Column="1" Style="{ThemeResource LeonardoViewTextStyle}" Text="Contracts" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Style="{ThemeResource LeonardoMetaTextStyle}" Text="Name" />
                         <FontIcon
                             Grid.Row="2"
                             Margin="{StaticResource LeonardoSpaceXSRightThickness}"
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Glyph="&#xE8A5;" />
-                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Framework agreement 2026.docx" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Framework agreement 2026.docx" />
                         <FontIcon
                             Grid.Row="3"
                             Margin="{StaticResource LeonardoSpaceXSRightThickness}"
-                            FontSize="{StaticResource GalleryIconSize}"
+                            FontSize="{StaticResource LeonardoSizeIcon}"
                             Glyph="&#xE8B7;" />
-                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource LeonardoBodyTextStyle}" Text="Invoices" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Style="{ThemeResource LeonardoBodyTextStyle}" Text="Invoices" />
                     </Grid>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Corner radii" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Corner radii" />
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Radii}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -117,8 +123,8 @@
                                         BorderBrush="{ThemeResource LeonardoStrokeStrongBrush}"
                                         BorderThickness="{StaticResource GalleryHairlineThickness}"
                                         CornerRadius="{x:Bind Radius}" />
-                                    <TextBlock Style="{StaticResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
-                                    <TextBlock Style="{StaticResource LeonardoMetaTabularTextStyle}" Text="{x:Bind ValueText}" />
+                                    <TextBlock Style="{ThemeResource LeonardoBodyStrongTextStyle}" Text="{x:Bind Name}" />
+                                    <TextBlock Style="{ThemeResource LeonardoMetaTabularTextStyle}" Text="{x:Bind ValueText}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -126,11 +132,11 @@
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="Concentric radii" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="Concentric radii" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="{x:Bind ViewModel.ConcentricRule}" />
                     <Border
                         Width="{StaticResource GalleryWrapSampleWidth}"
@@ -148,17 +154,17 @@
                             BorderBrush="{ThemeResource LeonardoStrokeStrongBrush}"
                             BorderThickness="{StaticResource GalleryHairlineThickness}"
                             CornerRadius="{StaticResource LeonardoRadiusM}">
-                            <TextBlock Style="{StaticResource LeonardoMetaTextStyle}" Text="radius.m inside radius.l" />
+                            <TextBlock Style="{ThemeResource LeonardoMetaTextStyle}" Text="radius.m inside radius.l" />
                         </Border>
                     </Border>
                 </StackPanel>
 
                 <StackPanel Spacing="{StaticResource LeonardoSpaceS}">
-                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{StaticResource LeonardoSectionTextStyle}" Text="List density" />
+                    <TextBlock AutomationProperties.HeadingLevel="Level2" Style="{ThemeResource LeonardoSectionTextStyle}" Text="List density" />
                     <TextBlock
                         MaxWidth="{StaticResource GalleryReadingWidth}"
                         HorizontalAlignment="Left"
-                        Style="{StaticResource LeonardoMetaTextStyle}"
+                        Style="{ThemeResource LeonardoMetaTextStyle}"
                         Text="Lists offer three row heights. Standard is the default; choose yours in Settings." />
                     <ItemsControl ItemsSource="{x:Bind ViewModel.Densities}">
                         <ItemsControl.ItemsPanel>
@@ -177,7 +183,7 @@
                                     BorderBrush="{ThemeResource LeonardoStrokeStrongBrush}"
                                     BorderThickness="{StaticResource GalleryHairlineThickness}"
                                     CornerRadius="{StaticResource LeonardoRadiusS}">
-                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource LeonardoBodyTextStyle}">
+                                    <TextBlock VerticalAlignment="Center" Style="{ThemeResource LeonardoBodyTextStyle}">
                                         <Run Text="{x:Bind Use}" />
                                         <Run Foreground="{ThemeResource LeonardoTextTertiaryBrush}" Text="{x:Bind ValueText}" />
                                     </TextBlock>
