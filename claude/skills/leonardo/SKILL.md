@@ -67,6 +67,8 @@ No research is needed to apply existing tokens or for small fixes in UI that alr
 
 ### 5. Verify and report
 
+- If a "Leonardo check" message appears after an edit, it comes from the plugin's hook. Fix each finding in the lines you changed with the suggested token or resource. Leave findings in other lines alone unless the task is about them. Add a `leonardo-check: ignore <rule> <reason>` comment only for a real exception, and name it in the pull request.
+
 - Go through the checklist of your mode.
 - Where possible, run the app and look at the result in light and dark mode.
 - Report the sources you used, every decision where platform and Leonardo met, and open questions.

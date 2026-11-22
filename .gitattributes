@@ -1,0 +1,2 @@
+# Shell scripts run in bash on every platform, including Git Bash on Windows.
+*.sh text eol=lf
