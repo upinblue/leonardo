@@ -11,10 +11,10 @@ public enum MotionDuration
     /// <summary>Opacity: <c>motion.duration.fade</c>.</summary>
     Fade,
 
-    /// <summary>Short distances and all exits: <c>motion.duration.short</c>.</summary>
+    /// <summary>Exits only: <c>motion.duration.short</c>. Entrances start at <see cref="Normal"/>.</summary>
     Short,
 
-    /// <summary>Medium distances: <c>motion.duration.normal</c>.</summary>
+    /// <summary>Entrances and movements up to <c>motion.distance.enterMax</c>: <c>motion.duration.normal</c>.</summary>
     Normal,
 
     /// <summary>Long distances and navigation: <c>motion.duration.long</c>.</summary>

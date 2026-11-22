@@ -588,7 +588,7 @@
           "value": 167,
           "unit": "ms"
         },
-        "$description": "Short distances, all exits."
+        "$description": "Exits only. Entrances start at motion.duration.normal."
       },
       "normal": {
         "$type": "duration",

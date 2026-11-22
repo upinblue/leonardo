@@ -429,7 +429,7 @@ public static class LeonardoTokens
         public static readonly TimeSpan DurationFade = TimeSpan.FromMilliseconds(83d);
 
         /// <summary>
-        /// Short distances, all exits. Token: <c>motion.duration.short</c>.
+        /// Exits only. Entrances start at motion.duration.normal. Token: <c>motion.duration.short</c>.
         /// </summary>
         public static readonly TimeSpan DurationShort = TimeSpan.FromMilliseconds(167d);
 

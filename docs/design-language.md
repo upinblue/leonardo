@@ -96,7 +96,7 @@ The scale follows aerial perspective: near is dark and dense, far is light and a
 - **NEVER:** Inter in native apps, or system typefaces in presentations.
 - **SHOULD:** Customers receive presentations and documents as PDF so the typeface is embedded.
 
-Inter is licensed under the SIL Open Font License and is installed on all Windows PCs and Macs at up in blue.
+Inter is licensed under the SIL Open Font License. Use Inter where it is installed or shipped with the app or website; otherwise the system font takes its place.
 
 ## Shell and content
 
@@ -137,7 +137,7 @@ Every platform speaks Leonardo in its own dialect:
 | Glass | Acrylic in flyouts and menus | System glass in bars and sheets | System materials in sidebar and toolbar | None, unless the host provides it | None |
 | Typeface | Segoe UI Variable | SF Pro | SF Pro | Inter, or the host's typeface | Inter |
 | Icons | Fluent icons | SF Symbols | SF Symbols | The host's icons, otherwise one icon family | One icon family per deck |
-| Color semantics, alignment line, grid, density | Leonardo | Leonardo | Leonardo | Leonardo | Leonardo |
+| Color semantics, alignment line, grid, density | Leonardo | Leonardo; list rows keep the system row height | Leonardo; compact is the system's table row | Leonardo | Leonardo |
 
 **MUST:** These tables are binding. If a case is missing, the decision rules at the top of this document apply, starting with the platform's official guidelines.
 
@@ -224,18 +224,24 @@ Everything sits on a base grid of 4; layout spacing jumps in steps of 8. Values 
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `space.xs` | 4 | Icon to label |
+| `space.xs` | 4 | Icon to label; how far list backplates may reach toward the content edge |
 | `space.s` | 8 | Within a group |
 | `space.m` | 16 | Between groups |
-| `space.l` | 24 | Page margins, details pane |
-| `space.xl` | 40 | Between place name and content |
+| `space.l` | 24 | Page margin, details pane |
+| `space.xl` | 40 | Between place name and content; alignment line on pages with icon lists |
+
+Page margin and alignment line are two different things. The page margin is the distance from the content edge to the content. The alignment line is the left edge on which text starts.
 
 - **MUST:** Spacing comes exclusively from this table.
-- **MUST:** Shared alignment line. Place name, column headers and the first text column start on the same left edge. Icons and status dots hang to the left of it.
+- **MUST:** The page margin is `space.l`.
+- **MUST:** On pages with list rows that have icons, the alignment line lies at `space.xl` from the content edge. Place name, headings, column headers and running text align with the list text on it. Icons and status dots hang to the left of it. Backplates of list rows, such as hover and selection, may extend to `space.xs` from the content edge.
+- **MUST:** Pages without such lists use the page margin `space.l` as their alignment line.
+- **MUST:** Icons in list rows and next to labels are `size.icon`; the status dot is `size.statusDot` in diameter.
 - **MUST:** Concentric radii. Inner radius = outer radius − padding. A card with `radius.l` and padding `space.s` contains elements with `radius.m`. The logo follows the same rule.
 - **MUST:** Basic shapes carry meaning. Circle = person or state (avatars, presence, sync status). Rounded square = object (files, folders, libraries). Capsule = filter, and buttons only where the platform makes them capsule-shaped.
 - **SHOULD:** Asymmetric balance. Navigation fixed, content flexible, details fixed; the weight sits on the left, where the eye starts.
 - **SHOULD:** Lists offer three densities: `density.compact` 32, `density.standard` 40, `density.comfortable` 48 row height. Standard is the default; the choice is stored per user.
+- **MUST:** iOS always uses the system row heights, at least 44 pt; the densities do not apply there. On macOS, compact is the system's default table row height, standard is `density.standard` and comfortable is `density.comfortable`.
 - **NEVER:** spacing by eye or radii that contradict the concentric rule.
 
 ## Color as signal
@@ -252,10 +258,13 @@ The surface is cool-neutral, and every color that appears means exactly one thin
 | Cool neutrals | Everything else | Text, lines, surfaces, app icons | – |
 
 - **MUST:** The accent is brand blue, on dark ground far. On Windows it is the app accent color, on iOS and macOS the app's accent color, on standalone web the CSS accent. Inside a Microsoft host the host's theme decides.
-- **MUST:** At most one accent surface per view.
-- **MUST:** Status colors come from the platform: Fluent colors on Windows, system colors on iOS and macOS, the host's colors inside a host. Standalone web uses the `theme.*.status*` tokens, which mirror the Windows status colors.
+- **MUST:** At most one accent surface for actions per view: the one primary action.
+- **MUST:** Checked toggle buttons count as selection, not as actions, for example the active filter phrases in a summary line. Several may be checked at once; the rule of one accent surface does not apply to them.
+- **MUST:** On standalone web, hover and pressed of accent fills use `theme.*.accentHover` and `theme.*.accentPressed`, derived from the accent the way Fluent derives its accent fill states. Other platforms draw these states themselves.
+- **MUST:** Status colors come from the platform: Fluent colors on Windows, system colors on iOS and macOS, the host's colors inside a host. Standalone web and presentations use the `theme.*.status*` tokens, which mirror the Windows status colors. The native outputs do not contain them.
 - **MUST:** Every status carries shape and text in addition to color, for example a circle plus tooltip.
-- **MUST:** Focus visuals and elements the platform draws itself stay unchanged.
+- **MUST:** A chart with one data series draws it in `theme.*.chart`. In contrast themes and forced colors it uses the system highlight color.
+- **MUST:** Focus visuals and elements the platform draws itself stay unchanged. The one exception is standalone web: where the browser's default focus ring has less than 3:1 contrast against its background, it is replaced by an outline in `theme.*.focus`, `size.focusStroke` wide. This is the only place where a focus visual is restyled.
 - **SHOULD:** Success is confirmed only briefly; the green disappears afterwards.
 - **SHOULD:** File type icons stay colorful because they are content. Everything around them stays neutral.
 - **NEVER:** color as decoration, for headings or for large surfaces.
@@ -270,9 +279,9 @@ Motion explains where something comes from and where it goes. Every motion is a 
 | --- | --- | --- |
 | Dive in | I go one level deeper | The chosen element flies to its new place and becomes the place name or slide title. The rest follows staggered. Going back reverses the motion exactly. |
 | Transform | This thing becomes that | An element changes shape, size or content instead of disappearing and reappearing. A button becomes the panel it opens. |
-| Stagger | These belong together, in this order | The groups of a view or slide enter shortly after each other, in reading order. |
+| Stagger | These belong together, in this order | When the user navigates to a view or slide, its groups enter shortly after each other, in reading order. |
 | Reflow | The order has changed | An element pushes others aside in an animated way; gaps close, sorted rows glide into place. |
-| Arrive | Something new is here | New items appear in their place with a short accent marker. |
+| Arrive | Something new is here | New items appear in their place with a short accent bar at the start of the row, which fades out after `motion.arrive.hold`. |
 | Leave | This is gone | An element accelerates out and fades while doing so. |
 | Respond | I heard you | Visible reaction at the moment of pressing and releasing. |
 
@@ -282,7 +291,7 @@ Arriving decelerates strongly, leaving accelerates. This relationship is the sig
 
 | | Windows | iOS and macOS | Web | Presentation (PowerPoint) |
 | --- | --- | --- | --- | --- |
-| Arrive, dive in | `motion.easing.enter` cubic-bezier(0, 0, 0, 1); 167, 250 or 333 ms depending on distance | Spring without bounce, 0.3–0.5 s | Same curve and durations as Windows | Smooth end fully applied; 0.3 s |
+| Arrive, dive in | `motion.easing.enter` cubic-bezier(0, 0, 0, 1); 250 or 333 ms depending on distance | Spring without bounce, 0.3–0.5 s | Same curve and durations as Windows | Smooth end fully applied; 0.3 s |
 | Leave | `motion.easing.exit` cubic-bezier(1, 0, 1, 1); 167 ms, always with fade | Spring without bounce, shorter than arrive | Same as Windows | Smooth start fully applied; 0.2 s, with fade |
 | Transform, reflow | `motion.easing.move` cubic-bezier(0.55, 0.55, 0, 1); 250 or 333 ms | Spring without bounce | Same as Windows | "Morph" transition, 0.5 s |
 | Opacity | linear, 83 ms | System default | linear, 83 ms | "Fade", 0.1 s |
@@ -293,7 +302,7 @@ On macOS, motion is used more sparingly than on iOS: windows, sidebars and toolb
 ### Rules
 
 - **MUST:** Arriving decelerates, leaving accelerates. Movement is never linear; only opacity is linear.
-- **MUST:** Leaving is shorter than arriving.
+- **MUST:** Leaving is shorter than arriving. `motion.duration.short` (167 ms) is for exits only; entrances start at `motion.duration.normal` (250 ms).
 - **MUST:** Opacity is faster than movement. The content is visible at once while it still glides into place.
 - **MUST:** Direction is fixed. Forward comes from the chosen element or from the right; back reverses exactly that.
 - **MUST:** Responding starts on press, not after release. The release feedback starts immediately, even if the triggered action takes longer. What pressing looks like is defined by the platform.
@@ -301,9 +310,11 @@ On macOS, motion is used more sparingly than on iOS: windows, sidebars and toolb
 - **MUST:** If animations are turned off or reduced in the system (on the web: `prefers-reduced-motion`), every motion becomes a short crossfade. The meaning stays, the distance goes.
 - **MUST:** Every motion is implemented with the means of its medium: Fluent curves and navigation transitions on Windows, SwiftUI springs on iOS and macOS, CSS transitions on the web, animations and "Morph" in PowerPoint.
 - **SHOULD:** Short distances. On entering, an element travels at most 24 to 40 epx (`motion.distance.*`); on slides at most a few percent of the slide width.
+- **MUST:** Stagger happens on navigation to a view, never at app launch.
+- **MUST:** The Arrive marker is a short accent bar at the start of the row. The dot shape is reserved for the status dot.
 - **SHOULD:** Stagger sparingly. At most four groups, in reading order.
 - **SHOULD:** The only depth effect: the place name scrolls slightly slower than the content before it shrinks (`motion.parallax.placeNameFactor`). When morphing in presentations, the slide title moves less far than the content.
-- **NEVER:** parallax outside this exception, bounce in content, 3D rotations, light or texture effects, endless loops except for real progress, decorative animations on launch.
+- **NEVER:** parallax outside this exception, bounce in content, 3D rotations, light or texture effects, endless loops except for real progress, decorative animations on launch. Stagger at launch counts as decorative: the first view appears without it.
 
 ### Presentations in detail
 
