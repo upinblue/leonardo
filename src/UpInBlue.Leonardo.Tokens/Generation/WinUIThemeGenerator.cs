@@ -24,23 +24,9 @@ internal static class WinUIThemeGenerator
     /// </summary>
     public static GeneratedFile AccentColors(TokenCatalog catalog)
     {
-        var tokens = catalog.Tokens;
-        var lightAccent = tokens["theme.light.accent"];
-        var darkAccent = tokens["theme.dark.accent"];
-        var ramp = new (string Key, RgbColor Color, string Source)[]
-        {
-            ("SystemAccentColorDark3", tokens["palette.depth"].Color, "palette.depth"),
-            ("SystemAccentColorDark2", tokens["palette.near"].Color, "palette.near"),
-            ("SystemAccentColorDark1", lightAccent.Color, "theme.light.accent"),
-            ("SystemAccentColor", lightAccent.Color, "theme.light.accent: the base carries white text, for example selected text"),
-            ("SystemAccentColorLight1", Mix(lightAccent.Color, darkAccent.Color, 0.5), "halfway from theme.light.accent to theme.dark.accent"),
-            ("SystemAccentColorLight2", darkAccent.Color, "theme.dark.accent"),
-            ("SystemAccentColorLight3", tokens["theme.dark.link"].Color, "theme.dark.link"),
-        };
-
         var writer = Begin();
         writer.Line("<!-- The Windows accent ramp, derived from the blue scale. Accent fills are brand in light theme and far in dark theme. -->");
-        foreach (var (key, color, source) in ramp)
+        foreach (var (key, color, source) in AccentRamp(catalog))
         {
             writer.Line($"<!-- {Text.XmlComment(source)} -->");
             writer.Line($"<Color x:Key=\"{key}\">{color.XamlHex}</Color>");
@@ -49,6 +35,25 @@ internal static class WinUIThemeGenerator
         return End(writer, AccentColorsPath);
     }
 
+    /// <summary>
+    /// The Windows accent ramp from the blue scale, shared by WinUI and the WPF Fluent theme, which use the same keys.
+    /// </summary>
+    public static IReadOnlyList<(string Key, RgbColor Color, string Source)> AccentRamp(TokenCatalog catalog)
+    {
+        var tokens = catalog.Tokens;
+        var lightAccent = tokens["theme.light.accent"];
+        var darkAccent = tokens["theme.dark.accent"];
+        return
+        [
+            ("SystemAccentColorDark3", tokens["palette.depth"].Color, "palette.depth"),
+            ("SystemAccentColorDark2", tokens["palette.near"].Color, "palette.near"),
+            ("SystemAccentColorDark1", lightAccent.Color, "theme.light.accent"),
+            ("SystemAccentColor", lightAccent.Color, "theme.light.accent: the base carries white text, for example selected text"),
+            ("SystemAccentColorLight1", Mix(lightAccent.Color, darkAccent.Color, 0.5), "halfway from theme.light.accent to theme.dark.accent"),
+            ("SystemAccentColorLight2", darkAccent.Color, "theme.dark.accent"),
+            ("SystemAccentColorLight3", tokens["theme.dark.link"].Color, "theme.dark.link"),
+        ];
+    }
     /// <summary>
     /// The text styles of the type roles, plus emphasis (body in semibold) and variants with tabular figures for numbers in columns.
     /// </summary>

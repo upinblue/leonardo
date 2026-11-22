@@ -148,7 +148,7 @@
     <sys:Double x:Key="LeonardoMetaFontSize">12</sys:Double>
     <sys:Double x:Key="LeonardoMetaLineHeight">16</sys:Double>
 
-    <!-- Motion: easing curves as KeySpline, durations, distances in epx and factors. -->
+    <!-- Motion: easing curves as KeySpline; durations as Duration, as KeyTime for key frames with a KeySpline and as TimeSpan for BeginTime; distances in epx and factors. -->
     <!-- motion.easing.enter -->
     <KeySpline x:Key="LeonardoEaseEnter">0,0,0,1</KeySpline>
     <!-- motion.easing.exit -->
@@ -159,14 +159,24 @@
     <KeySpline x:Key="LeonardoEaseFade">0,0,1,1</KeySpline>
     <!-- motion.duration.fade -->
     <Duration x:Key="LeonardoDurationFade">0:0:0.083</Duration>
+    <KeyTime x:Key="LeonardoDurationFadeKeyTime">0:0:0.083</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoDurationFadeTimeSpan">0:0:0.083</sys:TimeSpan>
     <!-- motion.duration.short -->
     <Duration x:Key="LeonardoDurationShort">0:0:0.167</Duration>
+    <KeyTime x:Key="LeonardoDurationShortKeyTime">0:0:0.167</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoDurationShortTimeSpan">0:0:0.167</sys:TimeSpan>
     <!-- motion.duration.normal -->
     <Duration x:Key="LeonardoDurationNormal">0:0:0.25</Duration>
+    <KeyTime x:Key="LeonardoDurationNormalKeyTime">0:0:0.25</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoDurationNormalTimeSpan">0:0:0.25</sys:TimeSpan>
     <!-- motion.duration.long -->
     <Duration x:Key="LeonardoDurationLong">0:0:0.333</Duration>
+    <KeyTime x:Key="LeonardoDurationLongKeyTime">0:0:0.333</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoDurationLongTimeSpan">0:0:0.333</sys:TimeSpan>
     <!-- motion.stagger.step -->
     <Duration x:Key="LeonardoStaggerStep">0:0:0.05</Duration>
+    <KeyTime x:Key="LeonardoStaggerStepKeyTime">0:0:0.05</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoStaggerStepTimeSpan">0:0:0.05</sys:TimeSpan>
     <!-- motion.stagger.maxGroups -->
     <sys:Int32 x:Key="LeonardoStaggerMaxGroups">4</sys:Int32>
     <!-- motion.distance.enterMin -->
@@ -177,4 +187,6 @@
     <sys:Double x:Key="LeonardoParallaxPlaceNameFactor">0.7</sys:Double>
     <!-- motion.arrive.hold (proposal) -->
     <Duration x:Key="LeonardoArriveHold">0:0:2</Duration>
+    <KeyTime x:Key="LeonardoArriveHoldKeyTime">0:0:2</KeyTime>
+    <sys:TimeSpan x:Key="LeonardoArriveHoldTimeSpan">0:0:2</sys:TimeSpan>
 </ResourceDictionary>

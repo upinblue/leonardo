@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Resources of the sample itself. Colors, spacing, radii, font sizes and motion come from Leonardo resources only.
+    The sizes below are layout sizes Leonardo does not define, with the same values as in the WinUI gallery.
+-->
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="clr-namespace:UpInBlue.Leonardo.Gallery.Wpf.Helpers"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- Running text keeps about 60 characters per line. -->
+    <sys:Double x:Key="GalleryReadingWidth">600</sys:Double>
+
+    <!-- Table columns and label columns. -->
+    <GridLength x:Key="GalleryLabelColumnWidth">120</GridLength>
+    <sys:Double x:Key="GalleryNameColumnWidth">200</sys:Double>
+    <sys:Double x:Key="GalleryPersonColumnWidth">140</sys:Double>
+    <sys:Double x:Key="GalleryNumberColumnWidth">160</sys:Double>
+    <sys:Double x:Key="GalleryDateColumnWidth">120</sys:Double>
+
+    <!--
+        The Fluent theme insets the text of a GridView by its border (1) and the padding of headers and cells (12).
+        The table moves out by that much, so that column headers and the first column sit on the alignment line,
+        and selection and hover hang to the left of it, as in the WinUI gallery.
+    -->
+    <Thickness x:Key="GalleryTableOutdentThickness">-13,0,0,0</Thickness>
+
+    <!-- Samples on the foundation pages. -->
+    <sys:Double x:Key="GallerySwatchSize">40</sys:Double>
+    <Thickness x:Key="GalleryHairlineThickness">1</Thickness>
+    <sys:Double x:Key="GalleryThemeBoxWidth">200</sys:Double>
+
+    <helpers:BrushToHexConverter x:Key="BrushToHex" />
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+
+</ResourceDictionary>
