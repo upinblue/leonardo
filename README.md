@@ -8,7 +8,7 @@ Leonardo never replaces the platform. Every app is first a good Windows, iOS, ma
 Leonardo is the up in blue handwriting on top: the blue scale, calm typography as architecture, motion as grammar, and
 honest fallbacks for reduced motion, missing transparency and high contrast.
 
-**Status:** version 0.1.0, not yet published. See [the roadmap](docs/roadmap.md) and [the changelog](CHANGELOG.md).
+**Status:** version 0.1.0, released on 2026-11-22 to GitHub Packages of `upinblue` (private). See [the roadmap](docs/roadmap.md) and [the changelog](CHANGELOG.md).
 
 ## Contents
 
