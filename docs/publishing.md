@@ -1,10 +1,9 @@
 # Publishing the NuGet packages
 
-This guide packs `UpInBlue.Leonardo.WinUI`, `UpInBlue.Leonardo.Wpf` and the .NET tool `UpInBlue.Leonardo.Check` and
-publishes them to GitHub Packages of the organization `upinblue`. Nothing in this repository publishes automatically. Bastian Wirth runs these steps by hand.
-
-Publishing to nuget.org is not covered here; it comes after the repository is public, see
-[`going-public.md`](going-public.md).
+This guide describes how `UpInBlue.Leonardo.WinUI`, `UpInBlue.Leonardo.Wpf` and the .NET tool
+`UpInBlue.Leonardo.Check` are packed and published to nuget.org. Publishing runs in
+[`.github/workflows/release.yml`](../.github/workflows/release.yml) with nuget.org Trusted Publishing: there is no
+API key. Bastian Wirth starts every release by pushing a tag and approving the run.
 
 ## What gets published
 
@@ -82,61 +81,39 @@ dotnet tool install --tool-path "$env:TEMP\leonardo-check" --add-source artifact
 & "$env:TEMP\leonardo-check\leonardo-check.exe" --rules
 ```
 
-## 4. Push to GitHub Packages
+## 4. Publish with the release workflow
 
-GitHub Packages accepts only a personal access token (classic) for NuGet. Create one at
-<https://github.com/settings/tokens> with the scopes `write:packages` and `read:packages`, with a short expiry, and
-authorize it for the organization `upinblue` if the organization requires single sign-on.
+One-time setup:
 
-Never write the token into a file, a script or a command. Put it into an environment variable of the current
-PowerShell 7 session only; `-MaskInput` keeps it off the screen and out of the history:
+1. On nuget.org, open **Trusted Publishing** for the account `uib` and create a policy: repository owner `upinblue`,
+   repository `leonardo`, workflow file `release.yml`, environment `nuget`.
+2. In the repository settings, create the environment `nuget` with a required reviewer (Bastian Wirth) and the
+   variable `NUGET_USER` set to the nuget.org user name (the profile name, not an e-mail address).
 
-```powershell
-$env:GITHUB_PACKAGES_TOKEN = Read-Host -MaskInput "GitHub token"
-```
-
-Bastian Wirth runs the pushes. Push the three packages:
+For every release, after step 1 is merged:
 
 ```powershell
-dotnet nuget push artifacts/packages/UpInBlue.Leonardo.WinUI.0.1.0.nupkg --source https://nuget.pkg.github.com/upinblue/index.json --api-key $env:GITHUB_PACKAGES_TOKEN
+git tag -a v0.1.0 -m "Leonardo 0.1.0"
 ```
 
 ```powershell
-dotnet nuget push artifacts/packages/UpInBlue.Leonardo.Wpf.0.1.0.nupkg --source https://nuget.pkg.github.com/upinblue/index.json --api-key $env:GITHUB_PACKAGES_TOKEN
+git push origin v0.1.0
 ```
 
-```powershell
-dotnet nuget push artifacts/packages/UpInBlue.Leonardo.Check.0.1.0.nupkg --source https://nuget.pkg.github.com/upinblue/index.json --api-key $env:GITHUB_PACKAGES_TOKEN
-```
-
-Then remove the token from the session:
-
-```powershell
-Remove-Item Env:GITHUB_PACKAGES_TOKEN
-```
+The workflow runs tests and the token check, packs, waits for the approval in the environment `nuget`, and pushes all
+three packages. It refuses a tag that does not match `VersionPrefix`. Pushed versions can be unlisted but never
+deleted or replaced.
 
 ## 5. After publishing
 
-1. Open <https://github.com/orgs/upinblue/packages>. All three packages are listed and linked to the repository
-   `upinblue/leonardo` (from `RepositoryUrl` in `build/Packaging.props`).
-2. New packages are private and inherit the access permissions of the linked repository. Leave them private.
-   **Making a package public cannot be undone**; that is part of [going public](going-public.md).
-3. Tag the release on the commit that was packed and push the tag:
-
-   ```powershell
-   git tag -a v0.1.0 -m "Leonardo 0.1.0"
-   ```
-
-   ```powershell
-   git push origin v0.1.0
-   ```
-
-4. Optionally, create a GitHub release for the tag with the changelog section as notes.
+1. Open the three package pages on nuget.org and check the README rendering and the metadata.
+2. Optionally, create a GitHub release for the tag with the changelog section as notes.
+3. The packages in GitHub Packages of `upinblue` stay private. **Making a package public cannot be undone.**
 
 ## Using the packages
 
-Apps restore the packages with a `nuget.config` that maps `UpInBlue.*` to the up in blue feed and reads a token with
-the scope `read:packages` from the environment variable `GITHUB_PACKAGES_TOKEN`. The README shows the file. The check
-tool is installed with `dotnet tool install --global UpInBlue.Leonardo.Check --add-source
-https://nuget.pkg.github.com/upinblue/index.json`, with the same source and credentials in the user-level NuGet
-configuration.
+```powershell
+dotnet add package UpInBlue.Leonardo.WinUI
+dotnet add package UpInBlue.Leonardo.Wpf
+dotnet tool install --global UpInBlue.Leonardo.Check
+```

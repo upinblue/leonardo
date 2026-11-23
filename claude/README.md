@@ -31,8 +31,6 @@ The marketplace that lists the plugin is `.claude-plugin/marketplace.json` at th
 
 ## Install
 
-The repository is private. Claude Code clones it with the Git credentials on your machine and never prompts for them, so make sure Git can read upinblue/leonardo first, for example with `gh auth login`.
-
 ### For yourself
 
 In Claude Code:
@@ -124,13 +122,13 @@ The hook needs the .NET 10 runtime or later and the tool. It looks for, in this 
 
 Without the tool, the hook prints one line, "Leonardo check skipped: leonardo-check is not on the PATH …", and lets Claude Code continue; it never blocks an edit.
 
-The tool is the .NET tool package `UpInBlue.Leonardo.Check` on GitHub Packages of the organization `upinblue`. Reading it needs a GitHub personal access token (classic) with `read:packages` and the `upinblue` source with credentials in your NuGet configuration, as the root README shows for the libraries (for a global tool, in your user-level `NuGet.Config`). Then:
+The tool is the .NET tool package `UpInBlue.Leonardo.Check` on nuget.org:
 
 ```
-dotnet tool install --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json
+dotnet tool install --global UpInBlue.Leonardo.Check
 ```
 
-Update with `dotnet tool update --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json`. Before the package is published, install it from a clone:
+Update with `dotnet tool update --global UpInBlue.Leonardo.Check`. To use a build from a clone instead:
 
 ```
 dotnet pack src/UpInBlue.Leonardo.Check -c Release

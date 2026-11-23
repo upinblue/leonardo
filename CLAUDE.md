@@ -15,24 +15,22 @@ Leonardo never replaces the platform. Every app is first a good Windows, iOS, ma
 
 1. `docs/design-language.md` – what things look like and how they behave. Rules are marked MUST, SHOULD or NEVER.
 2. `tokens/leonardo.tokens.json` – every concrete value.
-3. `docs/roadmap.md` – the stages, their scope and acceptance criteria.
 
 If code contradicts the design language, the design language wins. If something is unclear, follow the last decision rule of the design language: stop and ask Bastian Wirth instead of inventing a design decision.
 
 ## Designing UI in this repository
 
-The gallery and sample apps are designed with the skill in `claude/skills/leonardo`. Follow it, including its research step: before designing a page or pattern, read the platform's official guidance listed in `claude/skills/leonardo/references/sources.md` and name the sources in the pull request. `.claude/settings.json` allows web access to these sources.
+The gallery and sample apps are designed with the skill in `claude/skills/leonardo`. Follow it, including its research step: before designing a page or pattern, read the platform's official guidance listed in `claude/skills/leonardo/references/sources.md` and name the sources in the pull request.
 
 ## Repository
 
-- GitHub: `upinblue/leonardo`, **private**. Never change the visibility.
+- GitHub: `upinblue/leonardo`, public. Never change the visibility, and never publish packages by hand: releases run through `.github/workflows/release.yml`.
 - Maintainer: Bastian Wirth (up in blue). For `CODEOWNERS`, read the GitHub login with `gh api user --jq .login` and confirm it with Bastian before committing.
 - Structure:
 
 ```
-.claude/settings.json                Web access to official design guidance
 brand/                               Logo files. Not MIT licensed, see TRADEMARKS.md. Never modify.
-docs/                                design-language.md, roadmap.md, leonardo-design-language.pdf
+docs/                                design-language.md, leonardo-design-language.pdf
 tokens/                              leonardo.tokens.json
 generated/apple/                     Asset catalog and Swift values for iOS and macOS (committed)
 generated/web/                       leonardo.css with custom properties (committed)
@@ -92,7 +90,7 @@ English everywhere: code, comments, commit messages, pull requests, README, app 
 - One stage = one branch `stage/NN-short-name` = one pull request into `main`. Exception: stage 0 creates the repository and pushes the initial commit to `main`.
 - Never commit to `main` after stage 0. Never merge pull requests yourself; Bastian reviews and merges.
 - Before opening a pull request: everything builds and all tests pass locally without warnings, and the affected apps start.
-- Pull request description: goal of the stage, the acceptance criteria from the roadmap as a checklist with the result of each, the design sources read, screenshots of new pages in light and dark mode, and open questions.
+- Pull request description: goal of the stage, the acceptance criteria as a checklist with the result of each, the design sources read, screenshots of new pages in light and dark mode, and open questions.
 - Token values marked `"status": "proposal"` may be used, but every proposal that becomes visible must be listed in the pull request for confirmation.
 - Commit messages: imperative mood, subject line of at most 72 characters.
 

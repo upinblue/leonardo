@@ -8,7 +8,7 @@
 
     Pack:    dotnet pack UpInBlue.Leonardo.slnx -c Release
     Output:  artifacts/packages/
-    Publish: see docs/publishing.md. Nothing in this repository publishes automatically.
+    Publish: .github/workflows/release.yml on a version tag, with approval. See docs/publishing.md.
   -->
 
   <PropertyGroup Label="Version">

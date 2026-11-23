@@ -1,0 +1,47 @@
+name: Release
+
+# Packs the three NuGet packages and pushes them to nuget.org with Trusted Publishing (no API key).
+# Start it by pushing a tag like v0.1.0. The job waits for approval in the environment "nuget".
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    environment: nuget
+    permissions:
+      id-token: write # lets nuget.org verify this workflow run
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Check that the tag matches the package version
+        shell: pwsh
+        run: |
+          $version = ([xml](Get-Content build/Packaging.props)).Project.PropertyGroup.VersionPrefix | Where-Object { $_ } | Select-Object -First 1
+          if ("v$version" -ne "${{ github.ref_name }}") { throw "Tag ${{ github.ref_name }} does not match VersionPrefix $version" }
+
+      - run: dotnet test --solution UpInBlue.Leonardo.slnx
+      - run: dotnet run --project src/UpInBlue.Leonardo.Tokens -- check
+      - run: dotnet pack UpInBlue.Leonardo.slnx -c Release
+
+      - name: Log in to nuget.org
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push
+        shell: pwsh
+        run: |
+          Get-ChildItem artifacts/packages/*.nupkg | ForEach-Object {
+            dotnet nuget push $_.FullName --source https://api.nuget.org/v3/index.json --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --skip-duplicate
+          }

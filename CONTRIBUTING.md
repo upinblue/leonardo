@@ -8,7 +8,6 @@ design decisions first and code second. This guide says how to make both.
 1. [`docs/design-language.md`](docs/design-language.md): what things look like and how they behave. Rules are marked
    MUST, SHOULD or NEVER.
 2. [`tokens/leonardo.tokens.json`](tokens/leonardo.tokens.json): every concrete value.
-3. [`docs/roadmap.md`](docs/roadmap.md): the stages, their scope and acceptance criteria.
 
 If code contradicts the design language, the design language wins. If a case is not covered, follow the decision rules
 at the top of the design language. If it is still unclear, open an issue and ask instead of inventing a design
