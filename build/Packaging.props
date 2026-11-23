@@ -13,7 +13,7 @@
 
   <PropertyGroup Label="Version">
     <!-- Semantic versioning. Change it together with CHANGELOG.md. -->
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionPrefix>0.1.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup Label="Package metadata">

@@ -8,7 +8,7 @@ Leonardo never replaces the platform. Every app is first a good Windows, iOS, ma
 Leonardo is the up in blue handwriting on top: the blue scale, calm typography as architecture, motion as grammar, and
 honest fallbacks for reduced motion, missing transparency and high contrast.
 
-**Status:** version 0.1.0, published on [nuget.org](https://www.nuget.org/profiles/uib). The repository is public under the MIT License; the logos and names are not part of the license (see [License](#license)). See [the changelog](CHANGELOG.md).
+**Status:** version 0.1.1, published on [nuget.org](https://www.nuget.org/profiles/uib). The repository is public under the MIT License; the logos and names are not part of the license (see [License](#license)). See [the changelog](CHANGELOG.md).
 
 ## Contents
 

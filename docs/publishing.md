@@ -93,11 +93,11 @@ One-time setup:
 For every release, after step 1 is merged:
 
 ```powershell
-git tag -a v0.1.0 -m "Leonardo 0.1.0"
+git tag -a v0.1.1 -m "Leonardo 0.1.1"
 ```
 
 ```powershell
-git push origin v0.1.0
+git push origin v0.1.1
 ```
 
 The workflow runs tests and the token check, packs, waits for the approval in the environment `nuget`, and pushes all
