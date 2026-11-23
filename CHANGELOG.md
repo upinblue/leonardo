@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 While the major version is 0, any minor version may change resource keys, APIs or token values.
 
+## [0.1.1] - 2026-11-23
+
+First version on nuget.org. The repository is public.
+
+### Changed
+
+- The packages are published to nuget.org with Trusted Publishing (`.github/workflows/release.yml`); the READMEs
+  describe installation from nuget.org.
+- Added `SECURITY.md`. Removed the working files `docs/roadmap.md` and `.claude/settings.json`.
+
 ## [0.1.0] - 2026-11-22
 
 The first version of Leonardo as tools.
@@ -70,4 +80,5 @@ Decisions made before the first release (stage 10), compared with the previews o
   added to the app target (the generated colors are looked up in the main bundle).
 - The packages are published to nuget.org with Trusted Publishing (see `docs/publishing.md`).
 
+[0.1.1]: https://github.com/upinblue/leonardo/releases/tag/v0.1.1
 [0.1.0]: https://github.com/upinblue/leonardo/releases/tag/v0.1.0
