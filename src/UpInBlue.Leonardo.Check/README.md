@@ -10,12 +10,8 @@ hidden folders and test code. The Claude Code plugin `leonardo` runs it as a hoo
 
 ## Install
 
-The package is published to GitHub Packages of the organization `upinblue`. Reading it needs a GitHub personal access
-token (classic) with the scope `read:packages` in the environment variable `GITHUB_PACKAGES_TOKEN`, and the source
-`upinblue` in a `nuget.config` (see the README of github.com/upinblue/leonardo).
-
 ```
-dotnet tool install --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json
+dotnet tool install --global UpInBlue.Leonardo.Check
 ```
 
 The tool needs the .NET 10 runtime or later.

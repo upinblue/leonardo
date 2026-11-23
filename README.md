@@ -8,7 +8,7 @@ Leonardo never replaces the platform. Every app is first a good Windows, iOS, ma
 Leonardo is the up in blue handwriting on top: the blue scale, calm typography as architecture, motion as grammar, and
 honest fallbacks for reduced motion, missing transparency and high contrast.
 
-**Status:** version 0.1.0, released on 2026-11-22 to GitHub Packages of `upinblue` (private). See [the roadmap](docs/roadmap.md) and [the changelog](CHANGELOG.md).
+**Status:** version 0.1.0, published on [nuget.org](https://www.nuget.org/profiles/upinblue). The repository is public under the MIT License; the logos and names are not part of the license (see [License](#license)). See [the changelog](CHANGELOG.md).
 
 ## Contents
 
@@ -52,46 +52,15 @@ More screenshots, including every gallery page, are in [`docs/screenshots`](docs
 
 ### NuGet packages (WinUI 3 and WPF)
 
-The packages are published to GitHub Packages of the organization `upinblue`. Reading them needs a GitHub personal
-access token (classic) with the scope `read:packages`; GitHub Packages does not accept other token types for NuGet.
-Keep the token in an environment variable, never in a file.
-
-Add a `nuget.config` next to your solution. Package source mapping makes sure that `UpInBlue.*` packages only come from
-the up in blue feed:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <packageSources>
-    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-    <add key="upinblue" value="https://nuget.pkg.github.com/upinblue/index.json" />
-  </packageSources>
-  <packageSourceMapping>
-    <packageSource key="nuget.org">
-      <package pattern="*" />
-    </packageSource>
-    <packageSource key="upinblue">
-      <package pattern="UpInBlue.*" />
-    </packageSource>
-  </packageSourceMapping>
-  <packageSourceCredentials>
-    <upinblue>
-      <add key="Username" value="YOUR_GITHUB_LOGIN" />
-      <add key="ClearTextPassword" value="%GITHUB_PACKAGES_TOKEN%" />
-    </upinblue>
-  </packageSourceCredentials>
-</configuration>
-```
-
-Then add the package for your platform. WinUI apps target `net10.0-windows10.0.26100.0` or later; WPF apps target
+The packages are on nuget.org. WinUI apps target `net10.0-windows10.0.26100.0` or later; WPF apps target
 `net10.0-windows`.
 
 ```powershell
-dotnet add package UpInBlue.Leonardo.WinUI --version 0.1.0
+dotnet add package UpInBlue.Leonardo.WinUI
 ```
 
 ```powershell
-dotnet add package UpInBlue.Leonardo.Wpf --version 0.1.0
+dotnet add package UpInBlue.Leonardo.Wpf
 ```
 
 ### SwiftUI and the web
@@ -109,12 +78,10 @@ The plugin with the skill `leonardo` is installed from the marketplace `upinblue
 
 ### Check tool
 
-`leonardo-check` is a .NET tool in the same GitHub Packages feed. With the `upinblue` source and its credentials in
-your NuGet configuration (for a global tool, the user-level `NuGet.Config`; the `nuget.config` above shows the
-entries), install it with:
+`leonardo-check` is a .NET tool on nuget.org:
 
 ```powershell
-dotnet tool install --global UpInBlue.Leonardo.Check --add-source https://nuget.pkg.github.com/upinblue/index.json
+dotnet tool install --global UpInBlue.Leonardo.Check
 ```
 
 Then run `leonardo-check src samples`. The Claude Code plugin runs it after every edit of a UI file; without the tool,

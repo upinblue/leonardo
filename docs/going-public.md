@@ -16,7 +16,7 @@ item in the pull request or issue that tracks the release.
       under the MIT License of the repository, without a CLA or DCO.
 - [ ] **`TRADEMARKS.md`:** confirm the terms for the name and the logos, including whether `brand/` stays in the public
       repository at all, and whether an official package may show the up in blue logo as its icon.
-- [ ] **Photo credits in `docs/leonardo-design-language.pdf`:** page 25 credits three photos from Pixabay (Venice by
+- [x] **Photo credits in `docs/leonardo-design-language.pdf`:** page 25 credits three photos from Pixabay (Venice by
       han_2, Florence by marmax, Omegna by vco24). Confirm that the Pixabay license allows redistributing them inside
       a PDF in a public repository, and that the credits are complete.
 - [ ] **Fonts:** if the Inter font files are added to `samples/web/fonts/`, include the SIL Open Font License text next
@@ -33,14 +33,14 @@ their comments.
 - [x] **Design language:** the statement about which fonts are installed on the computers at up in blue is gone.
       Since stage 10 the section "Typefaces" says neutrally that Inter is used where it is installed or shipped,
       otherwise the system font. Search once more for other internal IT details.
-- [ ] **Working files for Claude Code:** decide whether `CLAUDE.md`, `.claude/settings.json` and `docs/roadmap.md` stay
+- [x] **Working files for Claude Code:** `.claude/settings.json` and `docs/roadmap.md` were removed; `CLAUDE.md` stays. Original question: whether `CLAUDE.md`, `.claude/settings.json` and `docs/roadmap.md` stay
       public as they are, are rewritten for outside contributors, or are removed.
 - [ ] **`CODEOWNERS`:** confirm that the GitHub login in it may be public.
-- [ ] **Screenshots:** they stay in the repository (decided in stage 10). Check every image in `docs/screenshots/`
+- [x] **Screenshots:** they stay in the repository (decided in stage 10). Check every image in `docs/screenshots/`
       for real names, data or desktop details.
 - [ ] **Secrets:** confirm that no token, key, password or connection string was ever committed, also in old commits
       and in closed branches.
-- [ ] **Git history:** commit author names and e-mail addresses become public. Decide whether the history stays, or
+- [x] **Git history (decided: stays as is, both author addresses become public):** commit author names and e-mail addresses become public. Decide whether the history stays, or
       whether the public repository starts from a squashed or fresh history.
 - [ ] **Pull requests and branches:** merge or close every open pull request; delete stage branches that are merged.
       Read the pull request descriptions and comments, which become public too.
@@ -50,7 +50,7 @@ their comments.
 - [ ] Update the repository description; it still says "for WinUI 3 and WPF", while Leonardo covers Windows, iOS,
       macOS, the web and presentations. This is a repository setting; Bastian Wirth changes it.
 - [ ] Update the status line in `README.md`.
-- [ ] Add `SECURITY.md` with how to report vulnerabilities, and turn on private vulnerability reporting.
+- [x] Add `SECURITY.md` with how to report vulnerabilities, and turn on private vulnerability reporting.
 - [ ] Decide on a code of conduct and issue templates.
 - [ ] Protect `main`: pull requests required, no force pushes.
 - [ ] Plan to turn on secret scanning and Dependabot alerts right after the switch.

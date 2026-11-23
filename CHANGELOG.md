@@ -68,7 +68,6 @@ Decisions made before the first release (stage 10), compared with the previews o
 
 - There is no Apple sample app yet; it is stage 6b and needs a Mac. SwiftUI apps use the files in `generated/apple`,
   added to the app target (the generated colors are looked up in the main bundle).
-- The packages are published to GitHub Packages of the organization `upinblue` and stay private (see
-  `docs/publishing.md`).
+- The packages are published to nuget.org with Trusted Publishing (see `docs/publishing.md`).
 
 [0.1.0]: https://github.com/upinblue/leonardo/releases/tag/v0.1.0
