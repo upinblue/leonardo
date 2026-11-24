@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 While the major version is 0, any minor version may change resource keys, APIs or token values.
 
+## [Unreleased]
+
+### Changed
+
+- `PlaceHeader` follows the scroll position instead of a timed shrink animation (#17). The meta line fades instead of
+  being covered, the title scales continuously to the compact line, and scrolling back reverses every step. The header
+  now reserves the shrink distance at the top of the scrolling content and no longer corrects the scroll offset.
+- `PlaceHeaderMath` has new members for the scroll-linked values; `Threshold`, `ParallaxLift`, `NextIsCompact` and
+  `CompensatedOffset` are removed.
+
 ## [0.1.1] - 2026-11-23
 
 First version on nuget.org. The repository is public.

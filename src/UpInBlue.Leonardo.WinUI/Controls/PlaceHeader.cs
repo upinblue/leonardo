@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using UpInBlue.Leonardo.WinUI.Motion;
+using Windows.Foundation;
 
 namespace UpInBlue.Leonardo.WinUI.Controls;
 
@@ -17,18 +18,26 @@ namespace UpInBlue.Leonardo.WinUI.Controls;
 /// <remarks>
 /// <para>
 /// Place the header above the scrolling content and set <see cref="ScrollSource"/> to the <see cref="ScrollViewer"/>,
-/// or to an element that contains one, such as a <see cref="ListView"/>. While the content scrolls, the title moves up
-/// at <c>motion.parallax.placeNameFactor</c> of the content speed; further down, the header shrinks to a compact line
-/// and the content keeps its place on screen. Scrolling back to the top expands it again.
+/// or to an element that contains one, such as a <see cref="ListView"/>. The header then follows the scroll position:
+/// while the content scrolls through the shrink distance, the meta line moves with the content and fades, and the
+/// title moves up more slowly than the content and scales from the place name size to the compact size. There is no
+/// timed animation; scrolling back reverses every step exactly.
 /// </para>
 /// <para>
-/// With animations off, there is no parallax and the header shrinks and expands without animation.
+/// To make this possible, the header reserves the shrink distance at the top of the scrolling content (as top margin
+/// of the scroll viewer's content, or top padding of a list's items presenter) and draws its expanded form over that
+/// gap. In layout, the header is always as high as its compact form, so the content never jumps.
+/// </para>
+/// <para>
+/// With animations off, nothing scales or fades while scrolling: the header scrolls away like the content, and at the
+/// end of the shrink distance the compact title crossfades in.
 /// </para>
 /// </remarks>
 [TemplatePart(Name = "PART_Root", Type = typeof(Grid))]
 [TemplatePart(Name = "PART_Meta", Type = typeof(TextBlock))]
 [TemplatePart(Name = "PART_Title", Type = typeof(TextBlock))]
 [TemplatePart(Name = "PART_CompactTitle", Type = typeof(TextBlock))]
+[TemplatePart(Name = "PART_Content", Type = typeof(ContentPresenter))]
 public sealed partial class PlaceHeader : ContentControl
 {
     /// <summary>Identifies the <see cref="Title"/> property.</summary>
@@ -47,14 +56,23 @@ public sealed partial class PlaceHeader : ContentControl
     public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(
         nameof(IsCompact), typeof(bool), typeof(PlaceHeader), new PropertyMetadata(false));
 
+    // The scroll offset within the shrink distance, and the progress through it, as expression fragments.
+    private const string Offset = "Clamp(-scroll.Translation.Y, 0, props.Distance)";
+    private const string Progress = "Clamp(-scroll.Translation.Y / Max(props.Distance, 1), 0, 1)";
+
+    private readonly List<(Visual Visual, string Property)> _tracking = [];
     private Grid? _root;
     private TextBlock? _meta;
     private TextBlock? _title;
     private TextBlock? _compactTitle;
+    private ContentPresenter? _content;
     private ScrollViewer? _scrollViewer;
-    private ExpressionAnimation? _parallax;
-    private double _threshold;
-    private double _shrinkDistance;
+    private CompositionPropertySet? _scroll;
+    private CompositionPropertySet? _props;
+    private FrameworkElement? _insetTarget;
+    private double _insetApplied;
+    private double _distance;
+    private double _metaHeight;
 
     /// <summary>
     /// Creates a place header.
@@ -73,7 +91,6 @@ public sealed partial class PlaceHeader : ContentControl
             MotionSettings.Changed -= OnMotionChanged;
             Detach();
         };
-        SizeChanged += (_, _) => UpdateShrinkDistance();
     }
 
     /// <summary>The place name, for example the name of the open folder.</summary>
@@ -112,28 +129,61 @@ public sealed partial class PlaceHeader : ContentControl
     /// </summary>
     public UIElement? TitleElement => IsCompact ? _compactTitle : _title;
 
+    /// <summary>The shrink distance while the header follows a scroll viewer; otherwise zero.</summary>
+    private double ActiveDistance => _scrollViewer is null ? 0 : _distance;
+
     /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
+        StopTracking();
         base.OnApplyTemplate();
         _root = GetTemplateChild("PART_Root") as Grid;
         _meta = GetTemplateChild("PART_Meta") as TextBlock;
         _title = GetTemplateChild("PART_Title") as TextBlock;
         _compactTitle = GetTemplateChild("PART_CompactTitle") as TextBlock;
+        _content = GetTemplateChild("PART_Content") as ContentPresenter;
 
         if (_root is not null)
         {
-            // The title moves up inside the header; it never draws outside it.
+            // The meta line and the title move up inside the header; they never draw above it.
             var visual = ElementCompositionPreview.GetElementVisual(_root);
             visual.Clip = visual.Compositor.CreateInsetClip();
         }
 
         UpdateTexts();
-        ApplyCompact(IsCompact, animate: false);
+        ApplyCompact(IsCompact, crossfade: false);
+        StartTracking();
+    }
+
+    /// <summary>
+    /// Measures the expanded header and reports the compact height: the expanded part draws over the gap that the
+    /// header reserves at the top of the scrolling content.
+    /// </summary>
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        var size = base.MeasureOverride(availableSize);
+        if (!IsCompact)
+        {
+            UpdateDistance();
+        }
+
+        return new Size(size.Width, Math.Max(0, size.Height - LayoutLift));
+    }
+
+    /// <summary>
+    /// Arranges the template at its full height, which reaches below the header's own bounds while it is expanded.
+    /// </summary>
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        base.ArrangeOverride(new Size(finalSize.Width, finalSize.Height + LayoutLift));
+        return finalSize;
     }
 
     /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer() => new PlaceHeaderAutomationPeer(this);
+
+    /// <summary>How much of the template reaches below the header's layout bounds.</summary>
+    private double LayoutLift => IsCompact ? 0 : ActiveDistance;
 
     private void UpdateTexts()
     {
@@ -142,7 +192,47 @@ public sealed partial class PlaceHeader : ContentControl
             _meta.Visibility = string.IsNullOrWhiteSpace(Meta) || IsCompact ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        UpdateShrinkDistance();
+        InvalidateMeasure();
+    }
+
+    /// <summary>
+    /// Takes the shrink distance from the measured parts, while the header is expanded. Reserves it at the top of the
+    /// scrolling content and hands it to the expressions.
+    /// </summary>
+    private void UpdateDistance()
+    {
+        if (_title is null || _compactTitle is null)
+        {
+            return;
+        }
+
+        var meta = _meta is { Visibility: Visibility.Visible } ? _meta.DesiredSize.Height : 0;
+        var distance = PlaceHeaderMath.ShrinkDistance(meta + _title.DesiredSize.Height, _compactTitle.DesiredSize.Height);
+        if (distance == _distance && meta == _metaHeight)
+        {
+            return;
+        }
+
+        _distance = distance;
+        _metaHeight = meta;
+        ApplyInset(ActiveDistance);
+        UpdateProperties();
+    }
+
+    private void UpdateProperties()
+    {
+        if (_props is null || _title is null || _compactTitle is null)
+        {
+            return;
+        }
+
+        _props.InsertScalar("Distance", (float)ActiveDistance);
+        _props.InsertScalar("Meta", (float)_metaHeight);
+        _props.InsertScalar("Ratio", (float)(_title.FontSize > 0 ? _compactTitle.FontSize / _title.FontSize : 1));
+        _props.InsertScalar("Share", (float)PlaceHeaderMath.CrossfadeShare(
+            MotionTiming.Get(MotionDuration.Fade),
+            MotionTiming.Get(MotionDuration.Normal)));
+        _props.InsertScalar("Compact", IsCompact ? 1f : 0f);
     }
 
     private void Attach()
@@ -165,9 +255,17 @@ public sealed partial class PlaceHeader : ContentControl
             return;
         }
 
+        // The expanded header draws over the top of the scroll viewer and must stay reachable there.
+        if (ReadLocalValue(Canvas.ZIndexProperty) == DependencyProperty.UnsetValue)
+        {
+            Canvas.SetZIndex(this, Canvas.GetZIndex(_scrollViewer) + 1);
+        }
+
         _scrollViewer.ViewChanged += OnViewChanged;
-        UpdateShrinkDistance();
-        StartParallax();
+        ApplyInset(ActiveDistance);
+        InvalidateMeasure();
+        StartTracking();
+        OnViewChanged(null, null);
     }
 
     private void OnSourceLoaded(object sender, RoutedEventArgs e)
@@ -178,37 +276,31 @@ public sealed partial class PlaceHeader : ContentControl
 
     private void Detach()
     {
-        StopParallax();
+        StopTracking();
+        ApplyInset(0);
+        _insetTarget = null;
         if (_scrollViewer is not null)
         {
             _scrollViewer.ViewChanged -= OnViewChanged;
             _scrollViewer = null;
         }
+
+        if (IsCompact)
+        {
+            ApplyCompact(false, crossfade: false);
+        }
+
+        InvalidateMeasure();
     }
 
     private void OnMotionChanged(object? sender, EventArgs e)
     {
-        StopParallax();
-        StartParallax();
+        StopTracking();
+        ApplyCompact(IsCompact, crossfade: false);
+        StartTracking();
     }
 
-    /// <summary>
-    /// Measures how much height the header gives up when it shrinks, and the scroll offset at which it does.
-    /// </summary>
-    private void UpdateShrinkDistance()
-    {
-        if (_title is null || _compactTitle is null || IsCompact)
-        {
-            return;
-        }
-
-        var meta = _meta is { Visibility: Visibility.Visible } ? _meta.ActualHeight : 0;
-        _shrinkDistance = PlaceHeaderMath.ShrinkDistance(meta + _title.ActualHeight, _compactTitle.ActualHeight);
-        _threshold = PlaceHeaderMath.Threshold(_shrinkDistance, LeonardoTokens.Space.S);
-        _parallax?.SetScalarParameter("threshold", (float)_threshold);
-    }
-
-    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+    private void OnViewChanged(object? sender, ScrollViewerViewChangedEventArgs? e)
     {
         if (_scrollViewer is null)
         {
@@ -216,49 +308,40 @@ public sealed partial class PlaceHeader : ContentControl
         }
 
         var offset = _scrollViewer.VerticalOffset;
-        var compact = PlaceHeaderMath.NextIsCompact(IsCompact, offset, _threshold);
-        if (compact == IsCompact)
+        var compact = PlaceHeaderMath.IsCompact(offset, ActiveDistance);
+        if (compact != IsCompact)
         {
-            return;
+            ApplyCompact(compact, crossfade: !MotionSettings.AnimationsEnabled);
         }
 
-        if (compact)
+        if (_root is not null)
         {
-            var distance = _shrinkDistance;
-            ApplyCompact(true, MotionSettings.AnimationsEnabled);
-
-            // The header gave up height; scroll back by the same amount so the content stays where it is.
-            _scrollViewer.ChangeView(null, PlaceHeaderMath.CompensatedOffset(offset, distance), null, disableAnimation: true);
-        }
-        else
-        {
-            ApplyCompact(false, MotionSettings.AnimationsEnabled);
-            if (MotionSettings.AnimationsEnabled && ScrollSource is { } source)
-            {
-                // Expanding pushes the content down: it glides there instead of jumping (Reflow).
-                new CompositionMotion()
-                    .Translate(source, new Vector3(0f, (float)-_shrinkDistance, 0f), Vector3.Zero, MotionEasing.Move, MotionTiming.Get(MotionDuration.Normal))
-                    .Start();
-            }
+            // XAML hit testing does not follow compositor transforms. While the header is between its two layouts,
+            // its parts are not where their layout says, so the header lets input through to the content.
+            _root.IsHitTestVisible = IsCompact || offset <= 0;
         }
     }
 
-    private void ApplyCompact(bool compact, bool animate)
+    /// <summary>
+    /// Switches between the expanded and the compact layout. With animations on, the last frame of the expanded layout
+    /// looks exactly like the compact layout, so the switch is invisible.
+    /// </summary>
+    private void ApplyCompact(bool compact, bool crossfade)
     {
+        var changed = compact != IsCompact;
         IsCompact = compact;
+        _props?.InsertScalar("Compact", compact ? 1f : 0f);
         if (_title is null || _compactTitle is null)
         {
             return;
         }
 
-        if (compact)
-        {
-            StopParallax();
-        }
-
         _title.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
-        _compactTitle.Opacity = compact ? 1 : 0;
         _compactTitle.IsHitTestVisible = compact;
+
+        // With the expressions running, they decide which title is visible; otherwise the layout does.
+        var tracked = _tracking.Count > 0 && MotionSettings.AnimationsEnabled;
+        _compactTitle.Opacity = tracked || compact ? 1 : 0;
 
         // Exactly one of the two titles is the level 1 heading.
         AutomationProperties.SetHeadingLevel(_title, compact ? AutomationHeadingLevel.None : AutomationHeadingLevel.Level1);
@@ -266,64 +349,144 @@ public sealed partial class PlaceHeader : ContentControl
         AutomationProperties.SetAccessibilityView(_compactTitle, compact ? AccessibilityView.Content : AccessibilityView.Raw);
         UpdateTexts();
 
-        if (animate)
+        if (crossfade && changed)
         {
-            // The title shrinks into the compact line, or grows back into the place name (Transform).
-            var large = (float)_title.FontSize;
-            var small = (float)_compactTitle.FontSize;
-            var fade = MotionTiming.Get(MotionDuration.Fade);
-            var move = MotionTiming.Get(MotionDuration.Normal);
-            var motion = new CompositionMotion();
-            if (compact)
-            {
-                motion.Scale(_compactTitle, large / small, 1f, MotionEasing.Move, move).Fade(_compactTitle, 0f, 1f, fade);
-            }
-            else
-            {
-                motion.Scale(_title, small / large, 1f, MotionEasing.Move, move).Fade(_title, 0f, 1f, fade);
-            }
-
-            motion.Start();
-        }
-
-        if (!compact)
-        {
-            StartParallax();
+            // Animations are off: the meaning stays, the distance goes.
+            new CompositionMotion()
+                .Fade(compact ? _compactTitle : _title, 0f, 1f, MotionTiming.Get(MotionDuration.Fade))
+                .Start();
         }
     }
 
     /// <summary>
-    /// The only depth effect of Leonardo: while the content scrolls, the title moves up more slowly than the content.
-    /// Driven by the scroll viewer on the compositor, so it follows touch and wheel without delay.
+    /// Ties the header to the scroll position on the compositor, so it follows touch and wheel without delay.
+    /// Each expression has a counterpart in <see cref="PlaceHeaderMath"/>.
     /// </summary>
-    private void StartParallax()
+    private void StartTracking()
     {
-        if (_parallax is not null || _title is null || _scrollViewer is null || IsCompact || !MotionSettings.AnimationsEnabled)
+        if (_tracking.Count > 0 || _scrollViewer is null || _root is null || _meta is null || _title is null
+            || _compactTitle is null || _content is null)
         {
             return;
         }
 
-        var scroll = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
-        ElementCompositionPreview.SetIsTranslationEnabled(_title, true);
-        var visual = ElementCompositionPreview.GetElementVisual(_title);
-        _parallax = visual.Compositor.CreateExpressionAnimation("-Clamp(-scroll.Translation.Y, 0, threshold) * factor");
-        _parallax.SetReferenceParameter("scroll", scroll);
-        _parallax.SetScalarParameter("threshold", (float)_threshold);
-        _parallax.SetScalarParameter("factor", (float)LeonardoTokens.Motion.ParallaxPlaceNameFactor);
-        visual.StartAnimation("Translation.Y", _parallax);
+        var compositor = ElementCompositionPreview.GetElementVisual(_root).Compositor;
+        _scroll = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_scrollViewer);
+        _props = compositor.CreatePropertySet();
+        UpdateProperties();
+
+        // ContentLift: the summary slot moves exactly with the content.
+        Track(_content, "Translation.Y", $"-{Offset} * (1 - props.Compact)");
+
+        // The meta line scrolls away with the content (it is collapsed in the compact layout).
+        Track(_meta, "Translation.Y", $"-{Offset}");
+
+        if (MotionSettings.AnimationsEnabled)
+        {
+            // MetaOpacity: fades over its own height instead of being covered.
+            Track(_meta, "Opacity", "1 - Clamp(-scroll.Translation.Y / Max(props.Meta, 1), 0, 1)");
+
+            // TitleLift, LargeTitleScale, CompactTitleScale: both titles rise into the compact place and scale between
+            // the two sizes, anchored at the top leading corner, which sits on the alignment line.
+            var lift = $"-{Progress} * props.Meta * (1 - props.Compact)";
+            Track(_title, "Translation.Y", lift);
+            Track(_compactTitle, "Translation.Y", lift);
+            Track(_title, "Scale", $"Vector3(Lerp(1, props.Ratio, {Progress}), Lerp(1, props.Ratio, {Progress}), 1)");
+            Track(_compactTitle, "Scale", $"Vector3(Lerp(1 / props.Ratio, 1, {Progress}), Lerp(1 / props.Ratio, 1, {Progress}), 1)");
+
+            // LargeTitleOpacity, CompactTitleOpacity: the titles crossfade over the last part of the distance.
+            var compactOpacity = $"Clamp(({Progress} - (1 - props.Share)) / props.Share, 0, 1)";
+            Track(_title, "Opacity", $"1 - {compactOpacity}");
+            Track(_compactTitle, "Opacity", compactOpacity);
+        }
+        else
+        {
+            // Nothing scales or fades: the title scrolls away like the content, and the compact title waits in its place.
+            Track(_title, "Translation.Y", $"-{Offset}");
+            Track(_compactTitle, "Translation.Y", "-props.Meta * (1 - props.Compact)");
+        }
+
+        ApplyCompact(IsCompact, crossfade: false);
     }
 
-    private void StopParallax()
+    private void Track(UIElement element, string property, string expression)
     {
-        if (_parallax is null || _title is null)
+        ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        visual.CenterPoint = Vector3.Zero;
+        var animation = visual.Compositor.CreateExpressionAnimation(expression);
+        animation.SetReferenceParameter("scroll", _scroll);
+        animation.SetReferenceParameter("props", _props);
+        visual.StartAnimation(property, animation);
+        _tracking.Add((visual, property));
+    }
+
+    private void StopTracking()
+    {
+        foreach (var (visual, property) in _tracking)
+        {
+            visual.StopAnimation(property);
+            visual.Opacity = 1f;
+            visual.Scale = Vector3.One;
+            visual.Properties.InsertVector3("Translation", Vector3.Zero);
+        }
+
+        _tracking.Clear();
+        _props = null;
+        _scroll = null;
+        if (_root is not null)
+        {
+            _root.IsHitTestVisible = true;
+        }
+    }
+
+    /// <summary>
+    /// Reserves <paramref name="inset"/> at the top of the scrolling content, where the expanded header draws:
+    /// top padding of a list's items presenter, or top margin of the scroll viewer's content.
+    /// </summary>
+    private void ApplyInset(double inset)
+    {
+        var target = _scrollViewer?.Content as FrameworkElement ?? _insetTarget;
+        if (target is null)
         {
             return;
         }
 
-        var visual = ElementCompositionPreview.GetElementVisual(_title);
-        visual.StopAnimation("Translation.Y");
-        visual.Properties.InsertVector3("Translation", Vector3.Zero);
-        _parallax = null;
+        if (!ReferenceEquals(target, _insetTarget))
+        {
+            // The content was replaced; the old one keeps nothing of the header.
+            if (_insetTarget is not null)
+            {
+                AddInset(_insetTarget, -_insetApplied);
+            }
+
+            _insetTarget = target;
+            _insetApplied = 0;
+        }
+
+        AddInset(target, inset - _insetApplied);
+        _insetApplied = inset;
+    }
+
+    private static void AddInset(FrameworkElement target, double delta)
+    {
+        if (delta == 0)
+        {
+            return;
+        }
+
+        if (target is ItemsPresenter presenter)
+        {
+            var padding = presenter.Padding;
+            padding.Top += delta;
+            presenter.Padding = padding;
+        }
+        else
+        {
+            var margin = target.Margin;
+            margin.Top += delta;
+            target.Margin = margin;
+        }
     }
 
     private static ScrollViewer? FindScrollViewer(DependencyObject root)

@@ -174,7 +174,7 @@ Use these instead of building your own versions. Everything else is a Fluent con
 
 ### PlaceHeader
 
-The place name: a meta line, the title (exposed as a level 1 heading) and a content slot for a `SummaryLine`. It sits above the scrolling content; `ScrollSource` points at the `ScrollViewer` or a list that contains one. While the content scrolls, the title moves at `motion.parallax.placeNameFactor`, then shrinks to a compact line. With animations off: no parallax, no animation. Correct (gallery, Files page):
+The place name: a meta line, the title (exposed as a level 1 heading) and a content slot for a `SummaryLine`. It sits above the scrolling content; `ScrollSource` points at the `ScrollViewer` or a list that contains one. The header follows the scroll position: the meta line fades, and the title moves up more slowly than the content while it scales to a compact line; scrolling back reverses it. It reserves the shrink distance at the top of the scrolling content itself, so never add that space by hand. With animations off: nothing scales or fades, and the compact title crossfades in. Correct (gallery, Files page):
 
 ```xml
 <leonardo:PlaceHeader x:Name="PlaceHeader" Grid.Row="2"

@@ -19,9 +19,14 @@ The place name of a view: meta line, title (level 1 heading), and a content slot
 ```
 
 - Put it above the scrolling content and set `ScrollSource` to the `ScrollViewer` or an element that contains one.
-- While the content scrolls, the title moves up at `motion.parallax.placeNameFactor` of the content speed. Further
-  down, the header shrinks to a compact line (section role), and the scroll offset is corrected so the content does not
-  jump. At the top it grows again. With animations off: no parallax, no animation.
+- The header follows the scroll position, with no timed animation. While the content scrolls through the shrink
+  distance, the meta line moves with it and fades, and the title moves up more slowly than the content and scales to
+  the compact line (section role). Scrolling back reverses every step exactly.
+- The header reserves the shrink distance at the top of the scrolling content (top margin of the scroll viewer's
+  content, or top padding of a list's items presenter) and draws its expanded form over it. In layout it is always as
+  high as its compact form, so the content never jumps. Do not set that margin or padding yourself.
+- With animations off: nothing scales or fades; the header scrolls away like the content and the compact title
+  crossfades in at the end of the distance.
 - `TitleElement` is the element that shows the title now, for `DiveIn`.
 
 ## SummaryLine

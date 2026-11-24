@@ -35,7 +35,7 @@
                     HorizontalAlignment="Left"
                     Spacing="{StaticResource LeonardoSpaceS}">
                     <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="The place name answers “Where am I?” like a station sign: large and light at the top of the view, with a meta line above it and room for a summary line below. It is the level 1 heading of the view." />
-                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Scroll this page. First the title moves up a little more slowly than the content, the only depth effect Leonardo allows. Then the header shrinks to a compact line, and the content keeps its place. Back at the top, the header grows again. With animations off, there is no parallax and no animation." />
+                    <TextBlock Style="{ThemeResource LeonardoBodyTextStyle}" Text="Scroll this page. The header follows your scrolling: the meta line fades, and the title moves up a little more slowly than the content while it shrinks to a compact line. Scroll back and every step reverses. With animations off, the header scrolls away like the content and the compact title fades in." />
                     <TextBlock
                         AutomationProperties.LiveSetting="Polite"
                         Style="{ThemeResource LeonardoBodyStrongTextStyle}"

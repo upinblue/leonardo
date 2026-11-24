@@ -132,6 +132,7 @@
                         </Grid>
 
                         <ContentPresenter
+                            x:Name="PART_Content"
                             Grid.Row="2"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
